@@ -1,0 +1,7 @@
+.vs/
+Intermediate/
+Saved/
+Binaries/
+DerivedDataCache/
+*.sln
+*_BuiltData.uasset
