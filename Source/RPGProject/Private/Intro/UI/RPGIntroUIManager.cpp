@@ -8,7 +8,7 @@ ARPGIntroUIManager::ARPGIntroUIManager()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	static ConstructorHelpers::FClassFinder<URPGIntroMainWidget>INTRO_MAIN_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/WidgetBP/WB_Main.WB_Main_C'"));
+	static ConstructorHelpers::FClassFinder<URPGIntroMainWidget>INTRO_MAIN_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/IntroWidgetBP/WB_Main.WB_Main_C'"));
 	if (INTRO_MAIN_WIDGET.Succeeded())
 	{
 		_IntroTitleWidgetClass = INTRO_MAIN_WIDGET.Class;

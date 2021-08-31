@@ -3,10 +3,13 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Intro/UI/MyButton7.h"
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "RPGIntroLoginLayout.generated.h"
 
-class UButton;
+//class UButton;
+class UEditableTextBox;
+class URPGIntroChangeSceneButton;
 /**
  * 
  */
@@ -16,10 +19,18 @@ class RPGPROJECT_API URPGIntroLoginLayout : public URPGIntroBaseLayout
 	GENERATED_BODY()
 private:
 	UPROPERTY()
-	UButton* _RegisterButton;
+	URPGIntroChangeSceneButton* _RegisterButton;
+	UPROPERTY()
+	URPGIntroChangeSceneButton* _LoginButton;
+	UPROPERTY()
+	URPGIntroChangeSceneButton* _ExitButton;
+	UPROPERTY()
+	UEditableTextBox* _UserNameEditBox;
+	UPROPERTY()
+	UEditableTextBox* _PasswordEditBox;
 public:
 	void NativeConstruct() override;
 public:
 	UFUNCTION()
-	void OnRegisterClicked();
+	void OnClicked(EIntroUIWidgetState NewState);
 };

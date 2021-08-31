@@ -9,6 +9,7 @@
 
 class UWidgetSwitcher;
 class URPGIntroBaseLayout;
+
 UCLASS()
 class RPGPROJECT_API URPGIntroMainWidget : public UUserWidget
 {
