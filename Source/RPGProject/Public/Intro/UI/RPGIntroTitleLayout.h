@@ -7,7 +7,6 @@
 #include "RPGIntroTitleLayout.generated.h"
 
 class UWidgetAnimation;
-class UButton;
 /**
  * 
  */

@@ -2,32 +2,33 @@
 
 #pragma once
 
-#include "../../../RPGProject.h"
+#include "CoreMinimal.h"
 #include "Intro/UI/RPGIntroBaseLayout.h"
-#include "RPGIntroLoginLayout.generated.h"
-
+#include "RPGIntroRegisterLayout.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGIntroLoginLayout : public URPGIntroBaseLayout
+class RPGPROJECT_API URPGIntroRegisterLayout : public URPGIntroBaseLayout
 {
 	GENERATED_BODY()
 private:
 	UPROPERTY()
-	URPGIntroChangeSceneButton* _RegisterButton;
-	UPROPERTY()
-	URPGIntroChangeSceneButton* _LoginButton;
-	UPROPERTY()
 	URPGIntroChangeSceneButton* _ExitButton;
+	UPROPERTY()
+	URPGIntroChangeSceneButton* _RegisterButton;
 	UPROPERTY()
 	UEditableTextBox* _UserNameEditBox;
 	UPROPERTY()
 	UEditableTextBox* _PasswordEditBox;
+	UPROPERTY()
+	UEditableTextBox* _CheckPasswordEditBox;
+	UPROPERTY()
+	UTextBlock* _RegisterInfo;
 public:
 	void NativeConstruct() override;
-public:
+
 	UFUNCTION()
 	void OnClicked(EIntroUIWidgetState NewState);
 };

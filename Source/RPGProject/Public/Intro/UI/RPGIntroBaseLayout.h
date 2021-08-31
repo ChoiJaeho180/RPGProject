@@ -8,6 +8,10 @@
 
 DECLARE_DELEGATE_TwoParams(FChangeWidgetDelegate, const EIntroUIWidgetState&, const int&);
 
+class UButton;
+class UEditableTextBox;
+class URPGIntroChangeSceneButton;
+class UTextBlock;
 /**
  * 
  */

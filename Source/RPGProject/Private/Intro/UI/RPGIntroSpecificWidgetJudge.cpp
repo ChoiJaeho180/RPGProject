@@ -7,6 +7,7 @@ FRPGIntroSpecificWidgetJudge::FRPGIntroSpecificWidgetJudge()
 {
 	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Login, FString("WB_Login_Layout"));
 	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Title, FString("WB_Title_Layout"));
+	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Register, FString("WB_Register_Layout"));
 }
 
 FRPGIntroSpecificWidgetJudge::~FRPGIntroSpecificWidgetJudge()
