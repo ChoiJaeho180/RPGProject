@@ -5,16 +5,18 @@
 
 FRPGIntroSpecificWidgetJudge::FRPGIntroSpecificWidgetJudge()
 {
-	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Login, FString("WB_Login_Layout"));
-	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Title, FString("WB_Title_Layout"));
-	_WidgetStatToIdentifyMap.Add(EIntroUIWidgetState::Register, FString("WB_Register_Layout"));
 }
 
 FRPGIntroSpecificWidgetJudge::~FRPGIntroSpecificWidgetJudge()
 {
 }
 
-FString FRPGIntroSpecificWidgetJudge::GetUpdateWidgetName(const EIntroUIWidgetState& UpdateWidgetState)
+void FRPGIntroSpecificWidgetJudge::SetWidgetIdentifyMap(TMap<EIntroDerivedWidgetState, FString>& WidgetStatToIdentifyMap)
+{
+	_WidgetStatToIdentifyMap = WidgetStatToIdentifyMap;
+}
+
+FString FRPGIntroSpecificWidgetJudge::GetUpdateWidgetName(const EIntroDerivedWidgetState& UpdateWidgetState)
 {
 	FString UpdateWidgetName = "";
 	for (auto& item : _WidgetStatToIdentifyMap)
@@ -27,7 +29,7 @@ FString FRPGIntroSpecificWidgetJudge::GetUpdateWidgetName(const EIntroUIWidgetSt
 	return UpdateWidgetName;
 }
 
-int FRPGIntroSpecificWidgetJudge::GetUpdateWidgetIndex(const TArray<URPGIntroBaseLayout*>& LayoutList, const EIntroUIWidgetState& UpdateWidgetState)
+int FRPGIntroSpecificWidgetJudge::GetUpdateWidgetIndex(const TArray<URPGIntroBaseLayout*>& LayoutList, const EIntroDerivedWidgetState& UpdateWidgetState)
 {
 	int UpdateLayoutIndex = -1;
 	FString result = GetUpdateWidgetName(UpdateWidgetState);

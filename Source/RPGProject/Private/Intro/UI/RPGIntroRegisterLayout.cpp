@@ -10,12 +10,12 @@ void URPGIntroRegisterLayout::NativeConstruct()
 	Super::NativeConstruct();
 
 	_RegisterButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("RegisterButton")));
-	_RegisterButton->SetWidgetState(EIntroUIWidgetState::Register);
-	_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnClicked);
+	_RegisterButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_REGISTER);
+	_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
 
 	_ExitButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("ExitButton")));
-	_ExitButton->SetWidgetState(EIntroUIWidgetState::Title);
-	_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnClicked);
+	_ExitButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_LOGIN);
+	_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
 
 	_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
 	_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
@@ -24,7 +24,7 @@ void URPGIntroRegisterLayout::NativeConstruct()
 	_RegisterInfo = Cast<UTextBlock>(GetWidgetFromName("RegisterInfoText"));
 }
 
-void URPGIntroRegisterLayout::OnClicked(EIntroUIWidgetState NewState)
+void URPGIntroRegisterLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)
 {
 	_RegisterInfo->SetText(FText::FromString("Test"));
 	delegateChangeUI.ExecuteIfBound(NewState, 0);

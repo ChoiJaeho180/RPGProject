@@ -6,7 +6,8 @@
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "RPGIntroLoginLayout.generated.h"
 
-
+class UWidgetAnimation;
+class UImage;
 /**
  * 
  */
@@ -25,9 +26,14 @@ private:
 	UEditableTextBox* _UserNameEditBox;
 	UPROPERTY()
 	UEditableTextBox* _PasswordEditBox;
+	UPROPERTY()
+	UImage* _FadeInImage;
+	UPROPERTY()
+	UWidgetAnimation* _FadeInAnimation;
 public:
 	void NativeConstruct() override;
+	void SetFadeInAnimation();
 public:
 	UFUNCTION()
-	void OnClicked(EIntroUIWidgetState NewState);
+	void OnClicked(EIntroDerivedWidgetState NewState);
 };

@@ -11,6 +11,11 @@ void URPGIntroMainWidget::NativePreConstruct()
 	Super::NativePreConstruct();
 
 	SetLayoutList();
+	TMap<EIntroDerivedWidgetState, FString> WidgetStatToIdentifyMap;
+	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_LOGIN, FString("WB_Login_Layout"));
+	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_TITLE, FString("WB_Title_Layout"));
+	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_REGISTER, FString("WB_Register_Layout"));
+	_RPGIntroSpecificWidgetJudge.SetWidgetIdentifyMap(WidgetStatToIdentifyMap);
 }
 
 void URPGIntroMainWidget::NativeConstruct()
@@ -38,8 +43,14 @@ void URPGIntroMainWidget::SetLayoutList()
 	}
 }
 
-void URPGIntroMainWidget::ChangeLayout(const EIntroUIWidgetState& NewState, const int& ZOrder)
+void URPGIntroMainWidget::ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
 {
+	if (NewState == EIntroDerivedWidgetState::TO_LOBBY)
+	{
+		delegateChangeUI.ExecuteIfBound(EIntroUIWidgetState::LOBBY);
+		return;
+	}
+
 	int ResultIndex = _RPGIntroSpecificWidgetJudge.GetUpdateWidgetIndex(_IntroLayoutList, NewState);
 	if (ResultIndex == -1)
 		return;

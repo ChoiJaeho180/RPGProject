@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "RPGIntroBaseLayout.generated.h"
 
-DECLARE_DELEGATE_TwoParams(FChangeWidgetDelegate, const EIntroUIWidgetState&, const int&);
+DECLARE_DELEGATE_TwoParams(FChangeLayoutDelegate, const EIntroDerivedWidgetState&, const int&);
 
 class UButton;
 class UEditableTextBox;
@@ -21,5 +21,5 @@ class RPGPROJECT_API URPGIntroBaseLayout : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	FChangeWidgetDelegate delegateChangeUI;
+	FChangeLayoutDelegate delegateChangeUI;
 };

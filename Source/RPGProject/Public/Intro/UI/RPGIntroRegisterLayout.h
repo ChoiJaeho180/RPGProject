@@ -30,5 +30,5 @@ public:
 	void NativeConstruct() override;
 
 	UFUNCTION()
-	void OnClicked(EIntroUIWidgetState NewState);
+	void OnChangeLayoutClicked(EIntroDerivedWidgetState NewState);
 };

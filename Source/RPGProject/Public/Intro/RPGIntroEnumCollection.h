@@ -19,10 +19,23 @@ class RPGPROJECT_API URPGIntroEnumCollection : public UBlueprintFunctionLibrary
 UENUM(BlueprintType)
 enum class EIntroUIWidgetState : uint8
 {
-
-	Title = 0 UMETA(DisplayName = "Title"),
-	Login = 1 UMETA(DisplayName = "Login"),
-	Register = 2 UMETA(DisplayName = "Register"),
-	Infor = 3 UMETA(DisplayName = "Infor"),
-	NONE = 4 UMETA(DisplayName = "NONE")
+	MAIN = 0 UMETA(DisplayName = "Main"),
+	LOBBY = 1 UMETA(DisplayName = "LOBBY"),
+	CREATE = 2 UMETA(DisplayName = "Create")
 };
+
+UENUM(BlueprintType)
+enum class EIntroDerivedWidgetState : uint8
+{
+	MAIN_TITLE = 0 UMETA(DisplayName = "Title"),
+	MAIN_LOGIN = 1 UMETA(DisplayName = "Login"),
+	MAIN_REGISTER = 2 UMETA(DisplayName = "Register"),
+	LOBBY_INFO = 3 UMETA(DisplayName = "Infor"),
+	CREATE_CREATE = 4 UMETA(DisplayName = "Create"),
+	CREATE_CUSTOM = 4 UMETA(DisplayName = "CUSTOM"),
+	TO_LOBBY = 5 UMETA(DisplayName = "ToSelect"),
+	TO_CREATE = 6 UMETA(DisplayName = "ToCreate"),
+	TO_MAIN = 7 UMETA(DisplayName = "ToMain"),
+	NONE = 8 UMETA(DisplayName = "NONE")
+};
+

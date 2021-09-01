@@ -6,7 +6,7 @@
 #include "Components/Button.h"
 #include "RPGIntroChangeSceneButton.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateSceneDelegate, EIntroUIWidgetState, UpdateWidgetState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateSceneDelegate, EIntroDerivedWidgetState, UpdateWidgetState);
 
 /**
  * 
@@ -16,7 +16,7 @@ class RPGPROJECT_API URPGIntroChangeSceneButton : public UButton
 {
 	GENERATED_BODY()
 private:
-	EIntroUIWidgetState _UpdateProperty;
+	EIntroDerivedWidgetState _UpdateProperty;
 
 public:
 	URPGIntroChangeSceneButton();
@@ -26,5 +26,5 @@ public:
 	void OnClick();
 
 public:
-	inline void SetWidgetState(EIntroUIWidgetState NewProperty) { _UpdateProperty = NewProperty; }
+	inline void SetWidgetState(EIntroDerivedWidgetState NewProperty) { _UpdateProperty = NewProperty; }
 };

@@ -4,6 +4,7 @@
 
 #include "EngineMinimal.h"
 #include "Public/Intro/RPGIntroEnumCollection.h"
+#include "Common/RPGCommonEnumCollection.h"
 
 #define RPGLOG_CALLINFO (FString(__FUNCTION__) + TEXT("(") + FString::FromInt(__LINE__) + TEXT(")"))
 #define RPGLOG_S(Verbosity) UE_LOG(RPGProject, Verbosity, TEXT("%s"), *RPGLOG_CALLINFO)

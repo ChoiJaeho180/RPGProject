@@ -11,12 +11,13 @@ class URPGIntroBaseLayout;
 class RPGPROJECT_API FRPGIntroSpecificWidgetJudge
 {
 private:
-	TMap<EIntroUIWidgetState, FString> _WidgetStatToIdentifyMap;
+	TMap<EIntroDerivedWidgetState, FString> _WidgetStatToIdentifyMap;
 private:
-	FString GetUpdateWidgetName(const EIntroUIWidgetState& UpdateWidgetState);
+	FString GetUpdateWidgetName(const EIntroDerivedWidgetState& UpdateWidgetState);
 public:
 	FRPGIntroSpecificWidgetJudge();
 	~FRPGIntroSpecificWidgetJudge();
-	int GetUpdateWidgetIndex(const TArray<URPGIntroBaseLayout*>& LayoutList , const EIntroUIWidgetState& UpdateWidgetState);
+	void SetWidgetIdentifyMap(TMap<EIntroDerivedWidgetState, FString>& WidgetStatToIdentifyMap);
+	int GetUpdateWidgetIndex(const TArray<URPGIntroBaseLayout*>& LayoutList , const EIntroDerivedWidgetState& UpdateWidgetState);
 
 };

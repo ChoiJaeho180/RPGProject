@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "../../../Public/Intro/UI/RPGIntroUIManager.h"
-#include "../../../Public/Intro/UI/RPGIntroMainWidget.h"
-#include "../../../Public/Intro/RPGIntroController.h"
+#include "Intro/UI/RPGIntroUIManager.h"
+#include "Intro/UI/RPGIntroMainWidget.h"
+#include "Intro/RPGIntroController.h"
+#include "Intro/UI/RPGIntroLobbyWidget.h"
 // Sets default values
 ARPGIntroUIManager::ARPGIntroUIManager()
 {
@@ -12,6 +13,11 @@ ARPGIntroUIManager::ARPGIntroUIManager()
 	if (INTRO_MAIN_WIDGET.Succeeded())
 	{
 		_IntroTitleWidgetClass = INTRO_MAIN_WIDGET.Class;
+	}
+	static ConstructorHelpers::FClassFinder<URPGIntroLobbyWidget>INTRO_LOBBY_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/IntroWidgetBP/WB_Lobby.WB_Lobby_C'"));
+	if (INTRO_LOBBY_WIDGET.Succeeded())
+	{
+		_IntroLobbyWidgetClass = INTRO_LOBBY_WIDGET.Class;
 	}
 }
 
@@ -33,8 +39,25 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 	_CurrentController = NewController;
 	if (_CurrentController == nullptr)
 		return;
+	
+	URPGIntroBaseWidget* IntroMainWidget = CreateWidget<URPGIntroMainWidget>(_CurrentController, _IntroTitleWidgetClass);
+	IntroMainWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
+	_IntroWidgetMap.Add(EIntroUIWidgetState::MAIN, IntroMainWidget);
+	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
+	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
+	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
 
-	_IntroMainWidget = CreateWidget<URPGIntroMainWidget>(_CurrentController, _IntroTitleWidgetClass);
-	_IntroMainWidget->AddToViewport();
+	UpdateWidget(EIntroUIWidgetState::MAIN);
+}
+
+void ARPGIntroUIManager::UpdateWidget(const EIntroUIWidgetState& NewWidgetState)
+{
+	if (_IntroCurrentWidget != nullptr)
+	{
+		_IntroCurrentWidget->RemoveFromViewport();
+	}
+
+	_IntroWidgetMap[NewWidgetState]->AddToViewport();
+	_IntroCurrentWidget = _IntroWidgetMap[NewWidgetState];
 }
 
