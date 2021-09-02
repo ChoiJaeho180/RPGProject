@@ -22,32 +22,14 @@ void URPGIntroLoginLayout::NativeConstruct()
 	_LoginButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("LoginButton")));
 	_LoginButton->SetWidgetState(EIntroDerivedWidgetState::TO_LOBBY);
 	_LoginButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeWidgetClicked);
-
 	
 	_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
 	_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
-
-	_FadeInImage = Cast<UImage>(GetWidgetFromName(TEXT("FadeInImage")));
-	SetFadeInAnimation();
 }
 
-void URPGIntroLoginLayout::SetFadeInAnimation()
-{
-	UWidgetBlueprintGeneratedClass* WidgetClass = GetWidgetTreeOwningClass();
-	for (int i = 0; i < WidgetClass->Animations.Num(); i++)
-	{
-		if (WidgetClass->Animations[i]->GetName() != TEXT("FadeInAni_INST"))
-			continue;
-		_FadeInAnimation = WidgetClass->Animations[i];
-		delegateEndedFadeIn.BindDynamic(this, &URPGIntroLoginLayout::OnFadeInAnimEnded);
-		BindToAnimationFinished(_FadeInAnimation, delegateEndedFadeIn);
-		break;
-	}
-}
 
 void URPGIntroLoginLayout::OnChangeWidgetClicked(EIntroDerivedWidgetState NewState)
 {
-	//OnMontageEnded : animation finish ¸Þ¼­µå
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
 		//call RestApi func
@@ -55,19 +37,12 @@ void URPGIntroLoginLayout::OnChangeWidgetClicked(EIntroDerivedWidgetState NewSta
 		FPlatformProcess::Sleep(1);
 		AsyncTask(ENamedThreads::GameThread, [=]()
 		{
-			_FadeInImage->SetVisibility(ESlateVisibility::Visible);
-			PlayAnimation(_FadeInAnimation);
+			delegateSendWidgetChange.ExecuteIfBound(NewState, 0);
 		});
 	});
 }
 
-void URPGIntroLoginLayout::OnFadeInAnimEnded()
-{
-	delegateChangeUI.ExecuteIfBound(EIntroDerivedWidgetState::TO_LOBBY, 0);
-	_FadeInImage->SetVisibility(ESlateVisibility::Hidden);
-}
-
 void URPGIntroLoginLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)
 {
-	delegateChangeUI.ExecuteIfBound(NewState, 0);
+	delegateSendLayoutChange.ExecuteIfBound(NewState, 0);
 }

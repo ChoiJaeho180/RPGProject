@@ -52,12 +52,11 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 
 void ARPGIntroUIManager::UpdateWidget(const EIntroUIWidgetState& NewWidgetState)
 {
+	_IntroWidgetMap[NewWidgetState]->AddToViewport();
 	if (_IntroCurrentWidget != nullptr)
 	{
 		_IntroCurrentWidget->RemoveFromViewport();
 	}
-
-	_IntroWidgetMap[NewWidgetState]->AddToViewport();
 	_IntroCurrentWidget = _IntroWidgetMap[NewWidgetState];
 }
 

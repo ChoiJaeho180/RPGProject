@@ -28,5 +28,5 @@ void URPGIntroTitleLayout::PlayAnimations()
 
 void URPGIntroTitleLayout::OnStartClicked()
 {
-	delegateChangeUI.ExecuteIfBound(EIntroDerivedWidgetState::MAIN_LOGIN, 0);
+	delegateSendLayoutChange.ExecuteIfBound(EIntroDerivedWidgetState::MAIN_LOGIN, 0);
 }

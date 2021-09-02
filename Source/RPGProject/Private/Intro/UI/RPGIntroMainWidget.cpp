@@ -3,14 +3,14 @@
 #include "Intro/RPGIntroController.h"
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "Components/WidgetSwitcher.h"
-#include "Blueprint/WidgetTree.h"
-#define WB_IDENTIFIER "WB"
+#include "Components/Image.h"
 
 void URPGIntroMainWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 
 	SetLayoutList();
+
 	TMap<EIntroDerivedWidgetState, FString> WidgetStatToIdentifyMap;
 	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_LOGIN, FString("WB_Login_Layout"));
 	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_TITLE, FString("WB_Title_Layout"));
@@ -21,40 +21,35 @@ void URPGIntroMainWidget::NativePreConstruct()
 void URPGIntroMainWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	
-}
 
-void URPGIntroMainWidget::SetLayoutList()
-{
-	TArray<UWidget*> AllWidgets;
-	WidgetTree->GetAllWidgets(AllWidgets);
-	for (int i = 0; i < AllWidgets.Num(); i++)
-	{
-		FString CurrentWidgetName = AllWidgets[i]->GetName();
-		if (CurrentWidgetName.Contains(WB_IDENTIFIER) == false)
-			continue;
-
-		auto NewLayout = Cast<URPGIntroBaseLayout>(AllWidgets[i]);
-		if(NewLayout == nullptr)
-			continue;
-
-		NewLayout->delegateChangeUI.BindUObject(this, &URPGIntroMainWidget::ChangeLayout);
-		_IntroLayoutList.AddUnique(NewLayout);
-	}
-}
-
-void URPGIntroMainWidget::ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
-{
-	if (NewState == EIntroDerivedWidgetState::TO_LOBBY)
-	{
-		delegateChangeUI.ExecuteIfBound(EIntroUIWidgetState::LOBBY);
+	_FadeInImage = Cast<UImage>(GetWidgetFromName(TEXT("FadeInImage")));
+	SetFadeInAnimation();
+	int LayoutIndex = _RPGIntroSpecificWidgetJudge.GetUpdateWidgetIndex(_IntroLayoutList, EIntroDerivedWidgetState::MAIN_LOGIN);
+	if (LayoutIndex == -1)
 		return;
-	}
-
-	int ResultIndex = _RPGIntroSpecificWidgetJudge.GetUpdateWidgetIndex(_IntroLayoutList, NewState);
-	if (ResultIndex == -1)
-		return;
-
-	IntroMainSwicher->SetActiveWidget(_IntroLayoutList[ResultIndex]);
+	_IntroLayoutList[LayoutIndex]->delegateSendWidgetChange.BindUObject(this, &URPGIntroMainWidget::OnPreWidgetChange);
 }
+
+void URPGIntroMainWidget::SetFadeInAnimation()
+{
+	_FadeInAnimation = GetAnimation(FString("FadeIn_INST"));
+	delegateEndedFadeIn.BindDynamic(this, &URPGIntroMainWidget::OnEndedFadeInAnim);
+	BindToAnimationFinished(_FadeInAnimation, delegateEndedFadeIn);
+}
+
+void URPGIntroMainWidget::OnPreWidgetChange(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
+{
+	UE_LOG(LogTemp, Warning, TEXT("dwdwdwd"));
+	_FadeInImage->SetVisibility(ESlateVisibility::Visible);
+	PlayAnimation(_FadeInAnimation);
+}
+
+void URPGIntroMainWidget::OnEndedFadeInAnim()
+{
+	ChangeLayoutAndWidget(EIntroDerivedWidgetState::TO_LOBBY, 5);
+	_FadeInImage->SetVisibility(ESlateVisibility::Hidden);
+	UE_LOG(LogTemp, Warning, TEXT("called OnEndedFadeInAnim"));
+}
+
+
 

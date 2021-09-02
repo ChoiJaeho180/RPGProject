@@ -2,28 +2,32 @@
 
 #pragma once
 
-#include "Intro/UI/RPGIntroSpecificWidgetJudge.h"
 #include "Intro/UI/RPGIntroBaseWidget.h"
 #include "RPGIntroMainWidget.generated.h"
 
-class UWidgetSwitcher;
 class URPGIntroBaseLayout;
+class UImage;
+class UWidgetAnimation;
 
 UCLASS()
 class RPGPROJECT_API URPGIntroMainWidget : public URPGIntroBaseWidget
 {
 	GENERATED_BODY()
 private:
-	UPROPERTY(meta = (BindWidget))
-	UWidgetSwitcher* IntroMainSwicher;
-	FRPGIntroSpecificWidgetJudge _RPGIntroSpecificWidgetJudge;
 	UPROPERTY()
-	TArray<URPGIntroBaseLayout*> _IntroLayoutList;
-private:
-	void SetLayoutList();
-	void ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder);
+	UImage* _FadeInImage;
+	UPROPERTY()
+	UWidgetAnimation* _FadeInAnimation;
+
+	FWidgetAnimationDynamicEvent delegateEndedFadeIn;
 public:
 	void NativePreConstruct() override;
 	void NativeConstruct() override;
+public:
+	void SetFadeInAnimation();
+	UFUNCTION()
+	void OnPreWidgetChange(const EIntroDerivedWidgetState& NewState, const int& ZOrder);
+	UFUNCTION()
+	void OnEndedFadeInAnim();
 protected:
 };

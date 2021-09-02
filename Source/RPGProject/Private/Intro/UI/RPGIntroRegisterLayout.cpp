@@ -27,5 +27,5 @@ void URPGIntroRegisterLayout::NativeConstruct()
 void URPGIntroRegisterLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)
 {
 	_RegisterInfo->SetText(FText::FromString("Test"));
-	delegateChangeUI.ExecuteIfBound(NewState, 0);
+	delegateSendLayoutChange.ExecuteIfBound(NewState, 0);
 }
