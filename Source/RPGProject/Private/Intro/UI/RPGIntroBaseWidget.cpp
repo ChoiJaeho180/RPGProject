@@ -17,7 +17,6 @@ void URPGIntroBaseWidget::ChangeLayoutAndWidget(const EIntroDerivedWidgetState& 
 	int ResultIndex = _RPGIntroSpecificWidgetJudge.GetUpdateWidgetIndex(_IntroLayoutList, NewState);
 	if (ResultIndex == -1)
 		return;
-
 	IntroSwicher->SetActiveWidget(_IntroLayoutList[ResultIndex]);
 }
 
@@ -40,16 +39,4 @@ void URPGIntroBaseWidget::SetLayoutList()
 	}
 }
 
-UWidgetAnimation* URPGIntroBaseWidget::GetAnimation(const FString& AnimName)
-{
-	UWidgetAnimation* SearchAnim = nullptr;
-	UWidgetBlueprintGeneratedClass* WidgetClass = GetWidgetTreeOwningClass();
-	for (int i = 0; i < WidgetClass->Animations.Num(); i++)
-	{
-		if (WidgetClass->Animations[i]->GetName() != AnimName)
-			continue;
-		SearchAnim = WidgetClass->Animations[i];
-		break;
-	}
-	return SearchAnim;
-}
+

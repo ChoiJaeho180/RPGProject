@@ -10,16 +10,19 @@ class URPGIntroBaseWidget;
 class URPGIntroMainWidget;
 class URPGIntroLobbyWidget;
 class ARPGIntroController;
-
+class URPGCommonFade;
+class URPGCommonBaseEffect;
 UCLASS()
 class RPGPROJECT_API ARPGIntroUIManager : public AActor
 {
 	GENERATED_BODY()
 	
 private:
+	ARPGIntroController* _CurrentController;
 	URPGIntroBaseWidget* _IntroCurrentWidget;
 	TMap<EIntroUIWidgetState, URPGIntroBaseWidget*> _IntroWidgetMap;
-	ARPGIntroController* _CurrentController;
+	URPGCommonBaseEffect* _IntroFadeEffect;
+	EIntroUIWidgetState _IntroCurrentWidgetState;
 public:	
 	// Sets default values for this actor's properties
 	ARPGIntroUIManager();
@@ -35,7 +38,10 @@ public:
 	void Initialize(ARPGIntroController* NewController);
 	UFUNCTION()
 	void UpdateWidget(const EIntroUIWidgetState& NewWidgetState);
+	UFUNCTION()
+	void ChangeWidget();
 public:
 	TSubclassOf<URPGIntroMainWidget> _IntroTitleWidgetClass;
 	TSubclassOf<URPGIntroLobbyWidget> _IntroLobbyWidgetClass;
+	TSubclassOf<URPGCommonFade> _IntroFadeClass;
 };

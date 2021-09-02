@@ -10,6 +10,7 @@
 class UWidgetSwitcher;
 class URPGIntroBaseLayout;
 class UWidgetAnimation;
+
 DECLARE_DELEGATE_OneParam(FChangeWidgetDelegate, const EIntroUIWidgetState&);
 /**
  * 
@@ -28,7 +29,6 @@ protected:
 public:
 	void ChangeLayoutAndWidget(const EIntroDerivedWidgetState& NewState, const int& ZOrder=0);
 	void SetLayoutList();
-	UWidgetAnimation* GetAnimation(const FString& AnimName);
 public:
 	FChangeWidgetDelegate delegateChangeUI;
 };

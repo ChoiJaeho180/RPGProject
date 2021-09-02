@@ -3,6 +3,8 @@
 #include "Intro/UI/RPGIntroMainWidget.h"
 #include "Intro/RPGIntroController.h"
 #include "Intro/UI/RPGIntroLobbyWidget.h"
+#include "Common/RPGCommonFade.h"
+#include "Common/RPGCommonBaseEffect.h"
 // Sets default values
 ARPGIntroUIManager::ARPGIntroUIManager()
 {
@@ -19,19 +21,26 @@ ARPGIntroUIManager::ARPGIntroUIManager()
 	{
 		_IntroLobbyWidgetClass = INTRO_LOBBY_WIDGET.Class;
 	}
+	static ConstructorHelpers::FClassFinder<URPGCommonFade>INTRO_FADE_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/WB_Fade.WB_Fade_C'"));
+	if (INTRO_FADE_WIDGET.Succeeded())
+	{
+		_IntroFadeClass = INTRO_FADE_WIDGET.Class;
+	}
+	
 }
 
 // Called when the game starts or when spawned
 void ARPGIntroUIManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	_IntroCurrentWidgetState = EIntroUIWidgetState::MAIN;
 }
 
 // Called every frame
 void ARPGIntroUIManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
@@ -46,17 +55,26 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
 	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
-
-	UpdateWidget(EIntroUIWidgetState::MAIN);
+	
+	_IntroFadeEffect = CreateWidget<URPGCommonFade>(_CurrentController, _IntroFadeClass);
+	_IntroFadeEffect->delegateAttachWidget.BindUObject(this, &ARPGIntroUIManager::ChangeWidget);
+	_IntroFadeEffect->AddToViewport(5);
+	ChangeWidget();
 }
 
 void ARPGIntroUIManager::UpdateWidget(const EIntroUIWidgetState& NewWidgetState)
 {
-	_IntroWidgetMap[NewWidgetState]->AddToViewport();
-	if (_IntroCurrentWidget != nullptr)
+	_IntroFadeEffect->PlayAnim();
+	_IntroCurrentWidgetState = NewWidgetState;
+}
+
+void ARPGIntroUIManager::ChangeWidget()
+{
+	_IntroWidgetMap[_IntroCurrentWidgetState]->AddToViewport(0);
+	if (_IntroCurrentWidget != nullptr && _IntroCurrentWidget->GetName() != FString("None"))
 	{
 		_IntroCurrentWidget->RemoveFromViewport();
 	}
-	_IntroCurrentWidget = _IntroWidgetMap[NewWidgetState];
+	_IntroCurrentWidget = _IntroWidgetMap[_IntroCurrentWidgetState];
 }
 
