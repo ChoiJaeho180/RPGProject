@@ -30,10 +30,16 @@ private:
 	UImage* _FadeInImage;
 	UPROPERTY()
 	UWidgetAnimation* _FadeInAnimation;
+private:
+	FWidgetAnimationDynamicEvent delegateEndedFadeIn;
 public:
 	void NativeConstruct() override;
 	void SetFadeInAnimation();
 public:
 	UFUNCTION()
-	void OnClicked(EIntroDerivedWidgetState NewState);
+	void OnChangeLayoutClicked(EIntroDerivedWidgetState NewState);
+	UFUNCTION()
+	void OnChangeWidgetClicked(EIntroDerivedWidgetState NewState);
+	UFUNCTION()
+	void OnFadeInAnimEnded();
 };
