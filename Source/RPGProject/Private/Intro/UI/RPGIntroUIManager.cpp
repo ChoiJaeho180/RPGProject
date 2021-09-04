@@ -71,9 +71,10 @@ void ARPGIntroUIManager::UpdateWidget(const EIntroUIWidgetState& NewWidgetState)
 void ARPGIntroUIManager::ChangeWidget()
 {
 	_IntroWidgetMap[_IntroCurrentWidgetState]->AddToViewport(0);
-	if (_IntroCurrentWidget != nullptr && _IntroCurrentWidget->GetName() != FString("None"))
+	if (_IntroCurrentWidget != nullptr)
 	{
-		_IntroCurrentWidget->RemoveFromViewport();
+		if(_IntroCurrentWidget->GetName() != FString("None"))
+			_IntroCurrentWidget->RemoveFromViewport();
 	}
 	_IntroCurrentWidget = _IntroWidgetMap[_IntroCurrentWidgetState];
 }

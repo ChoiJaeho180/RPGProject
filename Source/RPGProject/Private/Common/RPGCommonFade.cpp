@@ -49,5 +49,9 @@ void URPGCommonFade::PlayAnim()
 
 	_FadeImage->SetVisibility(ESlateVisibility::Visible);
 	int FadeIndex = (int)_FadeState;
+
+	if (_FadeAnimations[FadeIndex] == nullptr)
+		return;
+
 	PlayAnimation(_FadeAnimations[FadeIndex]);
 }
