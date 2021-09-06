@@ -70,6 +70,9 @@ void ARPGIntroUIManager::UpdateWidget(const EIntroUIWidgetState& NewWidgetState)
 
 void ARPGIntroUIManager::ChangeWidget()
 {
+	if (_IntroWidgetMap.Num() == 0)
+		return;
+
 	_IntroWidgetMap[_IntroCurrentWidgetState]->AddToViewport(0);
 	if (_IntroCurrentWidget != nullptr)
 	{
