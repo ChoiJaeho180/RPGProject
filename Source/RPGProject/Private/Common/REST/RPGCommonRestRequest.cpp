@@ -3,10 +3,10 @@
 
 #include "Common/REST/RPGCommonRestRequest.h"
 
-RPGCommonRestRequest::RPGCommonRestRequest()
+FRPGCommonRestRequest::FRPGCommonRestRequest()
 {
 }
 
-RPGCommonRestRequest::~RPGCommonRestRequest()
+FRPGCommonRestRequest::~FRPGCommonRestRequest()
 {
 }

@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../RPGProject.h"
+#include "Common/REST/RPGCommonRestRequest.h"
 #include "Engine/GameInstance.h"
 #include "RPGCommonGameInstance.generated.h"
 
@@ -14,4 +15,9 @@ class RPGPROJECT_API URPGCommonGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
+private:
+	TUniquePtr<FRPGCommonRestRequest> _RestApiRequestor;
+public:
+	URPGCommonGameInstance();
+	virtual void Init() override;
 };

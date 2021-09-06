@@ -3,3 +3,13 @@
 
 #include "Common/RPGCommonGameInstance.h"
 
+URPGCommonGameInstance::URPGCommonGameInstance()
+{
+
+}
+
+void URPGCommonGameInstance::Init()
+{
+	FRPGCommonRestRequest* RestRequestor = new FRPGCommonRestRequest();
+	_RestApiRequestor = TUniquePtr<FRPGCommonRestRequest>(RestRequestor);
+}

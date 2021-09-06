@@ -7,9 +7,9 @@
 /**
  * 
  */
-class RPGPROJECT_API RPGCommonRestRequest
+class RPGPROJECT_API FRPGCommonRestRequest
 {
 public:
-	RPGCommonRestRequest();
-	~RPGCommonRestRequest();
+	FRPGCommonRestRequest();
+	~FRPGCommonRestRequest();
 };
