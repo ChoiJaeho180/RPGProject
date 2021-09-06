@@ -5,3 +5,4 @@ Binaries/
 DerivedDataCache/
 *.sln
 *_BuiltData.uasset
+packages/
