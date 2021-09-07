@@ -20,6 +20,9 @@ public:
 	ARPGIntroController();
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* aPawn) override;
+
+public:
+	ARPGIntroUIManager* GetUIManager() const;
 public:
 	TSubclassOf<ARPGIntroUIManager> _IntroUIManagerClass;
 };

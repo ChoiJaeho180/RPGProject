@@ -12,6 +12,7 @@ class URPGIntroLobbyWidget;
 class ARPGIntroController;
 class URPGCommonFade;
 class URPGCommonBaseEffect;
+
 UCLASS()
 class RPGPROJECT_API ARPGIntroUIManager : public AActor
 {
@@ -26,20 +27,20 @@ private:
 public:	
 	// Sets default values for this actor's properties
 	ARPGIntroUIManager();
-
+	void Initialize(ARPGIntroController* NewController);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-public:
-	void Initialize(ARPGIntroController* NewController);
 	UFUNCTION()
 	void UpdateWidget(const EIntroUIWidgetState& NewWidgetState);
 	UFUNCTION()
 	void ChangeWidget();
+public:
+	URPGIntroBaseWidget* GetCurrentWidget() const;
+	
 public:
 	TSubclassOf<URPGIntroMainWidget> _IntroTitleWidgetClass;
 	TSubclassOf<URPGIntroLobbyWidget> _IntroLobbyWidgetClass;

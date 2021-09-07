@@ -82,3 +82,8 @@ void ARPGIntroUIManager::ChangeWidget()
 	_IntroCurrentWidget = _IntroWidgetMap[_IntroCurrentWidgetState];
 }
 
+URPGIntroBaseWidget* ARPGIntroUIManager::GetCurrentWidget() const
+{
+	return _IntroCurrentWidget;
+}
+

@@ -50,7 +50,7 @@ void ARPGCommonRestRequestor::OnResponseReceived(FHttpRequestPtr Request, FHttpR
 		return;
 
 	TSharedPtr<FJsonObject> JsonObject;
-	
+	JsonObject.Get();
 	TSharedRef<TJsonReader<TCHAR>> Reader = TJsonReaderFactory<TCHAR>::Create(Response->GetContentAsString());
 	if (FJsonSerializer::Deserialize(Reader, JsonObject))
 	{

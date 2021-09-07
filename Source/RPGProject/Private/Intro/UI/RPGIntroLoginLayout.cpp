@@ -48,7 +48,7 @@ void URPGIntroLoginLayout::OnChangeWidgetClicked(EIntroDerivedWidgetState NewSta
 	JsonObject->SetStringField("Password", _PasswordEditBox->Text.ToString());
 
 	_LoadingCircle->SetVisibility(ESlateVisibility::Visible);
-	_TempChangeWidget = NewState;
+	_TempChangeWidgetState = NewState;
 
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
@@ -61,20 +61,41 @@ void URPGIntroLoginLayout::OnChangeWidget()
 {
 	AsyncTask(ENamedThreads::GameThread, [=]()
 	{
-		OnChangeInit();
-		_TempChangeWidget = EIntroDerivedWidgetState::NONE;
+		delegateSendWidgetChange.ExecuteIfBound(_TempChangeWidgetState, 0);
+		OnChangeInitProperty();
+		_TempChangeWidgetState = EIntroDerivedWidgetState::NONE;
 	});
 }
 
-void URPGIntroLoginLayout::OnChangeInit()
+void URPGIntroLoginLayout::RegistFailedEvent()
+{
+	AsyncTask(ENamedThreads::GameThread, [=]()
+	{
+		_LoginInfoText->SetText(FText::FromString("ID or Password is incorrect"));;
+		GetWorld()->GetTimerManager().SetTimer(
+			_TimerHandle,
+			this,
+			&URPGIntroLoginLayout::ReceiveEvent,
+			3,
+			false
+		);
+	});
+}
+
+void URPGIntroLoginLayout::ReceiveEvent()
+{
+	OnChangeInitProperty();
+}
+
+void URPGIntroLoginLayout::OnChangeInitProperty()
 {
 	_LoadingCircle->SetVisibility(ESlateVisibility::Hidden);
-	_TempChangeWidget = EIntroDerivedWidgetState::NONE;
+	_TempChangeWidgetState = EIntroDerivedWidgetState::NONE;
 	_LoginInfoText->SetText(FText::GetEmpty());
 }
 
 void URPGIntroLoginLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)
 {
-	OnChangeInit();
+	OnChangeInitProperty();
 	delegateSendLayoutChange.ExecuteIfBound(NewState, 0);
 }

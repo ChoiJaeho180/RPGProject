@@ -16,4 +16,5 @@ class RPGPROJECT_API ARPGIntroGameMode : public AGameMode
 	
 public:
 	ARPGIntroGameMode();
+	virtual void Logout(AController* Exiting) override;
 };

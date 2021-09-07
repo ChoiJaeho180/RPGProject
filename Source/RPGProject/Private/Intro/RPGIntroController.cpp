@@ -26,3 +26,8 @@ void ARPGIntroController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
 }
+
+ARPGIntroUIManager* ARPGIntroController::GetUIManager() const
+{
+	return _IntroUIManager;
+}

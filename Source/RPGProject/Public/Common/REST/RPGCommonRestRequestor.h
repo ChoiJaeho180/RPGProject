@@ -8,7 +8,7 @@
 #include "GameFramework/Actor.h"
 #include "RPGCommonRestRequestor.generated.h"
 
-DECLARE_DELEGATE_OneParam(FRestApiResponseDelegate, TSharedPtr<FJsonObject>)
+DECLARE_DELEGATE_OneParam(FRestApiResponseDelegate, TSharedPtr<FJsonObject>&)
 
 UCLASS()
 class RPGPROJECT_API ARPGCommonRestRequestor : public AActor

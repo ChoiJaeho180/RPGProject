@@ -26,6 +26,11 @@ void ARPGCommonRestManager::BeginPlay()
 	Update();
 }
 
+void ARPGCommonRestManager::BeginDestroy()
+{
+	Super::BeginDestroy();
+}
+
 // Called every frame
 void ARPGCommonRestManager::Tick(float DeltaTime)
 {
@@ -37,7 +42,7 @@ void ARPGCommonRestManager::Update()
 {
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
-		while(true)
+		while(_bEndedGame == false)
 		{
 			if (_RestApiMsg.IsEmpty() != true)
 			{
@@ -45,7 +50,7 @@ void ARPGCommonRestManager::Update()
 				_RestApiMsg.Dequeue(RestMsg);
 				_RestExecutorElements->Update(RestMsg);
 			}
-			FPlatformProcess::Sleep(0.5f);
+			FPlatformProcess::Sleep(0.1f);
 		}
 	});
 }
@@ -56,9 +61,15 @@ bool ARPGCommonRestManager::PostRequest(FString URL, TSharedPtr<FJsonObject> Jso
 	return false;
 }
 
-void ARPGCommonRestManager::PushQueue(TSharedPtr<FJsonObject> JsonObject)
+void ARPGCommonRestManager::PushQueue(TSharedPtr<FJsonObject>& JsonObject)
 {
 	_RestApiMsg.Enqueue(JsonObject);
+}
+
+void ARPGCommonRestManager::Release()
+{
+	_bEndedGame = true;
+	FPlatformProcess::Sleep(0.3f);
 }
 
 

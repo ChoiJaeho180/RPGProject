@@ -1,7 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Common/REST/RPGCommonRestLoginExecutor.h"
+#include "Intro/RPGIntroController.h"
+#include "Intro/UI/RPGIntroUIManager.h"
+#include "Intro/UI/RPGIntroBaseWidget.h"
+#include "Intro/UI/RPGIntroLoginLayout.h"
+#include "Components/WidgetSwitcher.h"
+#include "Common/UI/RPGCommonFailedEvent.h"
 
 // Sets default values
 ARPGCommonRestLoginExecutor::ARPGCommonRestLoginExecutor()
@@ -27,6 +31,21 @@ void ARPGCommonRestLoginExecutor::Tick(float DeltaTime)
 
 void ARPGCommonRestLoginExecutor::Update(TSharedPtr<FJsonObject> RestMsg)
 {
-
+	auto Field = RestMsg->TryGetField("ResultCode");
+	if (Field == nullptr)
+		return;
+	FString resultState = Field->AsString();
+	ARPGIntroController* CurrentController = Cast<ARPGIntroController>(GetWorld()->GetFirstPlayerController());
+	URPGIntroBaseWidget* CurrentWidget = CurrentController->GetUIManager()->GetCurrentWidget();
+	if (resultState == SUCCESSD_REST_API)
+	{
+		IRPGCommonChangeScene* CurrentLayout = Cast<IRPGCommonChangeScene>(CurrentWidget->GetIntroSwitcher()->GetActiveWidget());
+		CurrentLayout->OnChangeWidget();
+	}
+	else
+	{
+		IRPGCommonFailedEvent* CurrentLayout = Cast<IRPGCommonFailedEvent>(CurrentWidget->GetIntroSwitcher()->GetActiveWidget());
+		CurrentLayout->RegistFailedEvent();
+	}
 }
 

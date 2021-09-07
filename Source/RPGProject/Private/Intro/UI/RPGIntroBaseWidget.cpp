@@ -39,4 +39,9 @@ void URPGIntroBaseWidget::SetLayoutList()
 	}
 }
 
+UWidgetSwitcher* URPGIntroBaseWidget::GetIntroSwitcher() const
+{
+	return IntroSwicher;
+}
+
 

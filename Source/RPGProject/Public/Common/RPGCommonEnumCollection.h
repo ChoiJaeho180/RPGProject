@@ -23,3 +23,5 @@ enum class ECommonFadeState : uint8
 	FADE_OUT = 1 UMETA(DisplayName = "FADE_OUT"),
 	NONE = 2 UMETA(DisplayName = "NONE")
 };
+
+#define SUCCESSD_REST_API "0"

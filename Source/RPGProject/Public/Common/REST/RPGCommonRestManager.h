@@ -14,6 +14,8 @@ class RPGPROJECT_API ARPGCommonRestManager : public AActor
 {
 	GENERATED_BODY()
 private:
+	bool _bEndedGame = false;
+
 	UPROPERTY()
 	ARPGCommonRestRequestor* _RestApiRequestor;
 	UPROPERTY()
@@ -27,13 +29,15 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	virtual void BeginDestroy() override;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void Update();
 	bool PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject);
-	void PushQueue(TSharedPtr<FJsonObject> JsonObject);
+	void PushQueue(TSharedPtr<FJsonObject>& JsonObject);
+public:
+	void Release();
 public:
 	TSubclassOf<ARPGCommonRestRequestor> RestApiRequestorClass;
 	TSubclassOf<ARPGCommonRestExecutorElements> RestApiElementsClass;

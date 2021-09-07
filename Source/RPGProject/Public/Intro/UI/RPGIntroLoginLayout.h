@@ -4,6 +4,8 @@
 
 #include "../../../RPGProject.h"
 #include "Common/UI/RPGCommonChangeScene.h"
+#include "Common/UI/RPGCommonFailedEvent.h"
+#include <Runtime/Engine/Classes/Engine/EngineTypes.h>
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "RPGIntroLoginLayout.generated.h"
 
@@ -12,7 +14,7 @@ class UCircularThrobber;
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGIntroLoginLayout : public URPGIntroBaseLayout, public IRPGCommonChangeScene
+class RPGPROJECT_API URPGIntroLoginLayout : public URPGIntroBaseLayout, public IRPGCommonChangeScene, public IRPGCommonFailedEvent
 {
 	GENERATED_BODY()
 private:
@@ -32,7 +34,8 @@ private:
 	UCircularThrobber* _LoadingCircle;
 private:
 	const FString _LoginUri = FString("/users/login");
-	EIntroDerivedWidgetState _TempChangeWidget;
+	EIntroDerivedWidgetState _TempChangeWidgetState;
+	FTimerHandle _TimerHandle;
 public:
 	void NativeConstruct() override;
 public:
@@ -41,5 +44,7 @@ public:
 	UFUNCTION()
 	void OnChangeWidgetClicked(EIntroDerivedWidgetState NewState);
 	virtual void OnChangeWidget() override;
-	void OnChangeInit();
+	virtual void RegistFailedEvent() override;
+	virtual void ReceiveEvent() override;
+	void OnChangeInitProperty();
 };

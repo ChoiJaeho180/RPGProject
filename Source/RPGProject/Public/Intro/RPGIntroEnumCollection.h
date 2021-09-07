@@ -38,4 +38,3 @@ enum class EIntroDerivedWidgetState : uint8
 	TO_MAIN = 8 UMETA(DisplayName = "ToMain"),
 	NONE = 9 UMETA(DisplayName = "NONE")
 };
-

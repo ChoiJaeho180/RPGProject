@@ -29,6 +29,7 @@ protected:
 public:
 	void ChangeLayoutAndWidget(const EIntroDerivedWidgetState& NewState, const int& ZOrder=0);
 	void SetLayoutList();
+	virtual UWidgetSwitcher* GetIntroSwitcher() const;
 public:
 	FChangeWidgetDelegate delegateChangeUI;
 };

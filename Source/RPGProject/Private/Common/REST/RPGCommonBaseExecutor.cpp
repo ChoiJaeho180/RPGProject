@@ -15,7 +15,5 @@ void ARPGCommonBaseExecutor::BeginPlay()
 
 void ARPGCommonBaseExecutor::Update(TSharedPtr<FJsonObject> RestMsg)
 {
-	APlayerController* CurrentController = GetWorld()->GetFirstPlayerController();
-	//CurrentController->
 }
 

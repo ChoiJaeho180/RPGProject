@@ -17,3 +17,8 @@ bool URPGCommonGameInstance::PostRequest(FString URL, TSharedPtr<FJsonObject> Js
 	_RestManager->PostRequest(URL, JsonObject);
 	return false;
 }
+
+void URPGCommonGameInstance::Release()
+{
+	_RestManager->Release();
+}

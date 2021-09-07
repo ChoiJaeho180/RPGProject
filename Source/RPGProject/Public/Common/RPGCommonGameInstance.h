@@ -23,6 +23,9 @@ public:
 	URPGCommonGameInstance();
 	virtual void Init() override;
 	bool PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject);
+
+	void Release();
+
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 };
