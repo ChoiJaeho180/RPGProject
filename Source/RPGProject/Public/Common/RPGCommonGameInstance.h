@@ -3,9 +3,11 @@
 #pragma once
 
 #include "../../RPGProject.h"
-#include "Common/REST/RPGCommonRestRequest.h"
+#include "Dom/JsonObject.h"
 #include "Engine/GameInstance.h"
 #include "RPGCommonGameInstance.generated.h"
+
+class ARPGCommonRestManager;
 
 /**
  * 
@@ -16,8 +18,11 @@ class RPGPROJECT_API URPGCommonGameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 private:
-	TUniquePtr<FRPGCommonRestRequest> _RestApiRequestor;
+	ARPGCommonRestManager* _RestManager;
 public:
 	URPGCommonGameInstance();
 	virtual void Init() override;
+	bool PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject);
+public:
+	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 };

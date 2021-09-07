@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "../../RPGProject.h"
+#include "../../../RPGProject.h"
 #include "Blueprint/UserWidget.h"
 #include "RPGCommonBaseEffect.generated.h"
 

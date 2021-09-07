@@ -3,8 +3,8 @@
 #include "Intro/UI/RPGIntroMainWidget.h"
 #include "Intro/RPGIntroController.h"
 #include "Intro/UI/RPGIntroLobbyWidget.h"
-#include "Common/RPGCommonFade.h"
-#include "Common/RPGCommonBaseEffect.h"
+#include "Common/UI/RPGCommonFade.h"
+#include "Common/UI/RPGCommonBaseEffect.h"
 // Sets default values
 ARPGIntroUIManager::ARPGIntroUIManager()
 {

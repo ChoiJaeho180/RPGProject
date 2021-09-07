@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "Common/RPGCommonFade.h"
+#include "Common/UI/RPGCommonFade.h"
 #include "Components/Image.h"
 
 void URPGCommonFade::NativePreConstruct()

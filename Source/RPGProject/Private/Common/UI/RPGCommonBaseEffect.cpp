@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-#include "Common/RPGCommonBaseEffect.h"
+#include "Common/UI/RPGCommonBaseEffect.h"
 #include "Blueprint/WidgetTree.h"
 
 UWidgetAnimation* URPGCommonBaseEffect::GetAnimation(const FString& AnimName)

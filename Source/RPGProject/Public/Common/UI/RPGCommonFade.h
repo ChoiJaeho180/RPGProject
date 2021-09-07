@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "../../RPGProject.h"
-#include "RPGCommonEnumCollection.h"
-#include "Common/RPGCommonBaseEffect.h"
+#include "../../../RPGProject.h"
+#include "../RPGCommonEnumCollection.h"
+#include "Common/UI/RPGCommonBaseEffect.h"
 #include "RPGCommonFade.generated.h"
 
 class UImage;
