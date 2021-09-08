@@ -20,8 +20,11 @@ class RPGPROJECT_API ARPGIntroUIManager : public AActor
 	
 private:
 	ARPGIntroController* _CurrentController;
+	UPROPERTY()
 	URPGIntroBaseWidget* _IntroCurrentWidget;
+	UPROPERTY()
 	TMap<EIntroUIWidgetState, URPGIntroBaseWidget*> _IntroWidgetMap;
+	UPROPERTY()
 	URPGCommonBaseEffect* _IntroFadeEffect;
 	EIntroUIWidgetState _IntroCurrentWidgetState;
 public:	

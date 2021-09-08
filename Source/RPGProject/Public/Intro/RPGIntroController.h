@@ -7,6 +7,7 @@
 #include "RPGIntroController.generated.h"
 
 class ARPGIntroUIManager;
+
 /**
  * 
  */
@@ -23,6 +24,7 @@ public:
 
 public:
 	ARPGIntroUIManager* GetUIManager() const;
+	void SetPlayerStart(const EIntroUIWidgetState& NewState);
 public:
 	TSubclassOf<ARPGIntroUIManager> _IntroUIManagerClass;
 };

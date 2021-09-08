@@ -2,6 +2,7 @@
 #include "Intro/RPGIntroController.h"
 #include "Intro/RPGIntroCharacter.h"
 #include "Intro/UI/RPGIntroUIManager.h"
+#include "Intro/RPGIntroGameMode.h"
 
 ARPGIntroController::ARPGIntroController()
 {
@@ -15,7 +16,7 @@ ARPGIntroController::ARPGIntroController()
 void ARPGIntroController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	SetInputMode(FInputModeGameAndUI());
 
 	_IntroUIManager = GetWorld()->SpawnActor<ARPGIntroUIManager>(_IntroUIManagerClass);
@@ -25,9 +26,17 @@ void ARPGIntroController::BeginPlay()
 void ARPGIntroController::OnPossess(APawn* aPawn)
 {
 	Super::OnPossess(aPawn);
+
+	
 }
 
 ARPGIntroUIManager* ARPGIntroController::GetUIManager() const
 {
 	return _IntroUIManager;
+}
+
+void ARPGIntroController::SetPlayerStart(const EIntroUIWidgetState& NewState)
+{
+	ARPGIntroGameMode* GM = Cast<ARPGIntroGameMode>(GetWorld()->GetAuthGameMode());
+	GM->SetPlayerStart(NewState);
 }

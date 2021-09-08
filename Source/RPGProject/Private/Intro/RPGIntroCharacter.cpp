@@ -15,7 +15,6 @@ ARPGIntroCharacter::ARPGIntroCharacter()
 void ARPGIntroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

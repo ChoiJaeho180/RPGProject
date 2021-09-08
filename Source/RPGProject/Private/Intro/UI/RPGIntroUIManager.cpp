@@ -72,7 +72,10 @@ void ARPGIntroUIManager::ChangeWidget()
 {
 	if (_IntroWidgetMap.Num() == 0)
 		return;
+	if (_IntroWidgetMap.Contains(_IntroCurrentWidgetState) == false)
+		return;
 
+	_CurrentController->SetPlayerStart(_IntroCurrentWidgetState);
 	_IntroWidgetMap[_IntroCurrentWidgetState]->AddToViewport(0);
 	if (_IntroCurrentWidget != nullptr)
 	{

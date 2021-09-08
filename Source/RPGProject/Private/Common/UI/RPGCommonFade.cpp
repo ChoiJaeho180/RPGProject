@@ -46,6 +46,8 @@ void URPGCommonFade::PlayAnim()
 {
 	if (_FadeState == ECommonFadeState::NONE)
 		_FadeState = ECommonFadeState::FADE_IN;
+	if (_FadeAnimations.Num() == 0 || _FadeImage == nullptr)
+		return;
 
 	_FadeImage->SetVisibility(ESlateVisibility::Visible);
 	int FadeIndex = (int)_FadeState;
