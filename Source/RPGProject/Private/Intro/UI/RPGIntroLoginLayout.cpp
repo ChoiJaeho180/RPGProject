@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Intro/UI/RPGIntroLoginLayout.h"
 #include "Intro/UI/RPGIntroChangeSceneButton.h"
+#include "Intro/UI/RPGIntroChangeWidgetButton.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
@@ -15,28 +16,31 @@ void URPGIntroLoginLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	if (_bInit == false)
+	{
+		_RegisterButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("RegisterButton")));
+		_RegisterButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_REGISTER);
+		_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeLayoutClicked);
 
-	_RegisterButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("RegisterButton")));
-	_RegisterButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_REGISTER);
-	_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeLayoutClicked);
+		_ExitButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("ExitButton")));
+		_ExitButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_TITLE);
+		_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeLayoutClicked);
 
-	_ExitButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("ExitButton")));
-	_ExitButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_TITLE);
-	_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeLayoutClicked);
+		_LoginButton = Cast<URPGIntroChangeWidgetButton>(GetWidgetFromName(TEXT("LoginButton")));
+		_LoginButton->SetWidgetState(EIntroUIWidgetState::LOBBY);
+		_LoginButton->delegateUpdateWidgetClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeWidgetClicked);
 
-	_LoginButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("LoginButton")));
-	_LoginButton->SetWidgetState(EIntroDerivedWidgetState::TO_LOBBY);
-	_LoginButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroLoginLayout::OnChangeWidgetClicked);
-	
-	_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
-	_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
+		_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
+		_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
 
-	_LoginInfoText = Cast<UTextBlock>(GetWidgetFromName("LoginInfoText"));
-	_LoadingCircle = Cast<UCircularThrobber>(GetWidgetFromName("LoadingCircle"));
+		_LoginInfoText = Cast<UTextBlock>(GetWidgetFromName("LoginInfoText"));
+		_LoadingCircle = Cast<UCircularThrobber>(GetWidgetFromName("LoadingCircle"));
+		_bInit = true;
+	}
 }
 
 
-void URPGIntroLoginLayout::OnChangeWidgetClicked(EIntroDerivedWidgetState NewState)
+void URPGIntroLoginLayout::OnChangeWidgetClicked(const EIntroUIWidgetState& NewState)
 {
 	if (_UserNameEditBox->Text.IsEmpty() || _PasswordEditBox->Text.IsEmpty())
 	{
@@ -63,7 +67,7 @@ void URPGIntroLoginLayout::OnChangeWidget()
 	{
 		delegateSendWidgetChange.ExecuteIfBound(_TempChangeWidgetState, 0);
 		OnChangeInitProperty();
-		_TempChangeWidgetState = EIntroDerivedWidgetState::NONE;
+		_TempChangeWidgetState = EIntroUIWidgetState::NONE;
 	});
 }
 
@@ -90,7 +94,7 @@ void URPGIntroLoginLayout::ReceiveEvent()
 void URPGIntroLoginLayout::OnChangeInitProperty()
 {
 	_LoadingCircle->SetVisibility(ESlateVisibility::Hidden);
-	_TempChangeWidgetState = EIntroDerivedWidgetState::NONE;
+	_TempChangeWidgetState = EIntroUIWidgetState::NONE;
 	_LoginInfoText->SetText(FText::GetEmpty());
 }
 

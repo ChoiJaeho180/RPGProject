@@ -27,7 +27,8 @@ protected:
 	TArray<URPGIntroBaseLayout*> _IntroLayoutList;
 	FRPGIntroSpecificWidgetJudge _RPGIntroSpecificWidgetJudge;
 public:
-	void ChangeLayoutAndWidget(const EIntroDerivedWidgetState& NewState, const int& ZOrder=0);
+	void ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder=0);
+	void ChangeWidget(const EIntroUIWidgetState& NewState, const int& ZOrder = 0);
 	void SetLayoutList();
 	virtual UWidgetSwitcher* GetIntroSwitcher() const;
 public:

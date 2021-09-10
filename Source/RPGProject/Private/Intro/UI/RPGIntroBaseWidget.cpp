@@ -6,18 +6,17 @@
 
 #define WB_IDENTIFIER "WB"
 
-void URPGIntroBaseWidget::ChangeLayoutAndWidget(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
+void URPGIntroBaseWidget::ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
 {
-	if (NewState == EIntroDerivedWidgetState::TO_LOBBY)
-	{
-		delegateChangeUI.ExecuteIfBound(EIntroUIWidgetState::LOBBY);
-		return;
-	}
-
 	int ResultIndex = _RPGIntroSpecificWidgetJudge.GetUpdateWidgetIndex(_IntroLayoutList, NewState);
 	if (ResultIndex == -1)
 		return;
 	IntroSwicher->SetActiveWidget(_IntroLayoutList[ResultIndex]);
+}
+
+void URPGIntroBaseWidget::ChangeWidget(const EIntroUIWidgetState& NewState, const int& ZOrder)
+{
+	delegateChangeUI.ExecuteIfBound(NewState);
 }
 
 void URPGIntroBaseWidget::SetLayoutList()
@@ -34,7 +33,8 @@ void URPGIntroBaseWidget::SetLayoutList()
 		if (NewLayout == nullptr)
 			continue;
 
-		NewLayout->delegateSendLayoutChange.BindUObject(this, &URPGIntroBaseWidget::ChangeLayoutAndWidget);
+		NewLayout->delegateSendLayoutChange.BindUObject(this, &URPGIntroBaseWidget::ChangeLayout);
+		NewLayout->delegateSendWidgetChange.BindUObject(this, &URPGIntroBaseWidget::ChangeWidget);
 		_IntroLayoutList.AddUnique(NewLayout);
 	}
 }

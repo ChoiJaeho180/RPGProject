@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../RPGProject.h"
 #include "Intro/UI/RPGIntroBaseWidget.h"
 #include "RPGIntroLobbyWidget.generated.h"
 
@@ -23,4 +23,5 @@ public:
 	void NativePreConstruct() override;
 	void NativeConstruct() override;
 public:
+	void OnPreWidgetChange(const EIntroUIWidgetState& NewState, const int& ZOrder);
 };

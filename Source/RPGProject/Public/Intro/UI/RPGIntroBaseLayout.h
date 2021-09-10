@@ -7,7 +7,7 @@
 #include "RPGIntroBaseLayout.generated.h"
 
 DECLARE_DELEGATE_TwoParams(FSendLayoutChangeDelegate, const EIntroDerivedWidgetState&, const int&);
-DECLARE_DELEGATE_TwoParams(FSendWidgetChangeDelegate, const EIntroDerivedWidgetState&, const int&);
+DECLARE_DELEGATE_TwoParams(FSendWidgetChangeDelegate, const EIntroUIWidgetState&, const int&);
 
 class UButton;
 class UEditableTextBox;
@@ -20,7 +20,8 @@ UCLASS()
 class RPGPROJECT_API URPGIntroBaseLayout : public UUserWidget
 {
 	GENERATED_BODY()
-
+protected:
+	bool _bInit;
 public:
 	FSendLayoutChangeDelegate delegateSendLayoutChange;
 	FSendWidgetChangeDelegate delegateSendWidgetChange;

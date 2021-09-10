@@ -6,10 +6,12 @@
 void URPGIntroTitleLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
-
-	_StartGameButton = Cast<UButton>(GetWidgetFromName(TEXT("StartGameButton")));
-	_StartGameButton->OnClicked.AddDynamic(this, &URPGIntroTitleLayout::OnStartClicked);
-
+	if (_bInit == false)
+	{
+		_StartGameButton = Cast<UButton>(GetWidgetFromName(TEXT("StartGameButton")));
+		_StartGameButton->OnClicked.AddDynamic(this, &URPGIntroTitleLayout::OnStartClicked);
+		_bInit = true;
+	}
 	PlayAnimations();
 }
 

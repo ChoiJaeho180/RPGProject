@@ -5,10 +5,11 @@
 
 URPGIntroChangeSceneButton::URPGIntroChangeSceneButton()
 {
-	OnClicked.AddDynamic(this, &URPGIntroChangeSceneButton::OnClick);
+ 	OnClicked.AddDynamic(this, &URPGIntroChangeSceneButton::OnClick);
 }
 
 void URPGIntroChangeSceneButton::OnClick()
 {
+	UE_LOG(LogTemp, Warning, TEXT("OnClick"));
 	delegateUpdateSceneClick.Broadcast(_UpdateProperty);
 }

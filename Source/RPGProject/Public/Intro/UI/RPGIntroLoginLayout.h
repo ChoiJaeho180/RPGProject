@@ -10,6 +10,7 @@
 #include "RPGIntroLoginLayout.generated.h"
 
 class UCircularThrobber;
+class URPGIntroChangeWidgetButton;
 /**
  * 
  */
@@ -21,7 +22,7 @@ private:
 	UPROPERTY()
 	URPGIntroChangeSceneButton* _RegisterButton;
 	UPROPERTY()
-	URPGIntroChangeSceneButton* _LoginButton;
+	URPGIntroChangeWidgetButton* _LoginButton;
 	UPROPERTY()
 	URPGIntroChangeSceneButton* _ExitButton;
 	UPROPERTY()
@@ -34,7 +35,7 @@ private:
 	UCircularThrobber* _LoadingCircle;
 private:
 	const FString _LoginUri = FString("/users/login");
-	EIntroDerivedWidgetState _TempChangeWidgetState;
+	EIntroUIWidgetState _TempChangeWidgetState;
 	FTimerHandle _TimerHandle;
 public:
 	void NativeConstruct() override;
@@ -42,7 +43,7 @@ public:
 	UFUNCTION()
 	void OnChangeLayoutClicked(EIntroDerivedWidgetState NewState);
 	UFUNCTION()
-	void OnChangeWidgetClicked(EIntroDerivedWidgetState NewState);
+	void OnChangeWidgetClicked(const EIntroUIWidgetState& NewState);
 	virtual void OnChangeWidget() override;
 	virtual void RegistFailedEvent() override;
 	virtual void ReceiveEvent() override;

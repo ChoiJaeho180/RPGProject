@@ -20,6 +20,7 @@ private:
 public:
 	void NativeConstruct() override;
 public:
+	UFUNCTION()
 	void PlayAnimations();
 	UFUNCTION()
 	void OnStartClicked();

@@ -26,5 +26,5 @@ public:
 	void OnClick();
 
 public:
-	inline void SetWidgetState(EIntroDerivedWidgetState NewProperty) { _UpdateProperty = NewProperty; }
+	FORCEINLINE void SetWidgetState(EIntroDerivedWidgetState NewProperty) { _UpdateProperty = NewProperty; }
 };

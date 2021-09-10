@@ -8,20 +8,23 @@
 void URPGIntroRegisterLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
+	if (_bInit == false)
+	{
+		_RegisterButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("RegisterButton")));
+		_RegisterButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_REGISTER);
+		_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
 
-	_RegisterButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("RegisterButton")));
-	_RegisterButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_REGISTER);
-	_RegisterButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
+		_ExitButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("ExitButton")));
+		_ExitButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_LOGIN);
+		_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
 
-	_ExitButton = Cast<URPGIntroChangeSceneButton>(GetWidgetFromName(TEXT("ExitButton")));
-	_ExitButton->SetWidgetState(EIntroDerivedWidgetState::MAIN_LOGIN);
-	_ExitButton->delegateUpdateSceneClick.AddDynamic(this, &URPGIntroRegisterLayout::OnChangeLayoutClicked);
+		_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
+		_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
+		_CheckPasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("CheckPasswordEditBox"));
 
-	_UserNameEditBox = Cast<UEditableTextBox>(GetWidgetFromName("UserNameEditBox"));
-	_PasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("PasswordEditBox"));
-	_CheckPasswordEditBox = Cast<UEditableTextBox>(GetWidgetFromName("CheckPasswordEditBox"));
-
-	_RegisterInfo = Cast<UTextBlock>(GetWidgetFromName("RegisterInfoText"));
+		_RegisterInfo = Cast<UTextBlock>(GetWidgetFromName("RegisterInfoText"));
+		_bInit = true;
+	}
 }
 
 void URPGIntroRegisterLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)

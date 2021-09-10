@@ -3,6 +3,7 @@
 #include "Intro/UI/RPGIntroMainWidget.h"
 #include "Intro/RPGIntroController.h"
 #include "Intro/UI/RPGIntroLobbyWidget.h"
+#include "Intro/UI/RPGIntroCreateWidget.h"
 #include "Common/UI/RPGCommonFade.h"
 #include "Common/UI/RPGCommonBaseEffect.h"
 // Sets default values
@@ -20,6 +21,11 @@ ARPGIntroUIManager::ARPGIntroUIManager()
 	if (INTRO_LOBBY_WIDGET.Succeeded())
 	{
 		_IntroLobbyWidgetClass = INTRO_LOBBY_WIDGET.Class;
+	}
+	static ConstructorHelpers::FClassFinder<URPGIntroCreateWidget>INTRO_CREATE_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/IntroWidgetBP/WB_Create.WB_Create_C'"));
+	if (INTRO_CREATE_WIDGET.Succeeded())
+	{
+		_IntroCreateWidgetClass = INTRO_CREATE_WIDGET.Class;
 	}
 	static ConstructorHelpers::FClassFinder<URPGCommonFade>INTRO_FADE_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/WB_Fade.WB_Fade_C'"));
 	if (INTRO_FADE_WIDGET.Succeeded())
@@ -52,9 +58,14 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 	URPGIntroBaseWidget* IntroMainWidget = CreateWidget<URPGIntroMainWidget>(_CurrentController, _IntroTitleWidgetClass);
 	IntroMainWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::MAIN, IntroMainWidget);
+
 	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
 	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
+
+	URPGIntroBaseWidget* IntroCreateWidget = CreateWidget<URPGIntroCreateWidget>(_CurrentController, _IntroCreateWidgetClass);
+	IntroCreateWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
+	_IntroWidgetMap.Add(EIntroUIWidgetState::CREATE, IntroCreateWidget);
 	
 	_IntroFadeEffect = CreateWidget<URPGCommonFade>(_CurrentController, _IntroFadeClass);
 	_IntroFadeEffect->delegateAttachWidget.BindUObject(this, &ARPGIntroUIManager::ChangeWidget);

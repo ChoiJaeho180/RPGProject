@@ -18,6 +18,6 @@ public:
 	void NativeConstruct() override;
 public:
 	UFUNCTION()
-	void OnPreWidgetChange(const EIntroDerivedWidgetState& NewState, const int& ZOrder);
+	void OnPreWidgetChange(const EIntroUIWidgetState& NewState, const int& ZOrder);
 protected:
 };

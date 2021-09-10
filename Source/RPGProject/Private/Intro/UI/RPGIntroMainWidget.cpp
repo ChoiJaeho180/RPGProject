@@ -28,8 +28,8 @@ void URPGIntroMainWidget::NativeConstruct()
 	_IntroLayoutList[LayoutIndex]->delegateSendWidgetChange.BindUObject(this, &URPGIntroMainWidget::OnPreWidgetChange);
 }
 
-void URPGIntroMainWidget::OnPreWidgetChange(const EIntroDerivedWidgetState& NewState, const int& ZOrder)
+void URPGIntroMainWidget::OnPreWidgetChange(const EIntroUIWidgetState& NewState, const int& ZOrder)
 {
-	ChangeLayoutAndWidget(EIntroDerivedWidgetState::TO_LOBBY, 5);
+	ChangeWidget(NewState, 5);
 }
 

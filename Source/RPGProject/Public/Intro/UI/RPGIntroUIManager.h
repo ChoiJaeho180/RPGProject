@@ -12,6 +12,7 @@ class URPGIntroLobbyWidget;
 class ARPGIntroController;
 class URPGCommonFade;
 class URPGCommonBaseEffect;
+class URPGIntroCreateWidget;
 
 UCLASS()
 class RPGPROJECT_API ARPGIntroUIManager : public AActor
@@ -47,5 +48,6 @@ public:
 public:
 	TSubclassOf<URPGIntroMainWidget> _IntroTitleWidgetClass;
 	TSubclassOf<URPGIntroLobbyWidget> _IntroLobbyWidgetClass;
+	TSubclassOf<URPGIntroCreateWidget> _IntroCreateWidgetClass;
 	TSubclassOf<URPGCommonFade> _IntroFadeClass;
 };
