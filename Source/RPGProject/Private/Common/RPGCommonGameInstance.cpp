@@ -12,7 +12,7 @@ void URPGCommonGameInstance::Init()
 	_RestManager = GetWorld()->SpawnActor<ARPGCommonRestManager>(RestManagerClass);
 }
 
-bool URPGCommonGameInstance::PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject)
+bool URPGCommonGameInstance::PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject)
 {
 	_RestManager->PostRequest(URL, JsonObject);
 	return false;

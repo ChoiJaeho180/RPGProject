@@ -13,7 +13,7 @@ void ARPGCommonBaseExecutor::BeginPlay()
 	
 }
 
-void ARPGCommonBaseExecutor::Update(TSharedPtr<FJsonObject> RestMsg)
+void ARPGCommonBaseExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 {
 }
 

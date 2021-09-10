@@ -22,7 +22,7 @@ private:
 public:
 	URPGCommonGameInstance();
 	virtual void Init() override;
-	bool PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject);
+	bool PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject);
 
 	void Release();
 

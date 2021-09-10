@@ -55,7 +55,7 @@ void ARPGCommonRestManager::Update()
 	});
 }
 
-bool ARPGCommonRestManager::PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject)
+bool ARPGCommonRestManager::PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject)
 {
 	_RestApiRequestor->HttpCall(URL, JsonObject);
 	return false;

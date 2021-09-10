@@ -3,3 +3,12 @@
 
 #include "Intro/UI/RPGIntroChooseJobButton.h"
 
+URPGIntroChooseJobButton::URPGIntroChooseJobButton()
+{
+	OnClicked.AddDynamic(this, &URPGIntroChooseJobButton::OnClick);
+}
+
+void URPGIntroChooseJobButton::OnClick()
+{
+	delegateActiveInputCharacterInfo.ExecuteIfBound();
+}

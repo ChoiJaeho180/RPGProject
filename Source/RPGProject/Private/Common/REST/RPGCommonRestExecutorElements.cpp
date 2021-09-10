@@ -3,6 +3,7 @@
 
 #include "Common/REST/RPGCommonRestExecutorElements.h"
 #include "Common/REST/RPGCommonBaseExecutor.h"
+
 // Sets default values
 ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 {
@@ -10,6 +11,7 @@ ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 	PrimaryActorTick.bCanEverTick = false;
 
 	RestApiLoginExecutorClass = ARPGCommonRestLoginExecutor::StaticClass();
+	RestApiNewCharacterExecutorClass = ARPGCommonNewCharacterExecutor::StaticClass();
 }
 
 // Called when the game starts or when spawned
@@ -17,9 +19,10 @@ void ARPGCommonRestExecutorElements::BeginPlay()
 {
 	Super::BeginPlay();
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonRestLoginExecutor>(RestApiLoginExecutorClass));
+	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonNewCharacterExecutor>(RestApiNewCharacterExecutorClass));
 }
 
-void ARPGCommonRestExecutorElements::Update(TSharedPtr<FJsonObject> JsonObject)
+void ARPGCommonRestExecutorElements::Update(TSharedPtr<FJsonObject>& JsonObject)
 {
 	FString Type = JsonObject->GetStringField("MsgType");
 	for (int i = 0; i < _RestApiExecutors.Num(); i++)

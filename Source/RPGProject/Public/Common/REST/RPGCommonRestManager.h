@@ -34,7 +34,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void Update();
-	bool PostRequest(FString URL, TSharedPtr<FJsonObject> JsonObject);
+	bool PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject);
 	void PushQueue(TSharedPtr<FJsonObject>& JsonObject);
 public:
 	void Release();

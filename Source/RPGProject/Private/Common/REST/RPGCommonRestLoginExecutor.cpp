@@ -29,7 +29,7 @@ void ARPGCommonRestLoginExecutor::Tick(float DeltaTime)
 
 }
 
-void ARPGCommonRestLoginExecutor::Update(TSharedPtr<FJsonObject> RestMsg)
+void ARPGCommonRestLoginExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 {
 	auto Field = RestMsg->TryGetField("ResultCode");
 	if (Field == nullptr)

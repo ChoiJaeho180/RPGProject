@@ -20,6 +20,7 @@ class RPGPROJECT_API ARPGIntroUIManager : public AActor
 	GENERATED_BODY()
 	
 private:
+	UPROPERTY()
 	ARPGIntroController* _CurrentController;
 	UPROPERTY()
 	URPGIntroBaseWidget* _IntroCurrentWidget;

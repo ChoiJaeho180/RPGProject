@@ -29,7 +29,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void HttpCall(FString URL, TSharedPtr<FJsonObject> JsonObject);
+	void HttpCall(FString URL, TSharedPtr<FJsonObject>& JsonObject);
 	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
 public:
 	FRestApiResponseDelegate delegateRestApiResponse;

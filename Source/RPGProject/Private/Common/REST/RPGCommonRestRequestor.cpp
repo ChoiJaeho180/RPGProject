@@ -27,7 +27,7 @@ void ARPGCommonRestRequestor::Tick(float DeltaTime)
 
 }
 
-void ARPGCommonRestRequestor::HttpCall(FString URL, TSharedPtr<FJsonObject> JsonObject)
+void ARPGCommonRestRequestor::HttpCall(FString URL, TSharedPtr<FJsonObject>& JsonObject)
 {
 	TSharedRef<IHttpRequest> Request = _Http->CreateRequest();
 	FString OutputString;

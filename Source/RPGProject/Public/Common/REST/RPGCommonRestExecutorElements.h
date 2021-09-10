@@ -4,6 +4,7 @@
 
 #include "../../../RPGProject.h"
 #include "RPGCommonRestLoginExecutor.h"
+#include "RPGCommonNewCharacterExecutor.h"
 #include "GameFramework/Actor.h"
 #include "RPGCommonRestExecutorElements.generated.h"
 
@@ -25,7 +26,8 @@ protected:
 
 public:	
 	// Called every frame
-	void Update(TSharedPtr<FJsonObject> JsonObject);
+	void Update(TSharedPtr<FJsonObject>& JsonObject);
 public:
 	TSubclassOf<ARPGCommonRestLoginExecutor> RestApiLoginExecutorClass;
+	TSubclassOf<ARPGCommonNewCharacterExecutor> RestApiNewCharacterExecutorClass;
 };

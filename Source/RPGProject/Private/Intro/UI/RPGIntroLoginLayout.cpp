@@ -47,9 +47,6 @@ void URPGIntroLoginLayout::OnChangeWidgetClicked(const EIntroUIWidgetState& NewS
 		_LoginInfoText->SetText(FText::FromString("ID or Password is Empty"));;
 		return;
 	}
-	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
-	JsonObject->SetStringField("ID", _UserNameEditBox->Text.ToString());
-	JsonObject->SetStringField("Password", _PasswordEditBox->Text.ToString());
 
 	_LoadingCircle->SetVisibility(ESlateVisibility::Visible);
 	_TempChangeWidgetState = NewState;
@@ -57,6 +54,9 @@ void URPGIntroLoginLayout::OnChangeWidgetClicked(const EIntroUIWidgetState& NewS
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
 		URPGCommonGameInstance* CurrentGI = Cast<URPGCommonGameInstance>(GetGameInstance());
+		TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+		JsonObject->SetStringField("ID", _UserNameEditBox->Text.ToString());
+		JsonObject->SetStringField("Password", _PasswordEditBox->Text.ToString());
 		CurrentGI->PostRequest(_LoginUri, JsonObject);
 	});
 }

@@ -16,4 +16,6 @@ class RPGPROJECT_API URPGIntroCreateWidget : public URPGIntroBaseWidget
 public:
 	void NativePreConstruct() override;
 	void NativeConstruct() override;
+	UFUNCTION()
+	void OnPreWidgetChange(const EIntroUIWidgetState& NewState, const int& ZOrder);
 };

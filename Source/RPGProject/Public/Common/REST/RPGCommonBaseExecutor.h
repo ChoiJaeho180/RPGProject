@@ -20,7 +20,7 @@ protected:
 public:
 	ARPGCommonBaseExecutor();
 	void BeginPlay() override;
-	virtual void Update(TSharedPtr<FJsonObject> RestMsg);
+	virtual void Update(TSharedPtr<FJsonObject>& RestMsg);
 
 	FORCEINLINE void SetRestIdentify(FString RestIdentify) { _RestMsgIdentify = RestIdentify; }
 	FORCEINLINE FString GetRestIdentify() {return _RestMsgIdentify;}
