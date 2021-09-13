@@ -1,6 +1,6 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 #include "Intro/RPGIntroCharacter.h"
-
+#include "DrawDebugHelpers.h"
 // Sets default values
 ARPGIntroCharacter::ARPGIntroCharacter()
 {
@@ -8,6 +8,7 @@ ARPGIntroCharacter::ARPGIntroCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	USceneComponent* scene_compo = CreateDefaultSubobject<USceneComponent>(TEXT("scene_compo"));
+	
 	RootComponent = scene_compo;
 }
 
@@ -15,6 +16,7 @@ ARPGIntroCharacter::ARPGIntroCharacter()
 void ARPGIntroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	//EnableInput(GetController());
 }
 
 // Called every frame
@@ -28,6 +30,7 @@ void ARPGIntroCharacter::Tick(float DeltaTime)
 void ARPGIntroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
+
+
 

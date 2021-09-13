@@ -24,6 +24,14 @@ void URPGIntroInputCharacterInfoLayout::NativeConstruct()
 	}
 }
 
+void URPGIntroInputCharacterInfoLayout::OnChangeWidget()
+{
+	AsyncTask(ENamedThreads::GameThread, [=]()
+	{
+		delegateSendWidgetChange.ExecuteIfBound(EIntroUIWidgetState::LOBBY, 0);
+	});
+}
+
 void URPGIntroInputCharacterInfoLayout::OnChangeWidgetClicked(const EIntroUIWidgetState& NewState)
 {
 	delegateSendWidgetChange.ExecuteIfBound(NewState, 0);
@@ -36,6 +44,7 @@ void URPGIntroInputCharacterInfoLayout::OnRequest(const EIntroUIWidgetState& New
 		URPGCommonGameInstance* CurrentGI = Cast<URPGCommonGameInstance>(GetGameInstance());
 		TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 		JsonObject->SetStringField("Name", _UserNameEditBox->Text.ToString());
+		JsonObject->SetStringField("Job", "Warrior");
 		CurrentGI->PostRequest(_LoginUri, JsonObject);
 	});
 }

@@ -28,4 +28,5 @@ public:
 
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
+	USkeletalMesh* CharacterSkeletalMeshObject;
 };

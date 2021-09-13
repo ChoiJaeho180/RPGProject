@@ -6,7 +6,7 @@
 
 ARPGIntroController::ARPGIntroController()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	_IntroUIManagerClass = ARPGIntroUIManager::StaticClass();
 
@@ -17,7 +17,7 @@ void ARPGIntroController::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	SetInputMode(FInputModeGameAndUI());
+	SetInputMode(FInputModeGameOnly());
 
 	_IntroUIManager = GetWorld()->SpawnActor<ARPGIntroUIManager>(_IntroUIManagerClass);
 	_IntroUIManager->Initialize(this);
@@ -30,6 +30,12 @@ void ARPGIntroController::OnPossess(APawn* aPawn)
 	
 }
 
+void ARPGIntroController::RequestLobbyScarecrowCreating(const TArray<TSharedPtr<FJsonValue>>& Info)
+{
+	ARPGIntroGameMode* GM = Cast<ARPGIntroGameMode>(GetWorld()->GetAuthGameMode());
+	GM->CreateLobbyScarecrow(Info);
+}
+
 ARPGIntroUIManager* ARPGIntroController::GetUIManager() const
 {
 	return _IntroUIManager;
@@ -39,4 +45,16 @@ void ARPGIntroController::SetPlayerStart(const EIntroUIWidgetState& NewState)
 {
 	ARPGIntroGameMode* GM = Cast<ARPGIntroGameMode>(GetWorld()->GetAuthGameMode());
 	GM->SetPlayerStart(NewState);
+}
+
+void ARPGIntroController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+}
+
+void ARPGIntroController::ChangeEmotionAnim(const int& ScarecrowIndex)
+{
+	ARPGIntroGameMode* GM = Cast<ARPGIntroGameMode>(GetWorld()->GetAuthGameMode());
+	GM->UpdateChooseAnim(ScarecrowIndex);
+	//GM->SetPlayerStart(NewState);
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Common/UI/RPGCommonChangeScene.h"
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "RPGIntroInputCharacterInfoLayout.generated.h"
 
@@ -11,7 +12,7 @@ class URPGIntroChangeWidgetButton;
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGIntroInputCharacterInfoLayout : public URPGIntroBaseLayout
+class RPGPROJECT_API URPGIntroInputCharacterInfoLayout : public URPGIntroBaseLayout, public IRPGCommonChangeScene
 {
 	GENERATED_BODY()
 private:
@@ -25,6 +26,8 @@ private:
 	const FString _LoginUri = FString("/users/newcharacter");
 public:
 	void NativeConstruct() override;
+	UFUNCTION()
+	void OnChangeWidget();
 	UFUNCTION()
 	void OnChangeWidgetClicked(const EIntroUIWidgetState& NewState);
 	UFUNCTION()

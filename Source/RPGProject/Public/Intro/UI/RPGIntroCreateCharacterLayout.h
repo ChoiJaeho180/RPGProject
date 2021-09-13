@@ -25,4 +25,5 @@ public:
 	void ActiveInputCharacterLayout();
 	UFUNCTION()
 	void OnChangeWidget(const EIntroUIWidgetState& NewState, const int& ZOrder);
+	URPGIntroInputCharacterInfoLayout* GetInputCharacterLayout() const;
 };

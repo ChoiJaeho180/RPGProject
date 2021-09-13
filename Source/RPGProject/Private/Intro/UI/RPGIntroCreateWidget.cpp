@@ -6,7 +6,7 @@ void URPGIntroCreateWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 
-	SetLayoutList();
+	//SetLayoutList();
 
 	TMap<EIntroDerivedWidgetState, FString> WidgetStatToIdentifyMap;
 	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::CREATE_CREATE, FString("WB_CreateCharacter_Layout"));

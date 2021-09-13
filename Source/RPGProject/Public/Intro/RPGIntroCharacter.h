@@ -2,12 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "../../RPGProject.h"
+#include "GameFramework/Character.h"
 #include "RPGIntroCharacter.generated.h"
 
 UCLASS()
-class RPGPROJECT_API ARPGIntroCharacter : public APawn
+class RPGPROJECT_API ARPGIntroCharacter : public ACharacter
 {
 	GENERATED_BODY()
 

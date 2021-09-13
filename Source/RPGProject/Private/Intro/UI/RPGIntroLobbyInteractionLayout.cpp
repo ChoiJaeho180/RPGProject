@@ -21,6 +21,7 @@ void URPGIntroLobbyInteractionLayout::NativeConstruct()
 		_NewCharacterButton = Cast<URPGIntroChangeWidgetButton>(GetWidgetFromName(TEXT("CreateButton")));
 		_NewCharacterButton->SetWidgetState(EIntroUIWidgetState::CREATE);
 		_NewCharacterButton->delegateUpdateWidgetClick.AddDynamic(this, &URPGIntroLobbyInteractionLayout::OnChangeWidgetClicked);
+		_bInit = true;
 	}
 }
 

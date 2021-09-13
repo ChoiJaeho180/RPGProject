@@ -5,6 +5,13 @@
 URPGCommonGameInstance::URPGCommonGameInstance()
 {
 	RestManagerClass = ARPGCommonRestManager::StaticClass();
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_WARRIOR(TEXT("SkeletalMesh'/Game/ParagonGreystone/Characters/Heroes/Greystone/Meshes/Greystone.Greystone'"));
+	if (SK_WARRIOR.Succeeded())
+	{
+		CharacterSkeletalMeshObject = SK_WARRIOR.Object;
+	}
+	
+
 }
 
 void URPGCommonGameInstance::Init()

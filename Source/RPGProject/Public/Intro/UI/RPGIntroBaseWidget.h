@@ -30,7 +30,10 @@ public:
 	void ChangeLayout(const EIntroDerivedWidgetState& NewState, const int& ZOrder=0);
 	void ChangeWidget(const EIntroUIWidgetState& NewState, const int& ZOrder = 0);
 	void SetLayoutList();
+
 	virtual UWidgetSwitcher* GetIntroSwitcher() const;
+public:
+	FORCEINLINE TArray<URPGIntroBaseLayout*> GetIntroLayoutList() { return _IntroLayoutList; };
 public:
 	FChangeWidgetDelegate delegateChangeUI;
 };

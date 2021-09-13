@@ -11,7 +11,8 @@ void URPGIntroCreateCharacterLayout::NativeConstruct()
 	{
 		_JobButton = Cast<URPGIntroChooseJobButton>(GetWidgetFromName("RPGIntroChooseJobButton"));
 		_JobButton->delegateActiveInputCharacterInfo.BindUObject(this, &URPGIntroCreateCharacterLayout::ActiveInputCharacterLayout);
-		
+		_JobButton->SetJob(ECommonJob::WARRIOR);
+
 		_InputCharacterLayout = Cast<URPGIntroInputCharacterInfoLayout>(GetWidgetFromName("WB_CreateCharacter_Inpu_Layout"));
 		_InputCharacterLayout->delegateSendWidgetChange.BindUObject(this, &URPGIntroCreateCharacterLayout::OnChangeWidget);
 		_bInit = true;
@@ -27,4 +28,9 @@ void URPGIntroCreateCharacterLayout::ActiveInputCharacterLayout()
 void URPGIntroCreateCharacterLayout::OnChangeWidget(const EIntroUIWidgetState& NewState, const int& ZOrder)
 {
 	delegateSendWidgetChange.ExecuteIfBound(NewState, ZOrder);
+}
+
+URPGIntroInputCharacterInfoLayout* URPGIntroCreateCharacterLayout::GetInputCharacterLayout() const
+{
+	return _InputCharacterLayout;
 }

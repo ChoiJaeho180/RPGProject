@@ -56,14 +56,17 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 		return;
 	
 	URPGIntroBaseWidget* IntroMainWidget = CreateWidget<URPGIntroMainWidget>(_CurrentController, _IntroTitleWidgetClass);
+	IntroMainWidget->SetLayoutList();
 	IntroMainWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::MAIN, IntroMainWidget);
 
 	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
+	IntroLobbyWidget->SetLayoutList();
 	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
 
 	URPGIntroBaseWidget* IntroCreateWidget = CreateWidget<URPGIntroCreateWidget>(_CurrentController, _IntroCreateWidgetClass);
+	IntroCreateWidget->SetLayoutList();
 	IntroCreateWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::CREATE, IntroCreateWidget);
 	
@@ -99,5 +102,10 @@ void ARPGIntroUIManager::ChangeWidget()
 URPGIntroBaseWidget* ARPGIntroUIManager::GetCurrentWidget() const
 {
 	return _IntroCurrentWidget;
+}
+
+URPGIntroBaseWidget* ARPGIntroUIManager::GetLobbyWidget() const
+{
+	return _IntroWidgetMap[EIntroUIWidgetState::LOBBY];
 }
 

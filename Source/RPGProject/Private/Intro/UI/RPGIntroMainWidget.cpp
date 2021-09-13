@@ -9,7 +9,7 @@ void URPGIntroMainWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 
-	SetLayoutList();
+	//SetLayoutList();
 
 	TMap<EIntroDerivedWidgetState, FString> WidgetStatToIdentifyMap;
 	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::MAIN_LOGIN, FString("WB_Login_Layout"));

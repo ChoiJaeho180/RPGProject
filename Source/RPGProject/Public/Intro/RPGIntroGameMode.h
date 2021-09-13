@@ -7,7 +7,7 @@
 #include "RPGIntroGameMode.generated.h"
 
 class ARPGIntroController;
-
+class ARPGIntroLobbyScarecrow;
 /**
  * 
  */
@@ -17,10 +17,19 @@ class RPGPROJECT_API ARPGIntroGameMode : public AGameMode
 	GENERATED_BODY()
 private:
 	TMap<EIntroUIWidgetState, FString> _PlayerStartPoint;
+
+	UPROPERTY()
 	ARPGIntroController* _IntroController;
+	UPROPERTY()
+	TArray<ARPGIntroLobbyScarecrow*> _IntroLobbyScarecrows;
+	TArray<FTransform> _LobbyScarecrowsPoint;
 public:
 	ARPGIntroGameMode();
 	virtual void PostLogin(APlayerController* NewPlayer) override;
 	virtual void Logout(AController* Exiting) override;
 	void SetPlayerStart(EIntroUIWidgetState NewState);
+	void CreateLobbyScarecrow(const TArray<TSharedPtr<FJsonValue>>& Info);
+	void UpdateChooseAnim(const int& ScarecrowIndex);
+public:
+	TSubclassOf<ARPGIntroLobbyScarecrow> LobbyScarecrowClass;
 };

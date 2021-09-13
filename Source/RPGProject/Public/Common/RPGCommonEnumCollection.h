@@ -24,4 +24,11 @@ enum class ECommonFadeState : uint8
 	NONE = 2 UMETA(DisplayName = "NONE")
 };
 
+UENUM(BlueprintType)
+enum class ECommonJob : uint8
+{
+	WARRIOR = 0 UMETA(DisplayName = "WARRIOR"),
+	NONE = 2 UMETA(DisplayName = "NONE")
+};
+
 #define SUCCESSD_REST_API "0"

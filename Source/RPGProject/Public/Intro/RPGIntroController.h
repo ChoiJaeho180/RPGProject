@@ -21,10 +21,12 @@ public:
 	ARPGIntroController();
 	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* aPawn) override;
-
+	void RequestLobbyScarecrowCreating(const TArray<TSharedPtr<FJsonValue>>& Info);
 public:
 	ARPGIntroUIManager* GetUIManager() const;
 	void SetPlayerStart(const EIntroUIWidgetState& NewState);
+	virtual void SetupInputComponent() override;
+	void ChangeEmotionAnim(const int& ScarecrowIndex);
 public:
 	TSubclassOf<ARPGIntroUIManager> _IntroUIManagerClass;
 };

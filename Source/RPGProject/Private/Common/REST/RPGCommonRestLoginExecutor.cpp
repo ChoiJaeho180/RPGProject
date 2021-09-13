@@ -7,6 +7,9 @@
 #include "Components/WidgetSwitcher.h"
 #include "Common/UI/RPGCommonFailedEvent.h"
 #include "Common/RPGCommonGameInstance.h"
+#include "Intro/UI/RPGIntroBaseLayout.h"
+#include "Intro/UI/RPGIntroLobbySlotInfo.h"
+
 // Sets default values
 ARPGCommonRestLoginExecutor::ARPGCommonRestLoginExecutor()
 {
@@ -39,12 +42,28 @@ void ARPGCommonRestLoginExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 	URPGIntroBaseWidget* CurrentWidget = CurrentController->GetUIManager()->GetCurrentWidget();
 	if (resultState == SUCCESSD_REST_API)
 	{
-		auto result = RestMsg->TryGetField("Token");
-		if (result == nullptr)
+		auto TokenValue = RestMsg->TryGetField("Token");
+		if (TokenValue == nullptr)
 			return;
-		delgateSetToken.ExecuteIfBound(result->AsString());
+		delgateSetToken.ExecuteIfBound(TokenValue->AsString());
+		auto CharacterInfo = RestMsg->TryGetField("CharacterInfo");
+		if (CharacterInfo == nullptr)
+			return;
+
+		auto CharacterArray = CharacterInfo->AsArray();
+		CurrentController->RequestLobbyScarecrowCreating(CharacterArray);
 		IRPGCommonChangeScene* CurrentLayout = Cast<IRPGCommonChangeScene>(CurrentWidget->GetIntroSwitcher()->GetActiveWidget());
 		CurrentLayout->OnChangeWidget();
+
+		URPGIntroBaseWidget* LobbyWidget = CurrentController->GetUIManager()->GetLobbyWidget();
+		auto LayoutList = LobbyWidget->GetIntroLayoutList();
+		for (int i = 0; i < LayoutList.Num(); i++)
+		{
+			IRPGIntroLobbySlotInfo* result = Cast<IRPGIntroLobbySlotInfo>(LayoutList[i]);
+			if (result == nullptr)
+				continue;
+			result->Info = CharacterArray;
+		}
 	}
 	else
 	{

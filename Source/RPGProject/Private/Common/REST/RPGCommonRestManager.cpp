@@ -59,7 +59,7 @@ void ARPGCommonRestManager::Update()
 bool ARPGCommonRestManager::PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject)
 {
 	if(URL != FString("/users/login"))
-		JsonObject->SetStringField("Token", URL);
+		JsonObject->SetStringField("Token", _Token);
 	_RestApiRequestor->HttpCall(URL, JsonObject);
 	return false;
 }

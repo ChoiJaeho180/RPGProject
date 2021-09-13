@@ -13,6 +13,7 @@ class UButton;
 class UEditableTextBox;
 class URPGIntroChangeSceneButton;
 class UTextBlock;
+class UImage;
 /**
  * 
  */

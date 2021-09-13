@@ -7,8 +7,6 @@ void URPGIntroLobbyWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 
-	SetLayoutList();
-
 	TMap<EIntroDerivedWidgetState, FString> WidgetStatToIdentifyMap;
 	WidgetStatToIdentifyMap.Add(EIntroDerivedWidgetState::LOBBY_INFO, FString("WB_Lobby_Interaction_Layout"));
 	_RPGIntroSpecificWidgetJudge.SetWidgetIdentifyMap(WidgetStatToIdentifyMap);
