@@ -15,7 +15,7 @@ class RPGPROJECT_API ARPGCommonRestManager : public AActor
 	GENERATED_BODY()
 private:
 	bool _bEndedGame = false;
-
+	FString _Token;
 	UPROPERTY()
 	ARPGCommonRestRequestor* _RestApiRequestor;
 	UPROPERTY()
@@ -38,6 +38,8 @@ public:
 	void PushQueue(TSharedPtr<FJsonObject>& JsonObject);
 public:
 	void Release();
+public:
+	FORCEINLINE void SetToken(const FString& NewToken) { _Token = NewToken; }
 public:
 	TSubclassOf<ARPGCommonRestRequestor> RestApiRequestorClass;
 	TSubclassOf<ARPGCommonRestExecutorElements> RestApiElementsClass;

@@ -3,11 +3,12 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "RPGCommonSetToken.h"
 #include "RPGCommonBaseExecutor.h"
 #include "RPGCommonRestLoginExecutor.generated.h"
 
 UCLASS()
-class RPGPROJECT_API ARPGCommonRestLoginExecutor : public ARPGCommonBaseExecutor
+class RPGPROJECT_API ARPGCommonRestLoginExecutor : public ARPGCommonBaseExecutor, public IRPGCommonSetToken
 {
 	GENERATED_BODY()
 	

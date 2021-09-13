@@ -6,7 +6,7 @@
 #include "Intro/UI/RPGIntroLoginLayout.h"
 #include "Components/WidgetSwitcher.h"
 #include "Common/UI/RPGCommonFailedEvent.h"
-
+#include "Common/RPGCommonGameInstance.h"
 // Sets default values
 ARPGCommonRestLoginExecutor::ARPGCommonRestLoginExecutor()
 {
@@ -39,6 +39,10 @@ void ARPGCommonRestLoginExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 	URPGIntroBaseWidget* CurrentWidget = CurrentController->GetUIManager()->GetCurrentWidget();
 	if (resultState == SUCCESSD_REST_API)
 	{
+		auto result = RestMsg->TryGetField("Token");
+		if (result == nullptr)
+			return;
+		delgateSetToken.ExecuteIfBound(result->AsString());
 		IRPGCommonChangeScene* CurrentLayout = Cast<IRPGCommonChangeScene>(CurrentWidget->GetIntroSwitcher()->GetActiveWidget());
 		CurrentLayout->OnChangeWidget();
 	}

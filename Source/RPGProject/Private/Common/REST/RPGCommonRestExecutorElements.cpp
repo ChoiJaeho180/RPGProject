@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Common/REST/RPGCommonRestExecutorElements.h"
 #include "Common/REST/RPGCommonBaseExecutor.h"
+#include "Common/REST/RPGCommonSetToken.h"
 
 // Sets default values
 ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
@@ -18,8 +17,16 @@ ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 void ARPGCommonRestExecutorElements::BeginPlay()
 {
 	Super::BeginPlay();
-	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonRestLoginExecutor>(RestApiLoginExecutorClass));
+	ARPGCommonRestLoginExecutor* LoginExecutor = GetWorld()->SpawnActor<ARPGCommonRestLoginExecutor>(RestApiLoginExecutorClass);
+	IRPGCommonSetToken* temp = 	Cast<IRPGCommonSetToken>(LoginExecutor);
+	temp->delgateSetToken.BindUObject(this, &ARPGCommonRestExecutorElements::SetToken);
+	_RestApiExecutors.Add(LoginExecutor);
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonNewCharacterExecutor>(RestApiNewCharacterExecutorClass));
+}
+
+void ARPGCommonRestExecutorElements::SetToken(const FString& Token)
+{
+	delegateSetToken.ExecuteIfBound(Token);
 }
 
 void ARPGCommonRestExecutorElements::Update(TSharedPtr<FJsonObject>& JsonObject)

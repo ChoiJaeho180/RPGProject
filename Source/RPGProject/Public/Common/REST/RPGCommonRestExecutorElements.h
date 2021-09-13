@@ -10,6 +10,8 @@
 
 class ARPGCommonBaseExecutor;
 
+DECLARE_DELEGATE_OneParam(FSetTokenDelegate, const FString&);
+
 UCLASS()
 class RPGPROJECT_API ARPGCommonRestExecutorElements : public AActor
 {
@@ -23,10 +25,12 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	void SetToken(const FString& Token);
 public:	
 	// Called every frame
 	void Update(TSharedPtr<FJsonObject>& JsonObject);
+public:
+	FSetTokenDelegate delegateSetToken;
 public:
 	TSubclassOf<ARPGCommonRestLoginExecutor> RestApiLoginExecutorClass;
 	TSubclassOf<ARPGCommonNewCharacterExecutor> RestApiNewCharacterExecutorClass;
