@@ -2,11 +2,13 @@
 #include "Intro/RPGIntroLobbyScarecrow.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Intro/RPGIntroScarecrowAnimInstance.h"
+#include "Intro/RPGIntroController.h"
+
 // Sets default values
 ARPGIntroLobbyScarecrow::ARPGIntroLobbyScarecrow()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	_Collision = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
 	_Collision->SetCapsuleSize(50.f, 110.f);
 	_Collision->SetRelativeLocation(FVector(0, 0, 110));
@@ -21,14 +23,24 @@ ARPGIntroLobbyScarecrow::ARPGIntroLobbyScarecrow()
 	RootComponent = _SkeletalMesh;
 }
 
-// Called when the game starts or when spawned
-void ARPGIntroLobbyScarecrow::BeginPlay()
+void ARPGIntroLobbyScarecrow::PostInitializeComponents()
 {
-	Super::BeginPlay();
+	Super::PostInitializeComponents();
+
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
 	_SkeletalMesh->SetSkeletalMesh(GameInstance->CharacterSkeletalMeshObject);
 	_SkeletalMesh->SetAnimInstanceClass(IntroScarecrowClass);
 	_Collision->AttachTo(_SkeletalMesh);
+
+	_AnimInstance = Cast<URPGIntroScarecrowAnimInstance>(_SkeletalMesh->GetAnimInstance());
+	_AnimInstance->OnMontageEnded.AddDynamic(this, &ARPGIntroLobbyScarecrow::OnNextLevelEnded);
+	//_AnimInstance->Montage_SetEndDelegate(_AnimInstance->EndDelegate);
+}
+// Called when the game starts or when spawned
+void ARPGIntroLobbyScarecrow::BeginPlay()
+{
+	Super::BeginPlay();
+	
 }
 
 // Called every frame
@@ -47,6 +59,12 @@ void ARPGIntroLobbyScarecrow::SetupPlayerInputComponent(UInputComponent* PlayerI
 
 void ARPGIntroLobbyScarecrow::UpdateChooseAnim(bool bNew)
 {
-	URPGIntroScarecrowAnimInstance* Anim = Cast<URPGIntroScarecrowAnimInstance>(_SkeletalMesh->GetAnimInstance());
-	Anim->SetNextLevel(bNew);
+	_AnimInstance->SetNextLevel(bNew);
+	_AnimInstance->PlayChooseAnim();
+}
+
+void ARPGIntroLobbyScarecrow::OnNextLevelEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	ARPGIntroController* IntroController = Cast<ARPGIntroController>(GetWorld()->GetFirstPlayerController());
+	IntroController->PreChangeLevel();
 }

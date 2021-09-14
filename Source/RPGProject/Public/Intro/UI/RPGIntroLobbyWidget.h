@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Common/UI/RPGCommonChangeLevel.h"
 #include "Intro/UI/RPGIntroBaseWidget.h"
 #include "RPGIntroLobbyWidget.generated.h"
 

@@ -43,6 +43,9 @@ public:
 	void UpdateWidget(const EIntroUIWidgetState& NewWidgetState);
 	UFUNCTION()
 	void ChangeWidget();
+	UFUNCTION()
+	void PreChangeLevel();
+	void SendChangeLevel();
 public:
 	URPGIntroBaseWidget* GetCurrentWidget() const;
 	URPGIntroBaseWidget* GetLobbyWidget() const;

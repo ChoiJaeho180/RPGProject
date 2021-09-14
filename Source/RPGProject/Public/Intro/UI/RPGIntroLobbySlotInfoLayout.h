@@ -4,12 +4,14 @@
 
 #include "../../../RPGProject.h"
 #include "Components/TextBlock.h"
+#include "Styling/SlateColor.h"
 #include "Components/Image.h"
 #include "Intro/UI/RPGIntroBaseLayout.h"
 #include "RPGIntroLobbySlotInfoLayout.generated.h"
 
 class URPGIntroChooseCharacterButton;
 
+DECLARE_DELEGATE_TwoParams(FChooseNewSlotDelegate, const int&,const FString&);
 /**
  * 
  */
@@ -30,11 +32,16 @@ private:
 	UTextBlock* _JobText;
 	UPROPERTY()
 	UTextBlock* _NameText;
+
+public:
+	FChooseNewSlotDelegate delegateChooseNewSlot;
 public:
 	void NativeConstruct() override;
-
 	UFUNCTION()
 	void OnClick();
+	UFUNCTION()
+	void SetBackgroundColor(bool bChoose);
+public:
 	FORCEINLINE void SetScarecrowIndex(int index) { _ScarecrowIndex = index; }
 	FORCEINLINE bool GetActiveState() { return _isActive; }
 	FORCEINLINE void SetActive(bool bNew) { _isActive = bNew; }

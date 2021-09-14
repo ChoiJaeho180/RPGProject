@@ -27,6 +27,8 @@ public:
 	void SetPlayerStart(const EIntroUIWidgetState& NewState);
 	virtual void SetupInputComponent() override;
 	void ChangeEmotionAnim(const int& ScarecrowIndex);
+	void ChangeLevel();
+	void PreChangeLevel();
 public:
 	TSubclassOf<ARPGIntroUIManager> _IntroUIManagerClass;
 };

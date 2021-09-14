@@ -27,6 +27,7 @@ void URPGIntroLobbyInteractionLayout::NativeConstruct()
 
 void URPGIntroLobbyInteractionLayout::OnChangeWidgetClicked(const EIntroUIWidgetState& NewState)
 {
+
 	UE_LOG(LogTemp, Warning, TEXT("aaaaa"));
 	delegateSendWidgetChange.ExecuteIfBound(NewState, 0);
 }

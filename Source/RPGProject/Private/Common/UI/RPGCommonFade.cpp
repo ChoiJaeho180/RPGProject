@@ -31,6 +31,11 @@ void URPGCommonFade::OnEndedFadeInAnim()
 {
 	if (_FadeState == ECommonFadeState::FADE_IN)
 	{
+		if (_bChangeLevel == true)
+		{
+			delegateChangeLevel.ExecuteIfBound();
+			return;
+		}
 		_FadeState = ECommonFadeState::FADE_OUT;
 		delegateAttachWidget.ExecuteIfBound();
 		PlayAnim();
@@ -46,6 +51,7 @@ void URPGCommonFade::PlayAnim()
 {
 	if (_FadeState == ECommonFadeState::NONE)
 		_FadeState = ECommonFadeState::FADE_IN;
+	
 	if (_FadeAnimations.Num() == 0 || _FadeImage == nullptr)
 		return;
 

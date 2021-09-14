@@ -19,6 +19,7 @@ class RPGPROJECT_API URPGCommonGameInstance : public UGameInstance
 	
 private:
 	ARPGCommonRestManager* _RestManager;
+	FString _CurrentCharacterName;
 public:
 	URPGCommonGameInstance();
 	virtual void Init() override;
@@ -26,6 +27,8 @@ public:
 
 	void Release();
 
+public:
+	FORCEINLINE void SetCharacterName(FString NewName) { _CurrentCharacterName = NewName; }
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;

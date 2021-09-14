@@ -5,7 +5,7 @@
 #include "Intro/UI/RPGIntroLobbyWidget.h"
 #include "Intro/UI/RPGIntroCreateWidget.h"
 #include "Common/UI/RPGCommonFade.h"
-#include "Common/UI/RPGCommonBaseEffect.h"
+
 // Sets default values
 ARPGIntroUIManager::ARPGIntroUIManager()
 {
@@ -62,6 +62,8 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 
 	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
 	IntroLobbyWidget->SetLayoutList();
+	//IRPGCommonChangeLevel* LobbyChangeLevel = Cast<IRPGCommonChangeLevel>(IntroLobbyWidget);
+	//LobbyChangeLevel->delegateChangeLevel.BindUObject(this, &ARPGIntroUIManager::PreChangeLevel);
 	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
 
@@ -72,6 +74,8 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 	
 	_IntroFadeEffect = CreateWidget<URPGCommonFade>(_CurrentController, _IntroFadeClass);
 	_IntroFadeEffect->delegateAttachWidget.BindUObject(this, &ARPGIntroUIManager::ChangeWidget);
+	IRPGCommonChangeLevel* FadeChangeLevel = Cast<IRPGCommonChangeLevel>(_IntroFadeEffect);
+	FadeChangeLevel->delegateChangeLevel.BindUObject(this, &ARPGIntroUIManager::SendChangeLevel);
 	_IntroFadeEffect->AddToViewport(5);
 	ChangeWidget();
 }
@@ -97,6 +101,18 @@ void ARPGIntroUIManager::ChangeWidget()
 			_IntroCurrentWidget->RemoveFromViewport();
 	}
 	_IntroCurrentWidget = _IntroWidgetMap[_IntroCurrentWidgetState];
+}
+
+void ARPGIntroUIManager::PreChangeLevel()
+{
+	_IntroFadeEffect->SetChangeLevel(true);
+	_IntroFadeEffect->PlayAnim();
+	UE_LOG(LogTemp, Warning, TEXT("Change Level"));
+}
+
+void ARPGIntroUIManager::SendChangeLevel()
+{
+	_CurrentController->ChangeLevel();
 }
 
 URPGIntroBaseWidget* ARPGIntroUIManager::GetCurrentWidget() const

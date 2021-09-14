@@ -4,6 +4,7 @@
 
 #include "../../../RPGProject.h"
 #include "../RPGCommonEnumCollection.h"
+#include "Common/UI/RPGCommonChangeLevel.h"
 #include "Common/UI/RPGCommonBaseEffect.h"
 #include "RPGCommonFade.generated.h"
 
@@ -13,7 +14,7 @@ class UWidgetAnumation;
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGCommonFade : public URPGCommonBaseEffect
+class RPGPROJECT_API URPGCommonFade : public URPGCommonBaseEffect, public IRPGCommonChangeLevel
 {
 	GENERATED_BODY()
 private:
@@ -23,7 +24,6 @@ private:
 	TArray<UWidgetAnimation*> _FadeAnimations;
 
 	ECommonFadeState _FadeState;
-
 public:
 	void NativePreConstruct() override;
 	void NativeConstruct() override;

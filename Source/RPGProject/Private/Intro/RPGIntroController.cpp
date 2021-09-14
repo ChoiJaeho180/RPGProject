@@ -58,3 +58,13 @@ void ARPGIntroController::ChangeEmotionAnim(const int& ScarecrowIndex)
 	GM->UpdateChooseAnim(ScarecrowIndex);
 	//GM->SetPlayerStart(NewState);
 }
+
+void ARPGIntroController::ChangeLevel()
+{
+
+}
+
+void ARPGIntroController::PreChangeLevel()
+{
+	_IntroUIManager->PreChangeLevel();
+}

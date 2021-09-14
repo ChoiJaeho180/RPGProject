@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "RPGIntroLobbyScarecrow.generated.h"
 
+class URPGIntroScarecrowAnimInstance;
+
 UCLASS()
 class RPGPROJECT_API ARPGIntroLobbyScarecrow : public APawn
 {
@@ -15,6 +17,8 @@ private:
 	USkeletalMeshComponent* _SkeletalMesh;
 	UPROPERTY()
 	UCapsuleComponent* _Collision;
+	UPROPERTY()
+	URPGIntroScarecrowAnimInstance* _AnimInstance;
 public:
 	// Sets default values for this pawn's properties
 	ARPGIntroLobbyScarecrow();
@@ -22,7 +26,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	virtual void PostInitializeComponents() override;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -31,6 +35,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void UpdateChooseAnim(bool bNews);
+	UFUNCTION()
+	void OnNextLevelEnded(UAnimMontage* Montage, bool bInterrupted);
 public:
-	TSubclassOf<UAnimInstance> IntroScarecrowClass;
+	TSubclassOf<URPGIntroScarecrowAnimInstance> IntroScarecrowClass;
 };

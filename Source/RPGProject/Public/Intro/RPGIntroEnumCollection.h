@@ -33,7 +33,7 @@ enum class EIntroDerivedWidgetState : uint8
 	MAIN_LOGIN = 1 UMETA(DisplayName = "Login"),
 	MAIN_REGISTER = 2 UMETA(DisplayName = "Register"),
 	LOBBY_INFO = 3 UMETA(DisplayName = "Infor"),
-	LOBBY_LOADING = 4 UMETA(DisplayName = "LOADING"),
+	LOBBY_INTERACTIVE = 4 UMETA(DisplayName = "Interacive"),
 	CREATE_CREATE = 5 UMETA(DisplayName = "Create"),
 	CREATE_CUSTOM = 6 UMETA(DisplayName = "CUSTOM"),
 	NONE = 7 UMETA(DisplayName = "NONE")

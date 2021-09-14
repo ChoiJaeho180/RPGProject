@@ -2,6 +2,7 @@
 #include "Intro/UI/RPGIntroLobbyInfoLayout.h"
 #include "Intro/UI/RPGIntroLobbySlotInfoLayout.h"
 
+
 void URPGIntroLobbyInfoLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -9,17 +10,33 @@ void URPGIntroLobbyInfoLayout::NativeConstruct()
 	{
 		URPGIntroLobbySlotInfoLayout* FirstLayout = Cast<URPGIntroLobbySlotInfoLayout>(GetWidgetFromName(TEXT("WB_First_CharacterSlot_Layout")));
 		FirstLayout->SetScarecrowIndex(0);
+		FirstLayout->delegateChooseNewSlot.BindUObject(this, &URPGIntroLobbyInfoLayout::UpdateChooseSlot);
 		_CharacterSlotInfo.Add(FirstLayout);
 		URPGIntroLobbySlotInfoLayout* SecondLayout = Cast<URPGIntroLobbySlotInfoLayout>(GetWidgetFromName(TEXT("WB_Second_CharacterSlot_Layout")));
 		SecondLayout->SetScarecrowIndex(1);
+		SecondLayout->delegateChooseNewSlot.BindUObject(this, &URPGIntroLobbyInfoLayout::UpdateChooseSlot);
 		_CharacterSlotInfo.Add(SecondLayout);
 		URPGIntroLobbySlotInfoLayout* ThirdLayout = Cast<URPGIntroLobbySlotInfoLayout>(GetWidgetFromName(TEXT("WB_Third_CharacterSlot_Layout")));
 		ThirdLayout->SetScarecrowIndex(2);
+		ThirdLayout->delegateChooseNewSlot.BindUObject(this, &URPGIntroLobbyInfoLayout::UpdateChooseSlot);
 		_CharacterSlotInfo.Add(ThirdLayout);
 		_bInit = true;
 	}
 	SetSlotInfo();
 }
+
+void URPGIntroLobbyInfoLayout::UpdateChooseSlot(const int& iScarecrowIndex, const FString& Name)
+{
+	if (_ChooseSlotInfo != nullptr)
+	{
+		_ChooseSlotInfo->SetBackgroundColor(false);
+	}
+	_ChooseSlotInfo = _CharacterSlotInfo[iScarecrowIndex];
+	_ChooseSlotInfo->SetBackgroundColor(true);
+	SetCharacterName(Name);
+	SetScarecrowIndex(iScarecrowIndex);
+}
+
 
 void URPGIntroLobbyInfoLayout::SetSlotInfo()
 {
@@ -47,4 +64,24 @@ void URPGIntroLobbyInfoLayout::SetSlotInfo()
 		_CharacterSlotInfo[i]->SetActive(true);
 		JsonCount++;
 	}
+}
+
+void URPGIntroLobbyInfoLayout::SetCharacterName(const FString& NewName)
+{
+	_CharacterName = NewName;
+}
+
+FString URPGIntroLobbyInfoLayout::GetCharacterName()
+{
+	return _CharacterName;
+}
+
+void URPGIntroLobbyInfoLayout::SetScarecrowIndex(const int& NewIndex)
+{
+	_ScarecrowIndex = NewIndex;
+}
+
+int URPGIntroLobbyInfoLayout::GetScarecrowIndex()
+{
+	return _ScarecrowIndex;
 }

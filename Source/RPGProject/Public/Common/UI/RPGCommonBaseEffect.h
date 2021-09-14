@@ -19,10 +19,13 @@ class RPGPROJECT_API URPGCommonBaseEffect : public UUserWidget
 	
 protected:
 	FWidgetAnimationDynamicEvent delegateEndedEffect;
+	bool _bChangeLevel;
 protected:
 	UWidgetAnimation* GetAnimation(const FString& AnimName);
 public:
 	FAttachWidgetDelegate delegateAttachWidget;
+	
 public:
 	virtual void PlayAnim() {};
+	FORCEINLINE void SetChangeLevel(bool bNew) { _bChangeLevel = bNew; }
 };
