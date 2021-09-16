@@ -10,12 +10,14 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 	{
 		CharacterSkeletalMeshObject = SK_WARRIOR.Object;
 	}
-	
-
 }
 
 void URPGCommonGameInstance::Init()
 {
+	if (_RestManager != nullptr)
+	{
+		GetWorld()->DestroyActor(_RestManager);
+	}
 	_RestManager = GetWorld()->SpawnActor<ARPGCommonRestManager>(RestManagerClass);
 }
 

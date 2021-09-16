@@ -61,7 +61,8 @@ void ARPGIntroController::ChangeEmotionAnim(const int& ScarecrowIndex)
 
 void ARPGIntroController::ChangeLevel()
 {
-
+	ARPGIntroGameMode* GM = Cast<ARPGIntroGameMode>(GetWorld()->GetAuthGameMode());
+	GM->ChangeLevel();
 }
 
 void ARPGIntroController::PreChangeLevel()

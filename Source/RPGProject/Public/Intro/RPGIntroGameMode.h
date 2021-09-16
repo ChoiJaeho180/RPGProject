@@ -30,6 +30,7 @@ public:
 	void SetPlayerStart(EIntroUIWidgetState NewState);
 	void CreateLobbyScarecrow(const TArray<TSharedPtr<FJsonValue>>& Info);
 	void UpdateChooseAnim(const int& ScarecrowIndex);
+	void ChangeLevel();
 public:
 	TSubclassOf<ARPGIntroLobbyScarecrow> LobbyScarecrowClass;
 };

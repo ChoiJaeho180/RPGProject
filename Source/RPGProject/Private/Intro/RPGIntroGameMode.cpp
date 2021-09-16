@@ -24,7 +24,6 @@ void ARPGIntroGameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 
 	_IntroController = Cast<ARPGIntroController>(NewPlayer);
-	
 }
 
 void ARPGIntroGameMode::Logout(AController* Exiting)
@@ -60,4 +59,9 @@ void ARPGIntroGameMode::CreateLobbyScarecrow(const TArray<TSharedPtr<FJsonValue>
 void ARPGIntroGameMode::UpdateChooseAnim(const int& ScarecrowIndex)
 {
 	_IntroLobbyScarecrows[ScarecrowIndex]->UpdateChooseAnim(true);
+}
+
+void ARPGIntroGameMode::ChangeLevel()
+{
+	UGameplayStatics::OpenLevel(GetWorld(), "Game_Village");
 }
