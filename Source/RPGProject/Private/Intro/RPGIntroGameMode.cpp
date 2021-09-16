@@ -22,7 +22,6 @@ ARPGIntroGameMode::ARPGIntroGameMode()
 void ARPGIntroGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
-
 	_IntroController = Cast<ARPGIntroController>(NewPlayer);
 }
 

@@ -41,6 +41,7 @@ public:
 public:
 	FORCEINLINE void SetbEndedGame(bool bNew) { _bEndedGame = bNew; }
 	FORCEINLINE void SetToken(const FString& NewToken) { _Token = NewToken; }
+	FORCEINLINE FString GetToken() { return _Token; }
 public:
 	TSubclassOf<ARPGCommonRestRequestor> RestApiRequestorClass;
 	TSubclassOf<ARPGCommonRestExecutorElements> RestApiElementsClass;

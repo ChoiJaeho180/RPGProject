@@ -15,6 +15,8 @@ class RPGPROJECT_API ARPGGameGameMode : public AGameMode
 	GENERATED_BODY()
 	
 public:
+	ARPGGameGameMode();
+
 	void PostLogin(APlayerController* NewPlayer);
 	void Logout(AController* Exiting);
 };

@@ -18,8 +18,10 @@ class RPGPROJECT_API URPGCommonGameInstance : public UGameInstance
 	GENERATED_BODY()
 	
 private:
+	UPROPERTY()
 	ARPGCommonRestManager* _RestManager;
 	FString _CurrentCharacterName;
+	FString _TempToken;
 public:
 	URPGCommonGameInstance();
 	virtual void Init() override;

@@ -19,6 +19,11 @@ void URPGCommonGameInstance::Init()
 		GetWorld()->DestroyActor(_RestManager);
 	}
 	_RestManager = GetWorld()->SpawnActor<ARPGCommonRestManager>(RestManagerClass);
+	if (_TempToken.IsEmpty() == false)
+	{
+		_RestManager->SetToken(_TempToken);
+		_TempToken = nullptr;
+	}
 }
 
 bool URPGCommonGameInstance::PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject)
@@ -29,5 +34,6 @@ bool URPGCommonGameInstance::PostRequest(FString URL, TSharedPtr<FJsonObject>& J
 
 void URPGCommonGameInstance::Release()
 {
+	_TempToken = _RestManager->GetToken();
 	_RestManager->Release();
 }
