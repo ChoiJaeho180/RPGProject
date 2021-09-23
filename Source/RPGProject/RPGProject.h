@@ -3,6 +3,7 @@
 #pragma once
 
 #include "EngineMinimal.h"
+#include "Public/Game/RPGGameEnumCollection.h"
 #include "Public/Intro/RPGIntroEnumCollection.h"
 #include "Common/RPGCommonEnumCollection.h"
 #include "Dom/JsonObject.h"

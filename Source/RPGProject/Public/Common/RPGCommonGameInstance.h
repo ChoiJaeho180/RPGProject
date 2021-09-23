@@ -31,6 +31,7 @@ public:
 
 public:
 	FORCEINLINE void SetCharacterName(FString NewName) { _CurrentCharacterName = NewName; }
+	FORCEINLINE FString GetCharacterName() { return _CurrentCharacterName; }
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;

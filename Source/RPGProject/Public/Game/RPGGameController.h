@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../RPGProject.h"
+#include "Common/REST/RPGCommonCharacterInfoExecutor.h"
 #include "GameFramework/PlayerController.h"
 #include "RPGGameController.generated.h"
 
@@ -17,4 +18,7 @@ class RPGPROJECT_API ARPGGameController : public APlayerController
 public:
 	ARPGGameController();
 	virtual void BeginPlay() override;
+	void SendActiveMap(const FString& MapName);
+
+	void SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo);
 };

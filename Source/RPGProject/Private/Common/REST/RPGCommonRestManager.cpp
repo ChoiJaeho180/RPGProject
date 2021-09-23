@@ -19,17 +19,24 @@ ARPGCommonRestManager::ARPGCommonRestManager()
 void ARPGCommonRestManager::BeginPlay()
 {
 	Super::BeginPlay();
-	_RestApiRequestor = GetWorld()->SpawnActor<ARPGCommonRestRequestor>(RestApiRequestorClass);
-	_RestApiRequestor->delegateRestApiResponse.BindUObject(this, &ARPGCommonRestManager::PushQueue);
-
-	_RestExecutorElements = GetWorld()->SpawnActor<ARPGCommonRestExecutorElements>(RestApiElementsClass);
-	_RestExecutorElements->delegateSetToken.BindUObject(this, &ARPGCommonRestManager::SetToken);
+	
 	Update();
 }
 
 void ARPGCommonRestManager::BeginDestroy()
 {
 	Super::BeginDestroy();
+}
+
+void ARPGCommonRestManager::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+
+	_RestApiRequestor = GetWorld()->SpawnActor<ARPGCommonRestRequestor>(RestApiRequestorClass);
+	_RestApiRequestor->delegateRestApiResponse.BindUObject(this, &ARPGCommonRestManager::PushQueue);
+
+	_RestExecutorElements = GetWorld()->SpawnActor<ARPGCommonRestExecutorElements>(RestApiElementsClass);
+	_RestExecutorElements->delegateSetToken.BindUObject(this, &ARPGCommonRestManager::SetToken);
 }
 
 // Called every frame
@@ -59,7 +66,7 @@ void ARPGCommonRestManager::Update()
 bool ARPGCommonRestManager::PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject)
 {
 	if(URL != FString("/users/login"))
-		JsonObject->SetStringField("Token", _Token);
+		JsonObject->SetStringField("token", _Token);
 	_RestApiRequestor->HttpCall(URL, JsonObject);
 	return false;
 }

@@ -11,6 +11,8 @@ ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 
 	RestApiLoginExecutorClass = ARPGCommonRestLoginExecutor::StaticClass();
 	RestApiNewCharacterExecutorClass = ARPGCommonNewCharacterExecutor::StaticClass();
+	RestApiCharacterInfoExecutorClass = ARPGCommonCharacterInfoExecutor::StaticClass();
+
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +24,7 @@ void ARPGCommonRestExecutorElements::BeginPlay()
 	temp->delgateSetToken.BindUObject(this, &ARPGCommonRestExecutorElements::SetToken);
 	_RestApiExecutors.Add(LoginExecutor);
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonNewCharacterExecutor>(RestApiNewCharacterExecutorClass));
+	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonCharacterInfoExecutor>(RestApiCharacterInfoExecutorClass));
 }
 
 void ARPGCommonRestExecutorElements::SetToken(const FString& Token)

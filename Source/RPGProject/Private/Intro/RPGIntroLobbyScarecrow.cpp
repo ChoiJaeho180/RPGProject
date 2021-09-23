@@ -14,11 +14,11 @@ ARPGIntroLobbyScarecrow::ARPGIntroLobbyScarecrow()
 	_Collision->SetRelativeLocation(FVector(0, 0, 110));
 	_SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
 	static ConstructorHelpers::FClassFinder<URPGIntroScarecrowAnimInstance> WARRIOR_ANIM(TEXT("AnimBlueprint'/Game/ParagonGreystone/Characters/Heroes/Greystone/Intro_Greystone.Intro_Greystone_C'"));
-	
 	if (WARRIOR_ANIM.Succeeded())
 	{
 		IntroScarecrowClass = WARRIOR_ANIM.Class;
 	}
+
 	_SkeletalMesh->SetEnableGravity(true);
 	RootComponent = _SkeletalMesh;
 }

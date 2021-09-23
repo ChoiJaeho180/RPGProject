@@ -1,6 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Game/RPGGameCharacter.h"
 
 // Sets default values
@@ -10,7 +8,7 @@ ARPGGameCharacter::ARPGGameCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	
-	GetCharacterMovement()->bRequestedMoveUseAcceleration
+	//GetCharacterMovement()->bRequestedMoveUseAcceleration
 }
 
 // Called when the game starts or when spawned
@@ -31,5 +29,18 @@ void ARPGGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameCharacter::MoveForward);
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameCharacter::MoveRight);
 }
+
+void ARPGGameCharacter::MoveForward(float NewAxisValue)
+{
+	AddMovementInput(GetActorForwardVector(), NewAxisValue);
+}
+
+void ARPGGameCharacter::MoveRight(float NewAxisValue)
+{
+	AddMovementInput(GetActorRightVector(), NewAxisValue);
+}
+
 
