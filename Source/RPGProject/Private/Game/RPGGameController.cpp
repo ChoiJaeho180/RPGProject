@@ -2,17 +2,22 @@
 #include "Game/RPGGameController.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameGameMode.h"
+#include "Game/UI/RPGGameUIManager.h"
 
 ARPGGameController::ARPGGameController()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	RPGGameUIManagerClass = ARPGGameUIManager::StaticClass();
 
 	bShowMouseCursor = true;
 }
 void ARPGGameController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	//
+	//SendActiveMap("Game_Village");
+	_GameUIManager->Initialize(this);
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
 		URPGCommonGameInstance* CurrentGI = Cast<URPGCommonGameInstance>(GetGameInstance());
@@ -25,6 +30,18 @@ void ARPGGameController::BeginPlay()
 	
 }
 
+void ARPGGameController::PreInitializeComponents()
+{
+	Super::PreInitializeComponents();
+}
+
+void ARPGGameController::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
+	
+}
+
 void ARPGGameController::SendActiveMap(const FString& MapName)
 {
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
@@ -33,6 +50,11 @@ void ARPGGameController::SendActiveMap(const FString& MapName)
 
 void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo)
 {
-	SendActiveMap(NewCharacterInfo->CurrentVillage);
-	GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
+	AsyncTask(ENamedThreads::GameThread, [=]()
+	{
+		SendActiveMap(NewCharacterInfo->CurrentVillage);
+		GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
+		_GameUIManager->UpdateLevel();
+	});
 }
+

@@ -47,6 +47,16 @@ void URPGCommonFade::OnEndedFadeInAnim()
 	}
 }
 
+void URPGCommonFade::SetFadeState(ECommonFadeState NewState)
+{
+	_FadeState = NewState;
+	if (_FadeState == ECommonFadeState::FADE_OUT)
+	{
+		_FadeImage->SetOpacity(1.f);
+		_FadeImage->SetVisibility(ESlateVisibility::Visible);
+	}
+}
+
 void URPGCommonFade::PlayAnim()
 {
 	if (_FadeState == ECommonFadeState::NONE)

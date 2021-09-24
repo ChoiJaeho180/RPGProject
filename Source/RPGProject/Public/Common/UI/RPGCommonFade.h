@@ -32,6 +32,6 @@ public:
 	UFUNCTION()
 	void OnEndedFadeInAnim();
 public:
-	FORCEINLINE void SetFadeState(ECommonFadeState NewState) { _FadeState = NewState; }
+	void SetFadeState(ECommonFadeState NewState);
 	virtual void PlayAnim() override;
 };

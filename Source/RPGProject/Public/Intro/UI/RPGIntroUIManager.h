@@ -49,7 +49,6 @@ public:
 public:
 	URPGIntroBaseWidget* GetCurrentWidget() const;
 	URPGIntroBaseWidget* GetLobbyWidget() const;
-
 public:
 	TSubclassOf<URPGIntroMainWidget> _IntroTitleWidgetClass;
 	TSubclassOf<URPGIntroLobbyWidget> _IntroLobbyWidgetClass;

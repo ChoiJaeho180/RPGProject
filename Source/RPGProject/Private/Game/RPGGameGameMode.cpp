@@ -36,6 +36,6 @@ void ARPGGameGameMode::ActiveMap(const FString& MapName)
 	{
 		UGameplayStatics::UnloadStreamLevel(this, FName(*_CurrentMapName), info, true);
 	}
-	_CurrentMapName = _MapInfo[MapName]->GetName();
-	UGameplayStatics::LoadStreamLevel(this, TEXT("Overview"), true, true, info);
+	_CurrentMapName = MapName;
+	UGameplayStatics::LoadStreamLevel(this, FName(*_CurrentMapName), true, true, info);
 }

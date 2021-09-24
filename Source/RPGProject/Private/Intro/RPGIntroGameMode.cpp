@@ -62,5 +62,5 @@ void ARPGIntroGameMode::UpdateChooseAnim(const int& ScarecrowIndex)
 
 void ARPGIntroGameMode::ChangeLevel()
 {
-	UGameplayStatics::OpenLevel(GetWorld(), "Game_Village");
+	UGameplayStatics::OpenLevel(GetWorld(), "PersistentGameLevel");
 }
