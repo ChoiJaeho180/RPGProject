@@ -12,7 +12,6 @@ ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 	RestApiLoginExecutorClass = ARPGCommonRestLoginExecutor::StaticClass();
 	RestApiNewCharacterExecutorClass = ARPGCommonNewCharacterExecutor::StaticClass();
 	RestApiCharacterInfoExecutorClass = ARPGCommonCharacterInfoExecutor::StaticClass();
-
 }
 
 // Called when the game starts or when spawned

@@ -26,7 +26,10 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
+	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+	GameInstance->PostRequest("/users/logout", JsonObject);
 	GameInstance->Release();
+	
 }
 
 void ARPGGameGameMode::ActiveMap(const FString& MapName)
