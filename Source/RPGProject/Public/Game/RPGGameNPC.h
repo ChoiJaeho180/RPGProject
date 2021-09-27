@@ -6,14 +6,22 @@
 #include "GameFramework/Pawn.h"
 #include "RPGGameNPC.generated.h"
 
+class UWidgetComponent;
 UCLASS()
 class RPGPROJECT_API ARPGGameNPC : public APawn
 {
 	GENERATED_BODY()
-private:
+protected:
 	UPROPERTY()
 	USkeletalMeshComponent* _SkeletalMesh;
-
+	UPROPERTY()
+	UWidgetComponent* _WidgetCompo;
+	FVector _Position;
+	FString _Village;
+	FString _Name;
+	FString _Type;
+	TArray<FString> _Speech;
+	bool _bQuestor;
 public:
 	// Sets default values for this pawn's properties
 	ARPGGameNPC();
@@ -29,4 +37,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	void SetInfo(USkeletalMesh* NewSkeletalMesh, TSubclassOf<UAnimInstance> NewAnim,FVector NewPosition, FString NewVillage, FString NewName, FString NewType, bool bQuestor, TArray<FString> Speech);
 };

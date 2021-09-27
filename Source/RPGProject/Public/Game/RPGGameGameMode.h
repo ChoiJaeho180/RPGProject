@@ -3,10 +3,14 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/RPGGameNPCData.h"
+#include "Game/RPGGameNPCShop.h"
+#include "Game/RPGGameNPCQuest.h"
 #include "GameFramework/GameMode.h"
 #include "RPGGameGameMode.generated.h"
 
 class URPGGameMapInfo;
+
 /**
  * 
  */
@@ -16,7 +20,7 @@ class RPGPROJECT_API ARPGGameGameMode : public AGameMode
 	GENERATED_BODY()
 private:
 	UPROPERTY()
-	TMap<FString ,URPGGameMapInfo*> _MapInfo;
+	TArray<URPGGameMapInfo*> _MapInfo;
 	FString _CurrentMapName;
 public:
 	ARPGGameGameMode();
@@ -24,9 +28,12 @@ public:
 	void PostLogin(APlayerController* NewPlayer);
 	void Logout(AController* Exiting);
 	void ActiveMap(const FString& MapName);
-	
+	void AddNewNPC(TArray<FNPCInfo> NewNPC);
+	URPGGameMapInfo* GetGameMap(const FString& MapName);
 public:
 	TSubclassOf<URPGGameMapInfo> MapInfoClass;
-
+	TSubclassOf<ARPGGameNPC> GameNPCClass;
+	TSubclassOf<ARPGGameNPCShop> GameNPCShopClass;
+	TSubclassOf<ARPGGameNPCQuest> GameNPCQuestClass;
 
 };

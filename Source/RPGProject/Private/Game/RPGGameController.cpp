@@ -3,6 +3,7 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameGameMode.h"
 #include "Game/UI/RPGGameUIManager.h"
+#include "Game/RPGGameCharacter.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -15,8 +16,7 @@ ARPGGameController::ARPGGameController()
 void ARPGGameController::BeginPlay()
 {
 	Super::BeginPlay();
-	//
-	//SendActiveMap("Game_Village");
+	_Character = Cast<ARPGGameCharacter>(GetPawn());
 	_GameUIManager->Initialize(this);
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
@@ -42,6 +42,15 @@ void ARPGGameController::PostInitializeComponents()
 	
 }
 
+void ARPGGameController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+
+	InputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameController::MoveForward);
+	InputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameController::MoveRight);
+	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
+}
+
 void ARPGGameController::SendActiveMap(const FString& MapName)
 {
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
@@ -54,7 +63,40 @@ void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharact
 	{
 		SendActiveMap(NewCharacterInfo->CurrentVillage);
 		GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
+
 		_GameUIManager->UpdateLevel();
 	});
+	
+}
+
+void ARPGGameController::MoveForward(float NewAxisValue)
+{
+	if (NewAxisValue == 0.0f)
+		return;
+
+	_Character->MoveForward(NewAxisValue);
+}
+
+void ARPGGameController::MoveRight(float NewAxisValue)
+{
+	if (NewAxisValue == 0.0f)
+		return;
+
+	_Character->MoveRight(NewAxisValue);
+}
+
+void ARPGGameController::LeftMouseClick()
+{
+	FHitResult Hit;
+	GetHitResultUnderCursor(ECC_GameTraceChannel3, false, Hit);
+	if (Hit.bBlockingHit)
+	{
+		float Distance = FVector::Dist(Hit.Location, _Character->GetActorLocation());
+		if (Distance > NPC_TO_CHARACTER_DISTANCE)
+			return;
+
+		UE_LOG(LogTemp, Warning, TEXT("wwww"));
+		// 충돌 결과가 있을 때의 처리
+	}
 }
 

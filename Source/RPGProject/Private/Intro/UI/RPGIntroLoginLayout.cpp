@@ -75,7 +75,7 @@ void URPGIntroLoginLayout::RegistFailedEvent()
 {
 	AsyncTask(ENamedThreads::GameThread, [=]()
 	{
-		_LoginInfoText->SetText(FText::FromString("ID or Password is incorrect"));;
+		_LoginInfoText->SetText(FText::FromString("ID or Password is incorrect"));
 		GetWorld()->GetTimerManager().SetTimer(
 			_TimerHandle,
 			this,

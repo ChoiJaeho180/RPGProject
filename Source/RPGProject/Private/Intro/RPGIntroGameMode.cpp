@@ -29,8 +29,11 @@ void ARPGIntroGameMode::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
-	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
-	GameInstance->PostRequest("/users/logout", JsonObject);
+	if (_bNormalLevelTransform == false)
+	{
+		TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+		GameInstance->PostRequest("/users/logout", JsonObject);
+	}
 	GameInstance->Release();
 }
 
@@ -65,4 +68,5 @@ void ARPGIntroGameMode::UpdateChooseAnim(const int& ScarecrowIndex)
 void ARPGIntroGameMode::ChangeLevel()
 {
 	UGameplayStatics::OpenLevel(GetWorld(), "PersistentGameLevel");
+	_bNormalLevelTransform = true;
 }

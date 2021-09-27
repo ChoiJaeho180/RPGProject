@@ -17,16 +17,10 @@ class RPGPROJECT_API URPGGameEnumCollection : public UBlueprintFunctionLibrary
 };
 
 UENUM(BlueprintType)
-enum class EGameTownNPCType : uint8
-{
-	SHOP_NPC,
-	QUEST_NPC,
-	NONE
-};
-
-UENUM(BlueprintType)
 enum class EGameMapType : uint8
 {
 	VILLAGE,
 	NONE
 };
+
+#define NPC_TO_CHARACTER_DISTANCE 500

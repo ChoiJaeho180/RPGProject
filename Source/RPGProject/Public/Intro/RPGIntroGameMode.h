@@ -23,6 +23,7 @@ private:
 	UPROPERTY()
 	TArray<ARPGIntroLobbyScarecrow*> _IntroLobbyScarecrows;
 	TArray<FTransform> _LobbyScarecrowsPoint;
+	bool _bNormalLevelTransform;
 public:
 	ARPGIntroGameMode();
 	virtual void PostLogin(APlayerController* NewPlayer) override;

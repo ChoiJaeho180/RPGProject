@@ -1,10 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Common/RPGCommonGameInstance.h"
 #include "Common/REST/RPGCommonRestManager.h"
+#include "Game/RPGGameNPCData.h"
 
 URPGCommonGameInstance::URPGCommonGameInstance()
 {
 	RestManagerClass = ARPGCommonRestManager::StaticClass();
+	RPGGameClass = ARPGGameNPCData::StaticClass();
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_WARRIOR(TEXT("SkeletalMesh'/Game/ParagonGreystone/Characters/Heroes/Greystone/Meshes/Greystone.Greystone'"));
 	if (SK_WARRIOR.Succeeded())
 	{
@@ -36,4 +38,11 @@ void URPGCommonGameInstance::Release()
 {
 	_TempToken = _RestManager->GetToken();
 	_RestManager->Release();
+}
+
+void URPGCommonGameInstance::CreateGameNPCData()
+{
+	if (_GameNPCData != nullptr)
+		return;
+	_GameNPCData = GetWorld()->SpawnActor<ARPGGameNPCData>(RPGGameClass);
 }

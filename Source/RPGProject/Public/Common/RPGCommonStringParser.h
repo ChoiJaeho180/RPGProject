@@ -14,4 +14,5 @@ public:
 	~RPGCommonStringParser();
 	
 	static TMap<FString, FString> StringParsing(const FString& Data);
+	static TArray<FString> CommaStringParsing(const FString& Data);
 };

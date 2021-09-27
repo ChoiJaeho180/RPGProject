@@ -8,7 +8,7 @@
 #include "RPGCommonGameInstance.generated.h"
 
 class ARPGCommonRestManager;
-
+class ARPGGameNPCData;
 /**
  * 
  */
@@ -20,19 +20,22 @@ class RPGPROJECT_API URPGCommonGameInstance : public UGameInstance
 private:
 	UPROPERTY()
 	ARPGCommonRestManager* _RestManager;
+	UPROPERTY()
+	ARPGGameNPCData* _GameNPCData;
 	FString _CurrentCharacterName;
 	FString _TempToken;
 public:
 	URPGCommonGameInstance();
 	virtual void Init() override;
 	bool PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject);
-
 	void Release();
-
+	void CreateGameNPCData();
 public:
 	FORCEINLINE void SetCharacterName(FString NewName) { _CurrentCharacterName = NewName; }
 	FORCEINLINE FString GetCharacterName() { return _CurrentCharacterName; }
+	FORCEINLINE ARPGGameNPCData* GetGameNPCData() { return _GameNPCData; }
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
+	TSubclassOf<ARPGGameNPCData> RPGGameClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;
 };

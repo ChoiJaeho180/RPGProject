@@ -24,3 +24,9 @@ TMap<FString, FString> RPGCommonStringParser::StringParsing(const FString& Data)
 	}
 	return NewData;
 }
+TArray<FString> RPGCommonStringParser::CommaStringParsing(const FString& Data)
+{
+	TArray<FString> NewData;
+	Data.ParseIntoArray(NewData, TEXT(","), true);
+	return NewData;
+}

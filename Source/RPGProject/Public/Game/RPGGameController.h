@@ -8,6 +8,7 @@
 #include "RPGGameController.generated.h"
 
 class ARPGGameUIManager;
+class ARPGGameCharacter;
 /**
  * 
  */
@@ -17,15 +18,21 @@ class RPGPROJECT_API ARPGGameController : public APlayerController
 	GENERATED_BODY()
 private:
 	ARPGGameUIManager* _GameUIManager;
+	ARPGGameCharacter* _Character;
 public:
 	ARPGGameController();
 	virtual void BeginPlay() override;
 	virtual void PreInitializeComponents() override;
-	virtual void PostInitializeComponents() override; 
+	virtual void PostInitializeComponents() override;
+	virtual void SetupInputComponent() override;
 public:
 
 	void SendActiveMap(const FString& MapName);
 	void SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo);
+
+	void MoveForward(float NewAxisValue);
+	void MoveRight(float NewAxisValue);
+	void LeftMouseClick();
 public:
 	TSubclassOf<ARPGGameUIManager> RPGGameUIManagerClass;
 };

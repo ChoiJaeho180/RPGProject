@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameCharacter.h"
-
+#include "Game/RPGGameController.h"
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
 {
@@ -22,6 +22,7 @@ void ARPGGameCharacter::BeginPlay()
 void ARPGGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 }
 
 // Called to bind functionality to input
@@ -29,8 +30,7 @@ void ARPGGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameCharacter::MoveForward);
-	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameCharacter::MoveRight);
+	//PlayerInputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameCharacter::LeftMouseClick);
 }
 
 void ARPGGameCharacter::MoveForward(float NewAxisValue)
