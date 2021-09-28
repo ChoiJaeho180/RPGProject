@@ -62,8 +62,6 @@ void ARPGIntroUIManager::Initialize(ARPGIntroController* NewController)
 
 	URPGIntroBaseWidget* IntroLobbyWidget = CreateWidget<URPGIntroLobbyWidget>(_CurrentController, _IntroLobbyWidgetClass);
 	IntroLobbyWidget->SetLayoutList();
-	//IRPGCommonChangeLevel* LobbyChangeLevel = Cast<IRPGCommonChangeLevel>(IntroLobbyWidget);
-	//LobbyChangeLevel->delegateChangeLevel.BindUObject(this, &ARPGIntroUIManager::PreChangeLevel);
 	IntroLobbyWidget->delegateChangeUI.BindUObject(this, &ARPGIntroUIManager::UpdateWidget);
 	_IntroWidgetMap.Add(EIntroUIWidgetState::LOBBY, IntroLobbyWidget);
 

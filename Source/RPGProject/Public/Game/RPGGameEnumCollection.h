@@ -23,4 +23,11 @@ enum class EGameMapType : uint8
 	NONE
 };
 
+UENUM(BlueprintType)
+enum class EGameMainUIType : uint8
+{
+	USER_LAYOUT,
+	QUEST_LAYOUT
+};
+
 #define NPC_TO_CHARACTER_DISTANCE 500

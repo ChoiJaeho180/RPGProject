@@ -9,6 +9,7 @@
 class URPGCommonFade;
 class URPGCommonBaseEffect;
 class ARPGGameController;
+class URPGGameMainWidget;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameUIManager : public AActor
@@ -19,6 +20,8 @@ private:
 	URPGCommonBaseEffect* _GameFadeEffect;
 	UPROPERTY()
 	ARPGGameController* _CurrentController;
+	UPROPERTY()
+	URPGGameMainWidget* _MainWidget;
 public:	
 	// Sets default values for this actor's properties
 	ARPGGameUIManager();
@@ -33,5 +36,6 @@ public:
 	void UpdateLevel();
 	void ChangeWidget();
 public:
-	TSubclassOf<URPGCommonFade> _IntroFadeClass;
+	TSubclassOf<URPGCommonFade> IntroFadeClass;
+	TSubclassOf<URPGGameMainWidget> GameMainClass;
 };
