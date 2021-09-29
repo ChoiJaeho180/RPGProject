@@ -4,6 +4,7 @@
 #include "Game/RPGGameGameMode.h"
 #include "Game/UI/RPGGameUIManager.h"
 #include "Game/RPGGameCharacter.h"
+#include "Game/RPGGamePlayerState.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -39,7 +40,7 @@ void ARPGGameController::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
-	
+	_PlayerStat = GetPlayerState<ARPGGamePlayerState>();
 }
 
 void ARPGGameController::SetupInputComponent()
@@ -81,7 +82,8 @@ void ARPGGameController::MoveRight(float NewAxisValue)
 {
 	if (NewAxisValue == 0.0f)
 		return;
-
+	auto test = _PlayerStat->GetCharacterStat();
+	test->TimeStamp++;
 	_Character->MoveRight(NewAxisValue);
 }
 

@@ -2,11 +2,14 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Common/REST/RPGCommonRestManager.h"
 #include "Game/RPGGameNPCData.h"
+#include "Game/RPGGameDataCopy.h"
 
 URPGCommonGameInstance::URPGCommonGameInstance()
 {
 	RestManagerClass = ARPGCommonRestManager::StaticClass();
 	RPGGameClass = ARPGGameNPCData::StaticClass();
+	GameDataCopyClass = ARPGGameDataCopy::StaticClass();
+
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_WARRIOR(TEXT("SkeletalMesh'/Game/ParagonGreystone/Characters/Heroes/Greystone/Meshes/Greystone.Greystone'"));
 	if (SK_WARRIOR.Succeeded())
 	{
@@ -20,6 +23,7 @@ void URPGCommonGameInstance::Init()
 	{
 		GetWorld()->DestroyActor(_RestManager);
 	}
+	
 	_RestManager = GetWorld()->SpawnActor<ARPGCommonRestManager>(RestManagerClass);
 	if (_TempToken.IsEmpty() == false)
 	{
@@ -45,4 +49,12 @@ void URPGCommonGameInstance::CreateGameNPCData()
 	if (_GameNPCData != nullptr)
 		return;
 	_GameNPCData = GetWorld()->SpawnActor<ARPGGameNPCData>(RPGGameClass);
+}
+
+void URPGCommonGameInstance::CreateGameDataCopyClass()
+{
+	if (_GameDataCopy != nullptr)
+		return;
+	
+	_GameDataCopy = GetWorld()->SpawnActor<ARPGGameDataCopy>(GameDataCopyClass);
 }

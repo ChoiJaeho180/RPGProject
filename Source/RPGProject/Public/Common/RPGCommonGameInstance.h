@@ -9,6 +9,8 @@
 
 class ARPGCommonRestManager;
 class ARPGGameNPCData;
+class ARPGGameDataCopy;
+
 /**
  * 
  */
@@ -22,6 +24,8 @@ private:
 	ARPGCommonRestManager* _RestManager;
 	UPROPERTY()
 	ARPGGameNPCData* _GameNPCData;
+	UPROPERTY()
+	ARPGGameDataCopy* _GameDataCopy;
 	FString _CurrentCharacterName;
 	FString _TempToken;
 public:
@@ -30,12 +34,15 @@ public:
 	bool PostRequest(FString URL, TSharedPtr<FJsonObject>& JsonObject);
 	void Release();
 	void CreateGameNPCData();
+	void CreateGameDataCopyClass();
 public:
 	FORCEINLINE void SetCharacterName(FString NewName) { _CurrentCharacterName = NewName; }
 	FORCEINLINE FString GetCharacterName() { return _CurrentCharacterName; }
 	FORCEINLINE ARPGGameNPCData* GetGameNPCData() { return _GameNPCData; }
+	FORCEINLINE ARPGGameDataCopy* GetDataCopyClass() { return _GameDataCopy; }
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 	TSubclassOf<ARPGGameNPCData> RPGGameClass;
+	TSubclassOf<ARPGGameDataCopy> GameDataCopyClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;
 };

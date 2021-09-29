@@ -9,6 +9,7 @@
 
 class ARPGGameUIManager;
 class ARPGGameCharacter;
+class ARPGGamePlayerState;
 /**
  * 
  */
@@ -19,6 +20,7 @@ class RPGPROJECT_API ARPGGameController : public APlayerController
 private:
 	ARPGGameUIManager* _GameUIManager;
 	ARPGGameCharacter* _Character;
+	ARPGGamePlayerState* _PlayerStat;
 public:
 	ARPGGameController();
 	virtual void BeginPlay() override;

@@ -15,6 +15,7 @@ class RPGPROJECT_API URPGGameSpecialBar : public UUserWidget
 {
 	GENERATED_BODY()
 private:
+	UPROPERTY()
 	UImage* _SpecialBar;
 public:
 	virtual void NativeConstruct() override;

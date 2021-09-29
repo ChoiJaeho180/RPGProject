@@ -4,6 +4,7 @@
 #include "Game/RPGGameCharacter.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameMapInfo.h"
+#include "Game/RPGGamePlayerState.h"
 
 ARPGGameGameMode::ARPGGameGameMode()
 {
@@ -13,6 +14,7 @@ ARPGGameGameMode::ARPGGameGameMode()
 	GameNPCClass = ARPGGameNPC::StaticClass();
 	GameNPCShopClass = ARPGGameNPCShop::StaticClass();
 	GameNPCQuestClass = ARPGGameNPCQuest::StaticClass();
+	PlayerStateClass = ARPGGamePlayerState::StaticClass();
 }
 
 void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
@@ -20,6 +22,7 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	Super::PostLogin(NewPlayer);
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
 	GameInstance->CreateGameNPCData();
+	GameInstance->CreateGameDataCopyClass();
 	GameInstance->Init();
 	{
 		URPGGameMapInfo* NewMap = NewObject<URPGGameMapInfo>();
