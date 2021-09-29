@@ -3,6 +3,7 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Intro/RPGIntroScarecrowAnimInstance.h"
 #include "Intro/RPGIntroController.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ARPGIntroLobbyScarecrow::ARPGIntroLobbyScarecrow()
@@ -18,9 +19,17 @@ ARPGIntroLobbyScarecrow::ARPGIntroLobbyScarecrow()
 	{
 		IntroScarecrowClass = WARRIOR_ANIM.Class;
 	}
+	
+	USoundCue* propellerAudioCue;
+	static ConstructorHelpers::FObjectFinder<USoundCue> propellerCue(TEXT("SoundCue'/Game/ParagonGreystone/Audio/Cues/Greystone_Status_Victory.Greystone_Status_Victory'"));
+	propellerAudioCue = propellerCue.Object;
+	_propellerAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("PropellerAudioComp"));
+	_propellerAudioComponent->bAutoActivate = false;
 
 	_SkeletalMesh->SetEnableGravity(true);
 	RootComponent = _SkeletalMesh;
+	_propellerAudioComponent->AttachTo(_SkeletalMesh);
+	_propellerAudioComponent->SetSound(propellerAudioCue);
 }
 
 void ARPGIntroLobbyScarecrow::PostInitializeComponents()
@@ -61,6 +70,7 @@ void ARPGIntroLobbyScarecrow::UpdateChooseAnim(bool bNew)
 {
 	_AnimInstance->SetNextLevel(bNew);
 	_AnimInstance->PlayChooseAnim();
+	_propellerAudioComponent->Play();
 }
 
 void ARPGIntroLobbyScarecrow::OnNextLevelEnded(UAnimMontage* Montage, bool bInterrupted)

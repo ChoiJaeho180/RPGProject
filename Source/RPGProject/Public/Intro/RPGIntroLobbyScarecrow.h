@@ -19,6 +19,9 @@ private:
 	UCapsuleComponent* _Collision;
 	UPROPERTY()
 	URPGIntroScarecrowAnimInstance* _AnimInstance;
+
+	UPROPERTY()
+	UAudioComponent* _propellerAudioComponent;
 public:
 	// Sets default values for this pawn's properties
 	ARPGIntroLobbyScarecrow();
