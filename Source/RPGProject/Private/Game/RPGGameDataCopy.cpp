@@ -2,7 +2,7 @@
 #include "Game/RPGGameDataCopy.h"
 #include "Game/RPGGamePlayerState.h"
 
-#define STARNDARD_TIME 0.025
+
 // Sets default values
 ARPGGameDataCopy::ARPGGameDataCopy()
 {

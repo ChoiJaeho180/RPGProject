@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../RPGProject.h"
 #include "Game/RPGGamePlayerState.h"
 #include "GameFramework/Actor.h"
 #include "RPGGameDataCopy.generated.h"
@@ -25,8 +25,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void CheckCharacterStat();
+
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+public:
+	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 };

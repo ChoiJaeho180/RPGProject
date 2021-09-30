@@ -24,6 +24,7 @@ class RPGPROJECT_API IRPGGameUIInteraction
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	ARPGGameDataCopy* GameDataCopy;
-
+	float InteractionDeltaTime;
 	virtual void SetGameDataCopy()=0;
+	virtual void UpdateProperty() = 0;
 };

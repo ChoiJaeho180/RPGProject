@@ -82,13 +82,17 @@ void ARPGGameController::MoveRight(float NewAxisValue)
 {
 	if (NewAxisValue == 0.0f)
 		return;
-	auto test = _PlayerStat->GetCharacterStat();
-	test->TimeStamp++;
+	
 	_Character->MoveRight(NewAxisValue);
 }
 
 void ARPGGameController::LeftMouseClick()
 {
+	auto test = _PlayerStat->GetCharacterStat();
+	test->TimeStamp++;
+	test->SpecialState += 10;
+
+
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_GameTraceChannel3, false, Hit);
 	if (Hit.bBlockingHit)

@@ -18,6 +18,10 @@ class RPGPROJECT_API URPGGameProgressBarLayout : public URPGGameBaseLayout
 private:
 	UPROPERTY()
 	URPGGameProgressBar* _ProgressBar;
+	float _NewPercent;
+	float _PercentRatio;
 public:
 	virtual void NativeConstruct() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
+	void UpdateProgressBar(float Percent);
 };

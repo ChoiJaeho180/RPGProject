@@ -14,7 +14,6 @@ void URPGGameNPCSaying::SetSpeechText(const FString& Text)
 {
 	if(_SpeechText != nullptr)
 		_SpeechText->Text = FText::FromString(Text);
-
 }
 
 void URPGGameNPCSaying::SetSpeechTexts(const TArray<FString>& NewTexts)

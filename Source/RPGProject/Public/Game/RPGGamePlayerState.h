@@ -12,18 +12,25 @@ struct FCharacterStat
 	GENERATED_BODY();
 public:
 	FCharacterStat() {};
+	int Level;
+	int MaxExp;
+	int CurrentExp;
 	int Stx;
 	int Dex;
 	int Luk;
 	int Int;
-	int MaxHP;
-	int CurrentHP;
-	int MaxMP;
-	int CurrentMP;
+	int SpecialState;
+	int MaxHP = 100;
+	int CurrentHP = 100;
+	int MaxMP = 100;
+	int CurrentMP = 75;
 	int TimeStamp;
-	
+
 	void SetInfo(const TSharedPtr<FCharacterStat>& rhs)
 	{
+		Level = rhs->Level;
+		MaxExp = rhs->MaxExp;
+		CurrentExp = rhs->CurrentExp;
 		Stx = rhs->Stx;
 		Dex = rhs->Dex;
 		Luk = rhs->Luk;
@@ -33,6 +40,7 @@ public:
 		MaxMP = rhs->MaxMP;
 		CurrentMP = rhs->CurrentMP;
 		TimeStamp = rhs->TimeStamp;
+		SpecialState = rhs->SpecialState;
 	}
 	
 };

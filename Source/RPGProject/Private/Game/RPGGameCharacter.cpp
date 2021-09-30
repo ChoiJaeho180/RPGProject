@@ -15,7 +15,8 @@ ARPGGameCharacter::ARPGGameCharacter()
 void ARPGGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	UParticleSystemComponent* test;
+	//_Camera->SetEff
 }
 
 // Called every frame

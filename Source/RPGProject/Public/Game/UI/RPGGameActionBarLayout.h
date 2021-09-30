@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../RPGProject.h"
 #include "Game/UI/RPGGameBaseLayout.h"
 #include "RPGGameActionBarLayout.generated.h"
 
+class URPGGameActionBarSlot;
 /**
  * 
  */
@@ -13,5 +14,10 @@ UCLASS()
 class RPGPROJECT_API URPGGameActionBarLayout : public URPGGameBaseLayout
 {
 	GENERATED_BODY()
+private:
+	UPROPERTY()
+	TArray<URPGGameActionBarSlot*> _ActionBarSlots;
+public:
+	virtual void NativeConstruct() override;
 	
 };
