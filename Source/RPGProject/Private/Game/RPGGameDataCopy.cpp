@@ -25,7 +25,6 @@ void ARPGGameDataCopy::CheckCharacterStat()
 	TSharedPtr<FCharacterStat> CharacterStat = _CheckStat->GetCharacterStat();
 	if (CharacterStat->TimeStamp == _CharacterStat->TimeStamp)
 		return;
-	UE_LOG(LogTemp, Warning, TEXT("aaaa"));
 	_CharacterStat->SetInfo(CharacterStat);
 }
 
