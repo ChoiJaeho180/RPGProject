@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "RPGGameDataTable.generated.h"
 
+class UTexture2D;
 
 USTRUCT(BlueprintType)
 struct FCharacterExp : public FTableRowBase
@@ -18,6 +19,26 @@ public:
 	int Level;
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Data")
 	int Exp;
+};
+
+USTRUCT(BlueprintType)
+struct FGameItemType : public FTableRowBase
+{
+	GENERATED_BODY();
+public:
+	FGameItemType() {};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	EInventoryType InventoryType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FName Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FText Description;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	UTexture2D* Image;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int Price;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FString Stat;
 };
 
 

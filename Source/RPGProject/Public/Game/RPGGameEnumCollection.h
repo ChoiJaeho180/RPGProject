@@ -30,6 +30,14 @@ enum class EGameMainUIType : uint8
 	QUEST_LAYOUT
 };
 
+UENUM(BlueprintType)
+enum class EInventoryType : uint8
+{
+	EQUIPMENT_INVENTORY,
+	CONSUMPTION_INVENTORY,
+	ETC_INVENTORY
+};
+
 #define NPC_TO_CHARACTER_DISTANCE 500
 #define STARNDARD_TIME 0.025
 

@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerState.h"
 #include "RPGGamePlayerState.generated.h"
 
+class URPGGameCharacterBagComponent;
+
 USTRUCT(BlueprintType)
 struct FCharacterStat
 {
@@ -42,7 +44,6 @@ public:
 		TimeStamp = rhs->TimeStamp;
 		SpecialState = rhs->SpecialState;
 	}
-	
 };
 
 
@@ -55,6 +56,8 @@ class RPGPROJECT_API ARPGGamePlayerState : public APlayerState
 	GENERATED_BODY()
 private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
+	UPROPERTY()
+	URPGGameCharacterBagComponent* _CharacterBagComponent;
 public:
 	ARPGGamePlayerState();
 
