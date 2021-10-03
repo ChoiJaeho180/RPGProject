@@ -8,3 +8,9 @@ ARPGGamePlayerState::ARPGGamePlayerState()
 
 	_CharacterBagComponent = CreateDefaultSubobject<URPGGameCharacterBagComponent>(TEXT("BagComponent"));
 }
+
+void ARPGGamePlayerState::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	//_CharacterBagComponent->TestInfo();
+}

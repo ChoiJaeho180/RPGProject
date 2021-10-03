@@ -10,7 +10,7 @@
 class ARPGCommonRestManager;
 class ARPGGameNPCData;
 class ARPGGameDataCopy;
-
+class URPGGameDataTableManager;
 /**
  * 
  */
@@ -26,6 +26,8 @@ private:
 	ARPGGameNPCData* _GameNPCData;
 	UPROPERTY()
 	ARPGGameDataCopy* _GameDataCopy;
+	UPROPERTY()
+	URPGGameDataTableManager* _DataTableManager;
 	FString _CurrentCharacterName;
 	FString _TempToken;
 public:
@@ -35,11 +37,13 @@ public:
 	void Release();
 	void CreateGameNPCData();
 	void CreateGameDataCopyClass();
+
 public:
 	FORCEINLINE void SetCharacterName(FString NewName) { _CurrentCharacterName = NewName; }
 	FORCEINLINE FString GetCharacterName() { return _CurrentCharacterName; }
 	FORCEINLINE ARPGGameNPCData* GetGameNPCData() { return _GameNPCData; }
 	FORCEINLINE ARPGGameDataCopy* GetDataCopyClass() { return _GameDataCopy; }
+	FORCEINLINE URPGGameDataTableManager* GetDataTableManager() { return _DataTableManager; }
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 	TSubclassOf<ARPGGameNPCData> RPGGameClass;

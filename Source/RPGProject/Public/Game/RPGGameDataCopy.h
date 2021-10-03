@@ -4,6 +4,7 @@
 
 #include "../../RPGProject.h"
 #include "Game/RPGGamePlayerState.h"
+#include "Game/RPGGameItemStruct.h"
 #include "GameFramework/Actor.h"
 #include "RPGGameDataCopy.generated.h"
 
@@ -15,6 +16,7 @@ class RPGPROJECT_API ARPGGameDataCopy : public AActor
 	GENERATED_BODY()
 private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
+	TArray<TSharedPtr<FRPGItemInfo>> _CharacterItemInfo;
 	ARPGGamePlayerState* _CheckStat;
 	float _DeltaTime;
 public:	
@@ -25,8 +27,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void CheckCharacterStat();
-
-	
+	TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemInfo();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

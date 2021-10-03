@@ -5,6 +5,7 @@
 #include "Game/UI/RPGGameUIManager.h"
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGamePlayerState.h"
+#include "Game/RPGGameCharacterBagComponent.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -26,8 +27,8 @@ void ARPGGameController::BeginPlay()
 		JsonObject->SetStringField("Name", CurrentGI->GetCharacterName());
 		CurrentGI->PostRequest("/game/getuserinfo", JsonObject);
 	});
-
-	SetInputMode(FInputModeGameOnly());
+	
+	SetInputMode(FInputModeGameAndUI());
 	
 }
 
@@ -41,6 +42,7 @@ void ARPGGameController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
 	_PlayerStat = GetPlayerState<ARPGGamePlayerState>();
+	_PlayerStat->GetCharacterBag()->TestInfo();
 }
 
 void ARPGGameController::SetupInputComponent()
@@ -50,6 +52,7 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameController::MoveForward);
 	InputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameController::MoveRight);
 	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
+	InputComponent->BindAction(TEXT("Temp"), EInputEvent::IE_Released, this, &ARPGGameController::Test);
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
@@ -88,6 +91,7 @@ void ARPGGameController::MoveRight(float NewAxisValue)
 
 void ARPGGameController::LeftMouseClick()
 {
+	UE_LOG(LogTemp, Warning, TEXT("LeftMouseClick"));
 	auto test = _PlayerStat->GetCharacterStat();
 	test->TimeStamp++;
 	test->SpecialState += 10;
@@ -104,5 +108,10 @@ void ARPGGameController::LeftMouseClick()
 		UE_LOG(LogTemp, Warning, TEXT("wwww"));
 		// 충돌 결과가 있을 때의 처리
 	}
+}
+
+void ARPGGameController::Test()
+{
+	UE_LOG(LogTemp, Warning, TEXT("INPUT U"));
 }
 

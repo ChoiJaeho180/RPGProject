@@ -2,23 +2,26 @@
 #include "Game/RPGGameDataTableManager.h"
 #include "Engine/DataTable.h"
 
+
 URPGGameDataTableManager::URPGGameDataTableManager()
 {
 	FString ConsumptionPath = TEXT("DataTable'/Game/DataTable/ConsumptionItemType.ConsumptionItemType'");
 	static ConstructorHelpers::FObjectFinder<UDataTable> DT_CONSUMPTION(*ConsumptionPath);
-	_ConsumptionDT = DT_CONSUMPTION.Object;
-	SetData(_ConsumptionData, _ConsumptionDT);
-	
+	if (DT_CONSUMPTION.Succeeded())
+	{
+		_ConsumptionDT = DT_CONSUMPTION.Object;
+	}
 	
 }
 
-void URPGGameDataTableManager::SetData(TArray<TSharedPtr<FGameItemType>>& TargetData, UDataTable* TargetDT)
+void URPGGameDataTableManager::Init()
 {
-	TArray<FGameItemType*> NewData;
 	FString Context;
-	TargetDT->GetAllRows<FGameItemType>(Context, NewData);
-	for (int i = 0; i < NewData.Num(); i++)
-	{
-		TargetData.Add(MakeShareable(NewData[i]));
-	}
+	_ConsumptionDT->GetAllRows<FGameItemType>(Context, _ConsumptionData);
+}
+
+void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT)
+{
+	FString Context;
+	TargetDT->GetAllRows<FGameItemType>(Context, TargetData);
 }

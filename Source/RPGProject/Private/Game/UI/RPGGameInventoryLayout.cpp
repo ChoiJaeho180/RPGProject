@@ -27,3 +27,4 @@ bool URPGGameInventoryLayout::NativeOnDrop(const FGeometry& InGeometry, const FD
 	Widget->GetParentWidget()->SetPositionInViewport(NewPosition, false);
 	return true;
 }
+

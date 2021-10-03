@@ -29,6 +29,7 @@ private:
 	UPROPERTY()
 	URPGGameTitleBarLayout* _TitleBarLayout;
 public:
+	
 	virtual void NativeConstruct() override;
 	void SetPosition(const FVector2D& NewPosition);
 public:

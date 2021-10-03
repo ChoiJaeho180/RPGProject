@@ -3,6 +3,7 @@
 #include "Common/REST/RPGCommonRestManager.h"
 #include "Game/RPGGameNPCData.h"
 #include "Game/RPGGameDataCopy.h"
+#include "Game/RPGGameDataTableManager.h"
 
 URPGCommonGameInstance::URPGCommonGameInstance()
 {
@@ -23,7 +24,13 @@ void URPGCommonGameInstance::Init()
 	{
 		GetWorld()->DestroyActor(_RestManager);
 	}
-	
+
+	if (_DataTableManager == nullptr)
+	{
+		_DataTableManager = NewObject<URPGGameDataTableManager>();
+		_DataTableManager->Init();
+	}
+
 	_RestManager = GetWorld()->SpawnActor<ARPGCommonRestManager>(RestManagerClass);
 	if (_TempToken.IsEmpty() == false)
 	{

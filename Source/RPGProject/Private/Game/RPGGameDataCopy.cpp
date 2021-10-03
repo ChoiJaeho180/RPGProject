@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameDataCopy.h"
 #include "Game/RPGGamePlayerState.h"
-
+#include "Game/RPGGameCharacterBagComponent.h"
 
 // Sets default values
 ARPGGameDataCopy::ARPGGameDataCopy()
@@ -26,6 +26,17 @@ void ARPGGameDataCopy::CheckCharacterStat()
 	if (CharacterStat->TimeStamp == _CharacterStat->TimeStamp)
 		return;
 	_CharacterStat->SetInfo(CharacterStat);
+}
+
+TArray<TSharedPtr<FRPGItemInfo>> ARPGGameDataCopy::GetCharacterItemInfo()
+{//
+	URPGGameCharacterBagComponent* BagComoponent = _CheckStat->GetCharacterBag();
+	TArray<TSharedPtr<FRPGItemInfo>> CharacterItems = BagComoponent->GetChartacterItems();
+	if (_CharacterItemInfo.Num() != CharacterItems.Num())
+	{
+		_CharacterItemInfo = CharacterItems;
+	}
+	return _CharacterItemInfo;
 }
 
 

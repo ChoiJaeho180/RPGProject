@@ -60,7 +60,8 @@ private:
 	URPGGameCharacterBagComponent* _CharacterBagComponent;
 public:
 	ARPGGamePlayerState();
-
+	virtual void PostInitializeComponents() override;
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
+	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
 };

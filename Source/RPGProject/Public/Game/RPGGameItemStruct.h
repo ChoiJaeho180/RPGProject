@@ -22,6 +22,7 @@ public:
 	FText Description;
 	UPROPERTY(EditAnywhere, Category = "Item")
 	int Price;
+	
 };
 
 USTRUCT(Blueprintable)
@@ -31,6 +32,18 @@ struct FRPGItemInfo : public FRPGItemBase
 public:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	int Count;
+	int TimeStamp =0;
+	int SlotIndex;
+	void SetInfo(int NewCount = 0, int NewPrice =0, FText NewDescription = FText(), FName NewName =FName(), EInventoryType NewType = EInventoryType::ETC_INVENTORY,int NewTimeStamp =1, int NewSlotIndex =0)
+	{
+		Count = NewCount;
+		Price = NewPrice;
+		Description = NewDescription;
+		Name = NewName;
+		InventoryType = NewType;
+		TimeStamp = NewTimeStamp;
+		SlotIndex = NewSlotIndex;
+	}
 };
 
 USTRUCT(Blueprintable)
@@ -41,6 +54,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	UTexture2D* Image;
 };
+
 
 
 /**

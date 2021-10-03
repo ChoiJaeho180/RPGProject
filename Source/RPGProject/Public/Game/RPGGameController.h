@@ -35,6 +35,7 @@ public:
 	void MoveForward(float NewAxisValue);
 	void MoveRight(float NewAxisValue);
 	void LeftMouseClick();
+	void Test();
 public:
 	TSubclassOf<ARPGGameUIManager> RPGGameUIManagerClass;
 };

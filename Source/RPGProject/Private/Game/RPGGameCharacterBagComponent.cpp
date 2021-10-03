@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameCharacterBagComponent.h"
+#include "Game/RPGGameDataTableManager.h"
+#include "Common/RPGCommonGameInstance.h"
 
 // Sets default values for this component's properties
 URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
@@ -16,9 +18,6 @@ URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
 void URPGGameCharacterBagComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
 
@@ -27,7 +26,18 @@ void URPGGameCharacterBagComponent::TickComponent(float DeltaTime, ELevelTick Ti
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+}
+
+void URPGGameCharacterBagComponent::TestInfo()
+{
+	
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
+	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
+	auto Test = DTManager->GetData();
+	TSharedPtr<FRPGItemInfo> NewData = MakeShareable(new FRPGItemInfo());
+	NewData->SetInfo(5, Test[0]->Price, Test[0]->Description, Test[0]->Name, Test[0]->InventoryType);
+	_CharacterItems.Add((NewData));
+	
 }
 
 void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewItem)

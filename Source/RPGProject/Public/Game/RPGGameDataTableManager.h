@@ -17,11 +17,12 @@ class RPGPROJECT_API URPGGameDataTableManager : public UObject
 	GENERATED_BODY()
 private:
 	UDataTable* _ConsumptionDT;
-	TArray<TSharedPtr<FGameItemType>> _ConsumptionData;
+	TArray<FGameItemType*> _ConsumptionData;
 public:
 	URPGGameDataTableManager();
-
+	void Init();
 private:
-	void SetData(TArray<TSharedPtr<FGameItemType>>& TargetData, UDataTable* TargetDT);
-
+	void SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT);
+public:
+	FORCEINLINE TArray<FGameItemType*> GetData() { return _ConsumptionData; }
 };

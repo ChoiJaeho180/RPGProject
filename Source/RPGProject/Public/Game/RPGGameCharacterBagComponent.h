@@ -9,7 +9,6 @@
 
 
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RPGPROJECT_API URPGGameCharacterBagComponent : public UActorComponent
 {
@@ -23,13 +22,14 @@ public:
 	void AddItem(const TSharedPtr<FRPGItemInfo>& NewItem);
 	void RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem);
 	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& NewItem);
-
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
+	
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	
+	void TestInfo();
+public:
+	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetChartacterItems() { return _CharacterItems; }
 };

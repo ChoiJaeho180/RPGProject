@@ -8,7 +8,7 @@
 #include "Game/UI/RPGGameTitleBarLayout.h"
 
 #define SLOT_COUNT 36
- 
+
 void URPGGameBagLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -26,7 +26,8 @@ void URPGGameBagLayout::NativeConstruct()
 		URPGGameBagslot* NewSlot = Cast<URPGGameBagslot>(GetWidgetFromName(*SlotName));
 		_BagSlots.Add(NewSlot);
 	}
-	Visibility = ESlateVisibility::Visible;
+
+	//Visibility = ESlateVisibility::Visible;
 }
 
 void URPGGameBagLayout::SetPosition(const FVector2D& NewPosition)
