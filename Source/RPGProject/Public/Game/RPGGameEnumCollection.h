@@ -31,6 +31,15 @@ enum class EGameMainUIType : uint8
 };
 
 UENUM(BlueprintType)
+enum class EInventoryUIType : uint8
+{
+	EQUIPMENT_INVENTORY,
+	BAG_INVENTORY,
+	ETC_INVENTORY
+};
+
+
+UENUM(BlueprintType)
 enum class EInventoryType : uint8
 {
 	EQUIPMENT_INVENTORY,

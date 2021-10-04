@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Game/UI/RPGGameGetUserInfo.h"
 #include "Game/UI/RPGGameBaseLayout.h"
 #include "RPGGameUserLayout.generated.h"
 
@@ -12,7 +13,7 @@ class URPGGameInventoryLayout;
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGGameUserLayout : public URPGGameBaseLayout
+class RPGPROJECT_API URPGGameUserLayout : public URPGGameBaseLayout, public IRPGGameGetUserInfo
 {
 	GENERATED_BODY()
 private:
@@ -21,4 +22,5 @@ private:
 	URPGGameInventoryLayout* _InventoryLayout;
 public:
 	virtual void NativeConstruct() override;
+	virtual URPGGameInventoryLayout* GetUserInfoLayout() override;
 };

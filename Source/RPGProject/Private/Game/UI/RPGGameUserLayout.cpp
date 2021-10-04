@@ -11,3 +11,8 @@ void URPGGameUserLayout::NativeConstruct()
 	_InventoryLayout = Cast<URPGGameInventoryLayout>(GetWidgetFromName("InventoryLayout"));
 
 }
+
+URPGGameInventoryLayout* URPGGameUserLayout::GetUserInfoLayout()
+{
+	return _InventoryLayout;
+}

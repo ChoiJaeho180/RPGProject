@@ -38,6 +38,12 @@ void URPGGameMainWidget::SetLayoutList()
 	}
 }
 
+URPGGameBaseLayout* URPGGameMainWidget::GetUserLayout()
+{
+	int ResultIndex = _RPGGameSpecificWidgetJudge.GetUpdateWidgetIndex(_GameLayoutList, EGameMainUIType::USER_LAYOUT);
+	return _GameLayoutList[ResultIndex];
+}
+
 void URPGGameMainWidget::ChangeLayout(const EGameMainUIType& NewState, const int& ZOrder)
 {
 	int ResultIndex = _RPGGameSpecificWidgetJudge.GetUpdateWidgetIndex(_GameLayoutList, NewState);

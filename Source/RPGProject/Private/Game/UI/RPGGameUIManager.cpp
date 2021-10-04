@@ -3,6 +3,9 @@
 #include "Game/RPGGameController.h"
 #include "Common/UI/RPGCommonFade.h"
 #include "Game/UI/RPGGameMainWidget.h"
+#include "Game/UI/RPGGameUIIdeliver.h"
+#include "Game/UI/RPGGameGetUserInfo.h"
+#include "Game/UI/RPGGameUserLayout.h"
 
 // Sets default values
 ARPGGameUIManager::ARPGGameUIManager()
@@ -36,6 +39,13 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_MainWidget->SetLayoutList();
 	_MainWidget->AddToViewport(0);
 	_MainWidget->ChangeLayout(EGameMainUIType::USER_LAYOUT);
+	
+	_UIDeliver = NewObject<URPGGameUIIdeliver>();
+
+	URPGGameBaseLayout* GameLayout = _MainWidget->GetUserLayout();
+	URPGGameUserLayout* UserLayout = Cast<URPGGameUserLayout>(GameLayout);
+	IRPGGameGetUserInfo* GetUSerobj = Cast<IRPGGameGetUserInfo>(UserLayout);
+	_UIDeliver->SetDeliveryTargetUI(GetUSerobj->GetUserInfoLayout());
 }
 
 // Called when the game starts or when spawned

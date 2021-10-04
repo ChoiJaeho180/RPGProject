@@ -51,8 +51,10 @@ void ARPGGameController::SetupInputComponent()
 
 	InputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameController::MoveForward);
 	InputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameController::MoveRight);
+
 	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
-	InputComponent->BindAction(TEXT("Temp"), EInputEvent::IE_Released, this, &ARPGGameController::Test);
+	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
+	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
@@ -108,6 +110,10 @@ void ARPGGameController::LeftMouseClick()
 		UE_LOG(LogTemp, Warning, TEXT("wwww"));
 		// 충돌 결과가 있을 때의 처리
 	}
+}
+
+void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
+{
 }
 
 void ARPGGameController::Test()

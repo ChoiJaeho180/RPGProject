@@ -10,6 +10,8 @@
 class ARPGGameUIManager;
 class ARPGGameCharacter;
 class ARPGGamePlayerState;
+
+DECLARE_DELEGATE_OneParam(FUIInteractionDelegate, EInventoryUIType);
 /**
  * 
  */
@@ -18,8 +20,11 @@ class RPGPROJECT_API ARPGGameController : public APlayerController
 {
 	GENERATED_BODY()
 private:
+	UPROPERTY()
 	ARPGGameUIManager* _GameUIManager;
+	UPROPERTY()
 	ARPGGameCharacter* _Character;
+	UPROPERTY()
 	ARPGGamePlayerState* _PlayerStat;
 public:
 	ARPGGameController();
@@ -35,7 +40,8 @@ public:
 	void MoveForward(float NewAxisValue);
 	void MoveRight(float NewAxisValue);
 	void LeftMouseClick();
-	void Test();
+	void InteractionUI(EInventoryUIType InteractionType);
 public:
 	TSubclassOf<ARPGGameUIManager> RPGGameUIManagerClass;
+
 };

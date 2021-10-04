@@ -27,6 +27,6 @@ public:
 	virtual void NativeConstruct() override;
 	void SetLayoutList();
 public:
-	
+	URPGGameBaseLayout* GetUserLayout();
 	void ChangeLayout(const EGameMainUIType& NewState, const int& ZOrder = 0);
 };
