@@ -13,6 +13,19 @@ URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
 	// ...
 }
 
+void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestItemData)
+{
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
+	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
+	for (int i = 0; i < RestItemData.Num(); i++)
+	{
+		TSharedPtr<FRPGItemInfo> NewItem = MakeShareable(new FRPGItemInfo);
+		NewItem->Name = RestItemData[i].Name;
+		NewItem->Count = RestItemData[i].Count;
+		AddItem(NewItem);
+	}
+}
+
 
 // Called when the game starts
 void URPGGameCharacterBagComponent::BeginPlay()
@@ -48,7 +61,7 @@ void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewI
 		ExistItem->Count += NewItem->Count;
 		return;
 	}
-	_CharacterItems.Add(ExistItem);
+	_CharacterItems.Add(NewItem);
 }
 
 void URPGGameCharacterBagComponent::RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem)

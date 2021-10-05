@@ -23,7 +23,6 @@ ARPGGameUIManager::ARPGGameUIManager()
 	{
 		GameMainClass = MAIN_WIDGET.Class;
 	}
-
 }
 
 void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
@@ -48,6 +47,11 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_UIDeliver->SetDeliveryTargetUI(GetUSerobj->GetUserInfoLayout());
 }
 
+void ARPGGameUIManager::InitInventory(const TArray<FRPGRestItem>& NewItem)
+{
+	_UIDeliver->InitInventory(NewItem);
+}
+
 // Called when the game starts or when spawned
 void ARPGGameUIManager::BeginPlay()
 {
@@ -69,5 +73,13 @@ void ARPGGameUIManager::UpdateLevel()
 
 void ARPGGameUIManager::ChangeWidget()
 {
+}
+
+void ARPGGameUIManager::SendInputState(const EInventoryUIType& NewInput)
+{
+	if (_UIDeliver == nullptr)
+		return; 
+	UE_LOG(LogTemp, Warning, TEXT("SendInputState"));
+	_UIDeliver->SendInputState(NewInput);
 }
 

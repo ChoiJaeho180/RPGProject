@@ -25,3 +25,23 @@ void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataT
 	FString Context;
 	TargetDT->GetAllRows<FGameItemType>(Context, TargetData);
 }
+
+FGameItemType* URPGGameDataTableManager::GetNameToData(const FName& Name)
+{
+	for (int i = 0; i < _ConsumptionData.Num(); i++)
+	{
+		if (_ConsumptionData[i]->Name == Name)
+			return _ConsumptionData[i];
+	}
+	return nullptr;
+}
+
+UTexture2D* URPGGameDataTableManager::GetNameToTexture(const FName& Name)
+{
+	for (int i = 0; i < _ConsumptionData.Num(); i++)
+	{
+		if (_ConsumptionData[i]->Name == Name)
+			return _ConsumptionData[i]->Image;
+	}
+	return nullptr;
+}

@@ -30,3 +30,25 @@ TArray<FString> RPGCommonStringParser::CommaStringParsing(const FString& Data)
 	Data.ParseIntoArray(NewData, TEXT(","), true);
 	return NewData;
 }
+
+TArray<FRPGRestItem> RPGCommonStringParser::ItemsDataParsing(const FString& Data)
+{
+	TArray<FRPGRestItem> NewData;
+	TArray<FString> TempArray;
+	Data.ParseIntoArray(TempArray, TEXT(","), true);
+	for (int i = 0; i < TempArray.Num(); i++)
+	{
+		FRPGRestItem New;
+		FString ItemName, Value;
+		TempArray[i].Split(TEXT(":"), &ItemName, &Value);
+		
+		FString Slot, Count;
+		Value.Split(TEXT("-"), &Slot, &Count);
+
+		New.Name = FName(*ItemName);
+		New.Count = FCString::Atoi(*Count);
+		New.SlotIndex = FCString::Atoi(*Slot);
+		NewData.Add(New);
+	}
+	return NewData;
+}

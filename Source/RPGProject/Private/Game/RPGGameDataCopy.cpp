@@ -28,17 +28,22 @@ void ARPGGameDataCopy::CheckCharacterStat()
 	_CharacterStat->SetInfo(CharacterStat);
 }
 
-TArray<TSharedPtr<FRPGItemInfo>> ARPGGameDataCopy::GetCharacterItemInfo()
-{//
+void ARPGGameDataCopy::CheckCharacterItems()
+{
 	URPGGameCharacterBagComponent* BagComoponent = _CheckStat->GetCharacterBag();
 	TArray<TSharedPtr<FRPGItemInfo>> CharacterItems = BagComoponent->GetChartacterItems();
 	if (_CharacterItemInfo.Num() != CharacterItems.Num())
 	{
 		_CharacterItemInfo = CharacterItems;
+		return;
 	}
-	return _CharacterItemInfo;
+	for (int i = 0; i < CharacterItems.Num(); i++)
+	{
+		if (CharacterItems[i]->TimeStamp == _CharacterItemInfo[i]->TimeStamp)
+			continue;
+		_CharacterItemInfo[i] = CharacterItems[i];
+	}
 }
-
 
 // Called every frame
 void ARPGGameDataCopy::Tick(float DeltaTime)
@@ -50,6 +55,7 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 		return;
 
 	CheckCharacterStat();
+	CheckCharacterItems();
 
 	_DeltaTime = 0.f;
 

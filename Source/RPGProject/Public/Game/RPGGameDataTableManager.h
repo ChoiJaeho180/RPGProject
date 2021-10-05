@@ -8,6 +8,7 @@
 #include "RPGGameDataTableManager.generated.h"
 
 class UDataTable;
+class UTexture2D;
 /**
  * 
  */
@@ -23,6 +24,9 @@ public:
 	void Init();
 private:
 	void SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT);
+public:
+	FGameItemType* GetNameToData(const FName& Name);
+	UTexture2D* GetNameToTexture(const FName& Name);
 public:
 	FORCEINLINE TArray<FGameItemType*> GetData() { return _ConsumptionData; }
 };

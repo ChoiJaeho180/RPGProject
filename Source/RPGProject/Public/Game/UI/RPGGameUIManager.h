@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameItemStruct.h"
 #include "GameFramework/Actor.h"
 #include "RPGGameUIManager.generated.h"
 
@@ -29,6 +30,7 @@ public:
 	// Sets default values for this actor's properties
 	ARPGGameUIManager();
 	void Initialize(ARPGGameController* NewController);
+	void InitInventory(const TArray<FRPGRestItem>& NewItem);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -38,6 +40,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void UpdateLevel();
 	void ChangeWidget();
+	void SendInputState(const EInventoryUIType& NewInput);
 public:
 	TSubclassOf<URPGCommonFade> IntroFadeClass;
 	TSubclassOf<URPGGameMainWidget> GameMainClass;

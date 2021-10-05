@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameItemStruct.h"
 #include "Game/UI/RPGGameBaseLayout.h"
 #include "RPGGameInventoryLayout.generated.h"
 
@@ -23,5 +24,9 @@ private:
 	URPGGameEquipmentLayout* _EquipmentLayout;
 public:
 	virtual void NativeConstruct() override;
+	
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	void UpdateVisibility(const EInventoryUIType& NewInput);
+public:
+	void InitInventory(const TArray<FRPGRestItem>& RestItemData);
 };

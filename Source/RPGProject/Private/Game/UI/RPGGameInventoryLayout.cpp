@@ -13,6 +13,7 @@ void URPGGameInventoryLayout::NativeConstruct()
 	_EquipmentLayout = Cast<URPGGameEquipmentLayout>(GetWidgetFromName("Equipment"));
 }
 
+
 bool URPGGameInventoryLayout::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
@@ -26,5 +27,31 @@ bool URPGGameInventoryLayout::NativeOnDrop(const FGeometry& InGeometry, const FD
 	FVector2D NewPosition = InGeometry.AbsoluteToLocal(InDragDropEvent.GetScreenSpacePosition()) - Widget->GetMouseOffset();
 	Widget->GetParentWidget()->SetPositionInViewport(NewPosition, false);
 	return true;
+}
+
+void URPGGameInventoryLayout::UpdateVisibility(const EInventoryUIType& NewInput)
+{
+	UUserWidget* TempWidget = nullptr;
+	switch (NewInput)
+	{
+		case EInventoryUIType::BAG_INVENTORY:
+			TempWidget = _BagLayout;
+			break;
+		case EInventoryUIType::EQUIPMENT_INVENTORY:
+			TempWidget = _EquipmentLayout;
+			break;
+	}
+
+	if (TempWidget == nullptr)
+		return;
+
+	ESlateVisibility NewState = TempWidget->GetVisibility() == ESlateVisibility::Visible ? ESlateVisibility::Hidden : ESlateVisibility::Visible;
+	TempWidget->SetVisibility(NewState);
+	UE_LOG(LogTemp, Warning, TEXT("UpdateVisibility"));
+}
+
+void URPGGameInventoryLayout::InitInventory(const TArray<FRPGRestItem>& RestItemData)
+{
+	_BagLayout->InitBagSlots(RestItemData);
 }
 

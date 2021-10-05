@@ -3,24 +3,30 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/UI/RPGGameSlotDragDropBaseLayout.h"
 #include "Blueprint/UserWidget.h"
 #include "RPGGameBagslot.generated.h"
 
 class UImage;
-class UButton;
 
 /**
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGGameBagslot : public UUserWidget
+class RPGPROJECT_API URPGGameBagslot : public URPGGameSlotDragDropBaseLayout
 {
 	GENERATED_BODY()
 private:
-	UPROPERTY()
-	UImage* _Icon;
-	UPROPERTY()
-	UButton* _Button;
+	
+public:
+	//virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
 public:
 	virtual void NativeConstruct() override;
+	virtual UTexture2D* GetItemImage() const;
+	virtual void UpdateUI() override;
+	void UpdateItem(TSharedPtr<FRPGItemInfo>& NewItemInfo);
+	void Init(const FName& Name, const int& SlotIndex, const int& Count);
+	void SetItem();
 };

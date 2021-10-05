@@ -3,6 +3,7 @@
 #include "Game/UI/RPGGameBagslot.h"
 #include "Game/UI/RPGGameTitleDragAndDrop.h"
 #include "Components/Border.h"
+#include "Components/TextBlock.h"
 #include "Input/Reply.h"
 
 void URPGGameTitleBarLayout::NativeConstruct()
@@ -11,17 +12,12 @@ void URPGGameTitleBarLayout::NativeConstruct()
 	Visibility = ESlateVisibility::Visible;
 
 	_TitleBorder = Cast<UBorder>(GetWidgetFromName("TitleBorder"));
+	_TitleText = Cast<UTextBlock>(GetWidgetFromName("Title"));
 }
 
-void URPGGameTitleBarLayout::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
+void URPGGameTitleBarLayout::SetText(FString NewTitle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("wewew"));
+	_TitleText->SetText(FText::FromString(NewTitle));
 }
 
-bool URPGGameTitleBarLayout::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
-{
-	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
-	UE_LOG(LogTemp, Warning, TEXT("wewew"));
-	return false;
-}
 

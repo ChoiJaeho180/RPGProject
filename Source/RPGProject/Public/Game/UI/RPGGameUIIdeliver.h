@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameItemStruct.h"
 #include "UObject/NoExportTypes.h"
 #include "RPGGameUIIdeliver.generated.h"
 
@@ -17,5 +18,7 @@ class RPGPROJECT_API URPGGameUIIdeliver : public UObject
 private:
 	URPGGameInventoryLayout* _TargetUI;
 public:
+	void InitInventory(const TArray<FRPGRestItem>& NewItem);
 	void SetDeliveryTargetUI(URPGGameInventoryLayout* NewUI);
+	void SendInputState(const EInventoryUIType& NewInput);
 };

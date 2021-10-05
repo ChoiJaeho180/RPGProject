@@ -46,7 +46,12 @@ void ARPGCommonCharacterInfoExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 		ResultCharacterInfo->Job = result->TryGetField("Job")->AsString();
 		ResultCharacterInfo->Level = FCString::Atoi(*result->TryGetField("Level")->AsString());
 
+		FString ItemInfo = result->TryGetField("Items")->AsString();
+		TArray<FRPGRestItem> ItemData = RPGCommonStringParser::ItemsDataParsing(ItemInfo);
+
+
 		CurrentController->SetCharacterInfo(ResultCharacterInfo);
+		CurrentController->InitItemData(ItemData);
 	}
 
 }

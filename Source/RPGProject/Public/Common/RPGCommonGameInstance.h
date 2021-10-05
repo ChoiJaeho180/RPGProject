@@ -47,6 +47,7 @@ public:
 public:
 	TSubclassOf<ARPGCommonRestManager> RestManagerClass;
 	TSubclassOf<ARPGGameNPCData> RPGGameClass;
+	TSubclassOf<UUserWidget> RPGSlotClass;
 	TSubclassOf<ARPGGameDataCopy> GameDataCopyClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;
 };

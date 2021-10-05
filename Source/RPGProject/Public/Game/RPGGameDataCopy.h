@@ -27,10 +27,11 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void CheckCharacterStat();
-	TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemInfo();
+	void CheckCharacterItems();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
+	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemsInfo() { return _CharacterItemInfo; }
 };

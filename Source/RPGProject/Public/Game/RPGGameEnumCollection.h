@@ -38,6 +38,15 @@ enum class EInventoryUIType : uint8
 	ETC_INVENTORY
 };
 
+UENUM(Blueprintable)
+enum class EItemIsFrom : uint8
+{
+	None = 0,
+	BAG = 1,
+	Chest = 2,
+	HOT_BAR = 3,
+	EQUIP = 4,
+};
 
 UENUM(BlueprintType)
 enum class EInventoryType : uint8

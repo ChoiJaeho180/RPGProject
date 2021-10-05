@@ -14,3 +14,10 @@ void ARPGGamePlayerState::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	//_CharacterBagComponent->TestInfo();
 }
+
+void ARPGGamePlayerState::InitData(TArray<FRPGRestItem> RestItemData)
+{
+	_CharacterBagComponent->InitData(RestItemData);
+}
+
+

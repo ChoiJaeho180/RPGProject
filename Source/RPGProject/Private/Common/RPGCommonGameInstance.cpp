@@ -4,6 +4,7 @@
 #include "Game/RPGGameNPCData.h"
 #include "Game/RPGGameDataCopy.h"
 #include "Game/RPGGameDataTableManager.h"
+#include "Blueprint/UserWidget.h"
 
 URPGCommonGameInstance::URPGCommonGameInstance()
 {
@@ -15,6 +16,12 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 	if (SK_WARRIOR.Succeeded())
 	{
 		CharacterSkeletalMeshObject = SK_WARRIOR.Object;
+	}
+	//
+	static ConstructorHelpers::FClassFinder<UUserWidget>SLOT_WIDGET(TEXT("WidgetBlueprint'/Game/InventorySystem/UI/Blueprints/Inventory/Inventory_Slot.Inventory_Slot_C'"));
+	if (SLOT_WIDGET.Succeeded())
+	{
+		RPGSlotClass = SLOT_WIDGET.Class;
 	}
 }
 

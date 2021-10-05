@@ -17,12 +17,12 @@ void URPGGmaeDragBaseLayout::NativeOnDragDetected(const FGeometry& InGeometry, c
 	UE_LOG(LogTemp, Warning, TEXT("NativeOnDragDetected"));
 
 	URPGGameTitleDragAndDrop* DragAndDrop = Cast<URPGGameTitleDragAndDrop>(UWidgetBlueprintLibrary::CreateDragDropOperation(URPGGameTitleDragAndDrop::StaticClass()));
-	DragAndDrop->SetParentWidget(this);
+	DragAndDrop->SetParentWidget(_ParentWidget);
 
 	DragAndDrop->SetMouseOffset(InGeometry.AbsoluteToLocal(InMouseEvent.GetScreenSpacePosition()));
-	DragAndDrop->DefaultDragVisual = this;
+	DragAndDrop->DefaultDragVisual = _ParentWidget;
 	DragAndDrop->Pivot = EDragPivot::MouseDown;
 
 	OutOperation = DragAndDrop;
-	this->RemoveFromParent();
+	_ParentWidget->RemoveFromParent();
 }

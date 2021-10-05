@@ -3,26 +3,24 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/UI/RPGGmaeDragBaseLayout.h"
 #include "Blueprint/UserWidget.h"
 #include "RPGGameTitleBarLayout.generated.h"
 
 class UBorder;
-
-DECLARE_DELEGATE_OneParam(FTitleDragAndDropDelegate,const FVector2D&);
+class UTextBlock;
 /**
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGGameTitleBarLayout : public UUserWidget
+class RPGPROJECT_API URPGGameTitleBarLayout : public URPGGmaeDragBaseLayout
 {
 	GENERATED_BODY()
 private:
+	UTextBlock* _TitleText;
 	UBorder* _TitleBorder;
 public:
 	virtual void NativeConstruct() override;
 public:
-	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-public:
-	FTitleDragAndDropDelegate delegateTitleDragAndDrop;
+	void SetText(FString NewTitle);
 };

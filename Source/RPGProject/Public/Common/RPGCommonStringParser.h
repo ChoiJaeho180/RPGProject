@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Game/RPGGameItemStruct.h"
 
 /**
  * 
@@ -15,4 +16,5 @@ public:
 	
 	static TMap<FString, FString> StringParsing(const FString& Data);
 	static TArray<FString> CommaStringParsing(const FString& Data);
+	static TArray<FRPGRestItem> ItemsDataParsing(const FString& Data);
 };

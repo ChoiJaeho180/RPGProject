@@ -42,7 +42,7 @@ void ARPGGameController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
 	_PlayerStat = GetPlayerState<ARPGGamePlayerState>();
-	_PlayerStat->GetCharacterBag()->TestInfo();
+	//_PlayerStat->GetCharacterBag()->TestInfo();
 }
 
 void ARPGGameController::SetupInputComponent()
@@ -55,6 +55,17 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
+}
+
+void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
+{
+	_PlayerStat->InitData(RestItemData);
+	AsyncTask(ENamedThreads::GameThread, [=]()
+	{
+		_GameUIManager->InitInventory(RestItemData);
+
+	});
+	//_PlayerStat
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
@@ -114,10 +125,6 @@ void ARPGGameController::LeftMouseClick()
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
 {
+	UE_LOG(LogTemp, Warning, TEXT("InteractionUI"));
+	_GameUIManager->SendInputState(InteractionType);
 }
-
-void ARPGGameController::Test()
-{
-	UE_LOG(LogTemp, Warning, TEXT("INPUT U"));
-}
-

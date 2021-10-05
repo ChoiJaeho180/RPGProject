@@ -4,6 +4,7 @@
 
 #include "../../RPGProject.h"
 #include "Common/REST/RPGCommonCharacterInfoExecutor.h"
+#include "Game/RPGGameItemStruct.h"
 #include "GameFramework/PlayerController.h"
 #include "RPGGameController.generated.h"
 
@@ -32,6 +33,7 @@ public:
 	virtual void PreInitializeComponents() override;
 	virtual void PostInitializeComponents() override;
 	virtual void SetupInputComponent() override;
+	void InitItemData(const TArray<FRPGRestItem>& RestItemData);
 public:
 
 	void SendActiveMap(const FString& MapName);

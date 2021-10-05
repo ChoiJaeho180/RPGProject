@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/RPGGameItemStruct.h"
 #include "GameFramework/PlayerState.h"
 #include "RPGGamePlayerState.generated.h"
 
@@ -61,7 +62,9 @@ private:
 public:
 	ARPGGamePlayerState();
 	virtual void PostInitializeComponents() override;
+	void InitData(TArray<FRPGRestItem> RestItemData);
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
+
 };
