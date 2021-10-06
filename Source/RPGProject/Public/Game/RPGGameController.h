@@ -4,7 +4,7 @@
 
 #include "../../RPGProject.h"
 #include "Common/REST/RPGCommonCharacterInfoExecutor.h"
-#include "Game/RPGGameItemStruct.h"
+#include "Game/RPGGameCharacterBagComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "RPGGameController.generated.h"
 

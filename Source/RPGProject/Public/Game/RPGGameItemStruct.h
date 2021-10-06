@@ -40,7 +40,7 @@ struct FRPGItemInfo : public FRPGItemBase
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditAnywhere, Category = "Item")
-	int Count =0;
+	int Count =-1;
 	int TimeStamp =0;
 	void SetInfo(int NewCount = 0, int NewPrice =0, FText NewDescription = FText(), FName NewName =FName(), EInventoryType NewType = EInventoryType::ETC_INVENTORY,int NewTimeStamp =1)
 	{
@@ -51,13 +51,17 @@ public:
 		InventoryType = NewType;
 		TimeStamp = NewTimeStamp;
 	}
+	void SetInfo(int NewCount, int NewTimeStamp)
+	{
+		Count = NewCount;
+		TimeStamp = NewTimeStamp;
+	}
 	void SetInfo(const TSharedPtr<FRPGItemInfo>& NewInfo)
 	{
 		Count = NewInfo->Count;
 		Price = NewInfo->Price;
 		Description = NewInfo->Description;
 		Name = NewInfo->Name;
-		InventoryType =NewInfo->InventoryType;
 		TimeStamp = NewInfo->TimeStamp;
 	}
 };
@@ -67,7 +71,7 @@ struct FRPGItemSlot : public FRPGItemInfo
 {
 	GENERATED_USTRUCT_BODY()
 public:
-	int SlotIndex;
+	int SlotIndex = -1;
 	UPROPERTY(EditAnywhere, Category = "Item")
 	UTexture2D* Image = nullptr;
 	void SetInfo(UTexture2D* NewImage, int NewSlotIndex)
@@ -78,6 +82,22 @@ public:
 	void SetInfo(const TSharedPtr<FRPGItemInfo>& NewInfo)
 	{
 		FRPGItemInfo::SetInfo(NewInfo);
+	}
+	void SetInfoT(const TSharedPtr<FRPGItemInfo>& NewInfo)
+	{
+		Count = NewInfo->Count;
+		TimeStamp = NewInfo->TimeStamp;
+	}
+	void SetEmpty()
+	{
+		Image = nullptr;
+		SlotIndex = -1;
+		Count = -1;
+		TimeStamp = 0;
+		InventoryType = EInventoryType::ETC_INVENTORY;
+		Name = FName("");
+		Description = FText::FromString("");
+		Price = 0;
 	}
 	void SetInfo(int NewCount = 0, int NewPrice = 0, FText NewDescription = FText(), FName NewName = FName(), EInventoryType NewType = EInventoryType::ETC_INVENTORY, int NewTimeStamp = 1)
 	{

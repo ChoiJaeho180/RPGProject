@@ -8,6 +8,16 @@
 #include "Game/UI/RPGGameSlotDragDropOperation.h"
 #include "Components/TextBlock.h"
 
+void URPGGameBagslot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	_Button = Cast<UButton>(GetWidgetFromName("IconButton"));
+	_Icon = Cast<UImage>(GetWidgetFromName("IconImage"));
+	_AmountText = Cast<UTextBlock>(GetWidgetFromName("Amount"));
+	_Background = Cast<UImage>(GetWidgetFromName("Background"));
+
+}
+
 bool URPGGameBagslot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
 	URPGGameSlotDragDropOperation* ItemOperation = Cast<URPGGameSlotDragDropOperation>(InOperation);
@@ -17,13 +27,13 @@ bool URPGGameBagslot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 
 		if (_ItemIsFrom == ItemIsFrom)
 		{
-			ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI->GetSlotParent(), _Parent, ItemOperation->InventorySlotUI->GetItemSlotData()->SlotIndex, _ItemInfo->SlotIndex);
+			ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI, this);
 		}
 		else if (_ItemIsFrom == EItemIsFrom::BAG && ItemIsFrom == EItemIsFrom::EQUIP)
 		{
-
+			
 		}
-		else if (_ItemIsFrom == EItemIsFrom::BAG && ItemIsFrom == EItemIsFrom::HOT_BAR)
+		else if (_ItemIsFrom == EItemIsFrom::BAG && ItemIsFrom == EItemIsFrom::LEFT_HOT_BAR)
 		{
 
 		}
@@ -35,14 +45,7 @@ bool URPGGameBagslot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 	return true;
 }
 
-void URPGGameBagslot::NativeConstruct()
-{
-	Super::NativeConstruct();
-	_Button = Cast<UButton>(GetWidgetFromName("IconButton"));
-	_Icon = Cast<UImage>(GetWidgetFromName("IconImage"));
-	_AmountText = Cast<UTextBlock>(GetWidgetFromName("Amount"));
-	//ActiveSlot(ESlateVisibility::Hidden);
-}
+
 
 UTexture2D* URPGGameBagslot::GetItemImage() const
 {
@@ -59,14 +62,56 @@ void URPGGameBagslot::UpdateUI()
 	else
 		ActiveSlot(ESlateVisibility::SelfHitTestInvisible);
 
-	if (_ItemInfo->Count == 0)
+	if (_ItemInfo->Count == -1)
 		_AmountText->SetText(FText::FromString(""));
 	else
 		_AmountText->SetText(FText::AsNumber(_ItemInfo->Count));
 
 	_Icon->SetBrushFromTexture(_ItemInfo->Image);
-	UE_LOG(LogTemp, Warning, TEXT("UpdateUI"));
 }
+
+void URPGGameBagslot::UpdateNullItem()
+{
+	_ItemInfo->SetEmpty();
+	UpdateUI();
+}
+
+void URPGGameBagslot::ActiveSlot(ESlateVisibility NewState)
+{
+	_Button->SetVisibility(NewState);
+	_Icon->SetVisibility(NewState);
+}
+
+URPGGameSlotDragDropBaseLayout* URPGGameBagslot::GetDragObject()
+{
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetGameInstance());
+	URPGGameBagslot* DraggedItem = CreateWidget<URPGGameBagslot>(GetWorld(), GI->RPGSlotClass);
+	DraggedItem->_Icon = Cast<UImage>(DraggedItem->GetWidgetFromName("IconImage"));
+	DraggedItem->_Button = Cast<UButton>(DraggedItem->GetWidgetFromName("IconButton"));
+	if (DraggedItem->_Icon != nullptr)
+	{
+		DraggedItem->ActiveSlot(ESlateVisibility::SelfHitTestInvisible);
+		DraggedItem->_Icon->SetBrushFromTexture(GetItemImage());
+	}
+	return DraggedItem;
+}
+
+void URPGGameBagslot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	UUserWidget::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseEnter"));
+	FLinearColor c;
+	_Background->SetColorAndOpacity(c.Blue);
+}
+
+void URPGGameBagslot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	UUserWidget::NativeOnMouseLeave(InMouseEvent);
+	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseLeave"));
+	FLinearColor c;
+	_Background->SetColorAndOpacity(c.White);
+}
+
 
 void URPGGameBagslot::UpdateItem(TSharedPtr<FRPGItemInfo>& NewItemInfo)
 {
@@ -74,11 +119,8 @@ void URPGGameBagslot::UpdateItem(TSharedPtr<FRPGItemInfo>& NewItemInfo)
 		return;
 
 	_ItemInfo->SetInfo(NewItemInfo);
-	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetGameInstance());
-	URPGGameDataTableManager* DT = GI->GetDataTableManager();
-	
-	_Icon->SetBrushFromTexture(DT->GetNameToTexture(_ItemInfo->Name));
-	UE_LOG(LogTemp, Warning, TEXT("asds"));
+
+	UpdateUI();
 }
 
 void URPGGameBagslot::Init(const FName& Name, const int& SlotIndex, const int& Count)
@@ -91,7 +133,6 @@ void URPGGameBagslot::Init(const FName& Name, const int& SlotIndex, const int& C
 	_ItemInfo->SetInfo(Count, ItemType->Price, ItemType->Description, Name, ItemType->InventoryType,0);
 	_ItemInfo->SetInfo(ItemType->Image, SlotIndex);
 	UpdateUI();
-	//ActiveSlot(ESlateVisibility::SelfHitTestInvisible);
 }
 
 void URPGGameBagslot::SetItem()

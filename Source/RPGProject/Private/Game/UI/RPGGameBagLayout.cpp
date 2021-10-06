@@ -31,9 +31,9 @@ void URPGGameBagLayout::NativeConstruct()
 		NewData->SlotIndex = i;
 		NewSlot->ActiveSlot(ESlateVisibility::Hidden);
 		NewSlot->SetItemIsFrom(EItemIsFrom::BAG);
-		NewSlot->SetParent(this);
+		//NewSlot->SetParent(this);
 		NewSlot->SetItemSlotData(NewData);
-		SlotData.Add(NewSlot);
+		_SlotData.Add(NewSlot);
 		//_BagSlots.Add(NewSlot);
 	}
 
@@ -46,36 +46,61 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	_DeltaTime += InDeltaTime;
-	if (_DeltaTime < STARNDARD_TIME)
+	if (_bRestInit == false)
 		return;
 	TArray<TSharedPtr<FRPGItemInfo>> NewItemsInfo = _CheckBagSlotData->GetCharacterItemsInfo();
-	//for (int i = 0; i < NewItemsInfo.Num(); i++)
+	for (int i = 0; i < NewItemsInfo.Num(); i++)
 	{
-		//_BagSlots[0]->UpdateItem(NewItemsInfo[0]);
+		URPGGameBagslot* Find = FindItem(NewItemsInfo[i]);
+		if (Find == nullptr)
+			continue;
+
+		Find->UpdateItem(NewItemsInfo[i]);
 	}
-	_DeltaTime = 0.f;
+	
+	for (int i = 0; i < _SlotData.Num(); i++)
+	{
+		TSharedPtr<FRPGItemInfo> SlotData = FindItem(_SlotData[i]->GetItemSlotData(), NewItemsInfo);
+		if (SlotData == nullptr)
+		{
+			if(_SlotData[i]->GetItemSlotData()->Name != FName("None"))
+				_SlotData[i]->UpdateNullItem();
+		}
+	}
+	
 }
 
 void URPGGameBagLayout::InitBagSlots(const TArray<FRPGRestItem>& RestItemData)
 {
 	for (int i = 0; i < RestItemData.Num(); i++)
 	{
-		((URPGGameBagslot*)SlotData[RestItemData[i].SlotIndex])->Init(RestItemData[i].Name, RestItemData[i].SlotIndex, RestItemData[i].Count);
+		((URPGGameBagslot*)_SlotData[RestItemData[i].SlotIndex])->Init(RestItemData[i].Name, RestItemData[i].SlotIndex, RestItemData[i].Count);
 	}
+	_bRestInit = true;
 }
 
-bool URPGGameBagLayout::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
+TSharedPtr<FRPGItemInfo> URPGGameBagLayout::FindItem(const TSharedPtr<FRPGItemInfo>& NewItem, const TArray<TSharedPtr<FRPGItemInfo>>& NewItemsInfo)
 {
-	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
-
-	URPGGameSlotDragDropOperation* Widget = Cast<URPGGameSlotDragDropOperation>(InOperation);
-	if (Widget == nullptr)
-		return false;
-
-//	Widget->GetParentWidget()->AddToViewport();
-
-	//FVector2D NewPosition = InGeometry.AbsoluteToLocal(InDragDropEvent.GetScreenSpacePosition()) - Widget->GetMouseOffset();
-	//Widget->GetParentWidget()->SetPositionInViewport(NewPosition, false);
-	return true;
+	for (int i = 0; i < NewItemsInfo.Num(); i++)
+	{
+		if (NewItemsInfo[i]->Name == NewItem->Name)
+		{
+			return NewItemsInfo[i];
+		}
+	}
+	return nullptr;
 }
+
+URPGGameBagslot* URPGGameBagLayout::FindItem(const TSharedPtr<FRPGItemInfo>& NewItem)
+{
+	for (int i = 0; i < _SlotData.Num(); i++)
+	{
+		if (_SlotData[i]->GetItemSlotData()->Name == NewItem->Name)
+		{
+			return _SlotData[i];
+		}
+	}
+	return nullptr;
+}
+
+

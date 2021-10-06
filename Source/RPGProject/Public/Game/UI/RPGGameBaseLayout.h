@@ -14,4 +14,6 @@ class RPGPROJECT_API URPGGameBaseLayout : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) {};
 };

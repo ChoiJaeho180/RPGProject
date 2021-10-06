@@ -3,10 +3,12 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameItemStruct.h"
 #include "Game/UI/RPGGameBaseLayout.h"
 #include "RPGGameActionBarLayout.generated.h"
 
 class URPGGameActionBarSlot;
+class ARPGGameDataCopy;
 /**
  * 
  */
@@ -15,9 +17,12 @@ class RPGPROJECT_API URPGGameActionBarLayout : public URPGGameBaseLayout
 {
 	GENERATED_BODY()
 private:
-	UPROPERTY()
 	TArray<URPGGameActionBarSlot*> _ActionBarSlots;
+	UPROPERTY()
+	ARPGGameDataCopy* _ChecActonBarSlotData;
 public:
 	virtual void NativeConstruct() override;
-	
+	void NativeTick();
+public:
+	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& KeySlotData, const TArray<TSharedPtr<FRPGItemInfo>>& CharacterItems);
 };

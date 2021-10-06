@@ -22,7 +22,8 @@ public:
 
 	void AddItem(const TSharedPtr<FRPGItemInfo>& NewItem);
 	void RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem);
-	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& NewItem);
+	void RemoveItem(FName Name, int Count);
+	TSharedPtr<FRPGItemInfo> FindItem(FName Name);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

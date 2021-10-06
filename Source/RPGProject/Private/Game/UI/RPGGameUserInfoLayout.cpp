@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/UI/RPGGameUserInfoLayout.h"
 #include "Game/UI/RPGGameProgressBarLayout.h"
-#include "Game/UI/RPGGameActionBarLayout.h"
 #include "Components/ProgressBar.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/UI/RPGGameSpecialBar.h"
@@ -16,7 +15,6 @@ void URPGGameUserInfoLayout::NativeConstruct()
 	_SpecialBar = Cast<URPGGameSpecialBar>(GetWidgetFromName("SpecialBar"));
 	_HPBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("HPBar"));
 	_MPBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("MPBar"));
-	_ActionBar = Cast<URPGGameActionBarLayout>(GetWidgetFromName("ActionBar"));
 	_ExpBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("ExpBar"));
 	InteractionDeltaTime = 0;
 	SetGameDataCopy();

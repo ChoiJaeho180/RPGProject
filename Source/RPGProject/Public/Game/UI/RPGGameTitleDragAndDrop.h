@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Blueprint/DragDropOperation.h"
 #include "RPGGameTitleDragAndDrop.generated.h"
 
@@ -16,6 +17,8 @@ class RPGPROJECT_API URPGGameTitleDragAndDrop : public UDragDropOperation
 private:
 	UUserWidget* _ParentWidget;
 	FVector2D _MouseOffset;
+public:
+	void CorrectPosition(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent);
 public:
 	FORCEINLINE void SetParentWidget(UUserWidget* NewWidget) { _ParentWidget = NewWidget; }
 	FORCEINLINE UUserWidget* GetParentWidget() { return _ParentWidget; }

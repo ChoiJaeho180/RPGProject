@@ -1,18 +1,27 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Game/UI/RPGGameSlotDragDropOperation.h"
+#include "Game/UI/RPGGameSlotDragDropBaseLayout.h"
 
-void URPGGameSlotDragDropOperation::ExChangeSlot(IRPGGameDataSlots* From, IRPGGameDataSlots* To, int FromIndex, int ToIndex)
+void URPGGameSlotDragDropOperation::ExChangeSlot(URPGGameSlotDragDropBaseLayout* From, URPGGameSlotDragDropBaseLayout* To)
 {
-	TWeakPtr<FRPGItemSlot> FromTemp = From->SlotData[FromIndex]->GetItemSlotData();
-	TWeakPtr<FRPGItemSlot> ToTemp = To->SlotData[ToIndex]->GetItemSlotData();
-	From->SlotData[FromIndex]->SetItemSlotData(ToTemp.Pin());
-	To->SlotData[ToIndex]->SetItemSlotData(FromTemp.Pin());
+	TSharedPtr<FRPGItemSlot> FromTemp = From->GetItemSlotData();
+	int FromIndex = FromTemp->SlotIndex;
+	TSharedPtr<FRPGItemSlot> ToTemp = To->GetItemSlotData();
+	int ToIndex = ToTemp->SlotIndex;
+	From->SetItemSlotData(ToTemp);
+	To->SetItemSlotData(FromTemp);
 
-	From->SlotData[FromIndex]->SetItemSlotIndex(FromIndex);
-	To->SlotData[ToIndex]->SetItemSlotIndex(ToIndex);
+	From->SetItemSlotIndex(FromIndex);
+	To->SetItemSlotIndex(ToIndex);
 
-	From->SlotData[FromIndex]->UpdateUI();
-	To->SlotData[ToIndex]->UpdateUI();
+	From->UpdateUI();
+	To->UpdateUI();
+}
+
+void URPGGameSlotDragDropOperation::AddSlot(URPGGameSlotDragDropBaseLayout* From, URPGGameSlotDragDropBaseLayout* To)
+{
+	TSharedPtr<FRPGItemSlot> FromTemp = From->GetItemSlotData();
+	To->GetItemSlotData()->SetInfo(FromTemp);
+	To->GetItemSlotData()->Image = FromTemp->Image;
+	To->UpdateUI();
 }

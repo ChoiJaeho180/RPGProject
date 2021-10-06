@@ -9,6 +9,7 @@
 
 class URPGGameBagLayout;
 class URPGGameEquipmentLayout;
+class URPGGameActionBarLayout;
 
 /**
  * 
@@ -18,13 +19,17 @@ class RPGPROJECT_API URPGGameInventoryLayout : public URPGGameBaseLayout
 {
 	GENERATED_BODY()
 private:
+
+	float _DeltaTime;
 	UPROPERTY()
 	URPGGameBagLayout* _BagLayout;
 	UPROPERTY()
 	URPGGameEquipmentLayout* _EquipmentLayout;
+	UPROPERTY()
+	URPGGameActionBarLayout* _ActionBar;
 public:
 	virtual void NativeConstruct() override;
-	
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void UpdateVisibility(const EInventoryUIType& NewInput);
 public:

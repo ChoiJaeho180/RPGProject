@@ -44,8 +44,9 @@ enum class EItemIsFrom : uint8
 	None = 0,
 	BAG = 1,
 	Chest = 2,
-	HOT_BAR = 3,
-	EQUIP = 4,
+	RIGHT_HOT_BAR = 3,
+	LEFT_HOT_BAR = 4,
+	EQUIP = 5,
 };
 
 UENUM(BlueprintType)

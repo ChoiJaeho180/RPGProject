@@ -23,6 +23,12 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 	{
 		RPGSlotClass = SLOT_WIDGET.Class;
 	}
+	//
+	static ConstructorHelpers::FClassFinder<UUserWidget>ACTION_BAR_SLOT_WIDGET(TEXT("WidgetBlueprint'/Game/UI_Kit/Widgets/ActionBars/ActionbarSlot_T4.ActionbarSlot_T4_C'"));
+	if (ACTION_BAR_SLOT_WIDGET.Succeeded())
+	{
+		RPGActionBarSlotClass = ACTION_BAR_SLOT_WIDGET.Class;
+	}
 }
 
 void URPGCommonGameInstance::Init()

@@ -18,12 +18,12 @@ class ARPGGameDataCopy;
  * 
  */
 UCLASS()
-class RPGPROJECT_API URPGGameBagLayout : public UUserWidget, public IRPGGameDataSlots
+class RPGPROJECT_API URPGGameBagLayout : public UUserWidget
 {
 	GENERATED_BODY()
 	
 private:
-	float _DeltaTime;
+	bool _bRestInit;
 	UPROPERTY()
 	UUniformGridPanel* _BagGridPanel;
 	UPROPERTY()
@@ -32,10 +32,13 @@ private:
 	URPGGameTitleBarLayout* _TitleBarLayout;
 	UPROPERTY()
 	ARPGGameDataCopy* _CheckBagSlotData;
+	UPROPERTY()
+	TArray<URPGGameBagslot*> _SlotData;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
-	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 public:
 	void InitBagSlots(const TArray<FRPGRestItem>& RestItemData);
+	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& NewItem, const TArray<TSharedPtr<FRPGItemInfo>>& NewItemsInfo);
+	URPGGameBagslot* FindItem(const TSharedPtr<FRPGItemInfo>& NewItem);
 };

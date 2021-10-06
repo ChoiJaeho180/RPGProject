@@ -20,29 +20,25 @@ class RPGPROJECT_API URPGGameSlotDragDropBaseLayout : public UUserWidget
 {
 	GENERATED_BODY()
 protected:
-	IRPGGameDataSlots* _Parent;
 	TSharedPtr<FRPGItemSlot> _ItemInfo;
 	UPROPERTY()
 	EItemIsFrom _ItemIsFrom;
-	UPROPERTY()
-	UImage* _Icon;
-	UPROPERTY()
-	UButton* _Button;
-	UPROPERTY()
-	UTextBlock* _AmountText;
+
 protected:
     virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
     virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,UDragDropOperation*& OutOperation) override;
-	virtual UTexture2D* GetItemImage() const;
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+	
 	
 public:
-	void ActiveSlot(ESlateVisibility NewState);
+	virtual void ActiveSlot(ESlateVisibility NewState) {};
 	virtual void UpdateUI() {};
+	virtual URPGGameSlotDragDropBaseLayout* GetDragObject() { return nullptr; };
+	virtual UTexture2D* GetItemImage() const;
 public:
 	FORCEINLINE EItemIsFrom GetItemIsFrom() { return _ItemIsFrom; }
 	FORCEINLINE void SetItemIsFrom(EItemIsFrom NewState) { _ItemIsFrom = NewState; }
-	FORCEINLINE void SetParent(IRPGGameDataSlots* NewParent) { _Parent = NewParent; };
-	FORCEINLINE IRPGGameDataSlots* GetSlotParent() { return _Parent; };
 	FORCEINLINE TSharedPtr<FRPGItemSlot> GetItemSlotData() { return _ItemInfo; }
 	FORCEINLINE void SetItemSlotData(const TSharedPtr<FRPGItemSlot> NewData) { _ItemInfo = NewData; }
 	FORCEINLINE void SetItemSlotIndex(const int& SlotIndex) { _ItemInfo->SlotIndex = SlotIndex; }

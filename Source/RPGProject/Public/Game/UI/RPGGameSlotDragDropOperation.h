@@ -8,7 +8,7 @@
 #include "Blueprint/DragDropOperation.h"
 #include "RPGGameSlotDragDropOperation.generated.h"
 
-
+class URPGGameSlotDragDropBaseLayout;
 /**
  * 
  */
@@ -21,6 +21,7 @@ public:
 	URPGGameSlotDragDropBaseLayout* InventorySlotUI;
 
 public:
-	void ExChangeSlot(IRPGGameDataSlots* From, IRPGGameDataSlots* to, int FromIndex, int ToIndex);
+	void ExChangeSlot(URPGGameSlotDragDropBaseLayout* From, URPGGameSlotDragDropBaseLayout* To);
+	void AddSlot(URPGGameSlotDragDropBaseLayout* From, URPGGameSlotDragDropBaseLayout* to);
 	EItemIsFrom GetItemIsFrom() const { return InventorySlotUI->GetItemIsFrom(); }
 };

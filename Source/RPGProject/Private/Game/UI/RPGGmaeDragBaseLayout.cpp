@@ -7,6 +7,7 @@ FReply URPGGmaeDragBaseLayout::NativeOnMouseButtonDown(const FGeometry& InGeomet
 {
 	FEventReply reply;
 	reply.NativeReply = Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
+	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseButtonDown"));
 	reply = UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, FKey("LeftMouseButton"));
 	return reply.NativeReply;
 }
@@ -22,7 +23,6 @@ void URPGGmaeDragBaseLayout::NativeOnDragDetected(const FGeometry& InGeometry, c
 	DragAndDrop->SetMouseOffset(InGeometry.AbsoluteToLocal(InMouseEvent.GetScreenSpacePosition()));
 	DragAndDrop->DefaultDragVisual = _ParentWidget;
 	DragAndDrop->Pivot = EDragPivot::MouseDown;
-
 	OutOperation = DragAndDrop;
 	_ParentWidget->RemoveFromParent();
 }

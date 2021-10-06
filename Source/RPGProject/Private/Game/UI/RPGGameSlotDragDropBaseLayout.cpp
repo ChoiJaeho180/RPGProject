@@ -25,17 +25,8 @@ void URPGGameSlotDragDropBaseLayout::NativeOnDragDetected(const FGeometry& InGeo
 
     if (IsValid(ItemOperation) == true)
     {
-        URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetGameInstance());
-        URPGGameSlotDragDropBaseLayout* DraggedItem = CreateWidget<URPGGameSlotDragDropBaseLayout>(GetWorld(), GI->RPGSlotClass);
         
-        DraggedItem->_Icon = Cast<UImage>(DraggedItem->GetWidgetFromName("IconImage"));
-        DraggedItem->_Button = Cast<UButton>(DraggedItem->GetWidgetFromName("IconButton"));
-        if (DraggedItem->_Icon != nullptr)
-        {
-            DraggedItem->_Icon->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-            DraggedItem->_Button->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-            DraggedItem->_Icon->SetBrushFromTexture(GetItemImage());
-        }
+        URPGGameSlotDragDropBaseLayout* DraggedItem =  GetDragObject();
         
         ItemOperation->DefaultDragVisual = DraggedItem;
         ItemOperation->Pivot = EDragPivot::MouseDown;
@@ -48,13 +39,19 @@ void URPGGameSlotDragDropBaseLayout::NativeOnDragDetected(const FGeometry& InGeo
     
 }
 
+
 UTexture2D* URPGGameSlotDragDropBaseLayout::GetItemImage() const
 {
     return nullptr;
 }
 
-void URPGGameSlotDragDropBaseLayout::ActiveSlot(ESlateVisibility NewState)
+void URPGGameSlotDragDropBaseLayout::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-    _Button->SetVisibility(NewState);
-    _Icon->SetVisibility(NewState);
+
 }
+
+void URPGGameSlotDragDropBaseLayout::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+
+}
+

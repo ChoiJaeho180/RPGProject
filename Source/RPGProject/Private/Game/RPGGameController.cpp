@@ -5,7 +5,6 @@
 #include "Game/UI/RPGGameUIManager.h"
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGamePlayerState.h"
-#include "Game/RPGGameCharacterBagComponent.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -42,7 +41,6 @@ void ARPGGameController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
 	_PlayerStat = GetPlayerState<ARPGGamePlayerState>();
-	//_PlayerStat->GetCharacterBag()->TestInfo();
 }
 
 void ARPGGameController::SetupInputComponent()
@@ -65,7 +63,7 @@ void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
 		_GameUIManager->InitInventory(RestItemData);
 
 	});
-	//_PlayerStat
+	
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
@@ -108,8 +106,10 @@ void ARPGGameController::LeftMouseClick()
 	auto test = _PlayerStat->GetCharacterStat();
 	test->TimeStamp++;
 	test->SpecialState += 10;
-
-
+	TSharedPtr<FRPGItemInfo> Item = MakeShareable(new FRPGItemInfo);
+	Item->Name = "Green HP Portion";
+	Item->Count = 1;
+	_PlayerStat->GetCharacterBag()->RemoveItem(Item);
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_GameTraceChannel3, false, Hit);
 	if (Hit.bBlockingHit)

@@ -3,6 +3,7 @@
 #include "Game/UI/RPGGameBagLayout.h"
 #include "Game/UI/RPGGameEquipmentLayout.h"
 #include "Game/UI/RPGGameTitleDragAndDrop.h"
+#include "Game/UI/RPGGameActionBarLayout.h"
 
 void URPGGameInventoryLayout::NativeConstruct()
 {
@@ -11,6 +12,28 @@ void URPGGameInventoryLayout::NativeConstruct()
 	_BagLayout = Cast<URPGGameBagLayout>(GetWidgetFromName("Bag"));
 	_BagLayout->Visibility = ESlateVisibility::Visible;
 	_EquipmentLayout = Cast<URPGGameEquipmentLayout>(GetWidgetFromName("Equipment"));
+	_ActionBar = Cast<URPGGameActionBarLayout>(GetWidgetFromName("ActionBar"));
+}
+
+void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+
+	_DeltaTime += InDeltaTime;
+	if (_DeltaTime < STARNDARD_TIME)
+		return;
+
+	if (_ActionBar != nullptr)
+	{
+		_ActionBar->NativeTick();
+	}
+
+	if (_BagLayout->GetVisibility() == ESlateVisibility::Visible)
+	{
+		_BagLayout->NativeTick(MyGeometry, InDeltaTime);
+	}
+	_DeltaTime = 0.f; 
+	//UE_LOG(LogTemp, Warning, TEXT("wewewe"));
 }
 
 

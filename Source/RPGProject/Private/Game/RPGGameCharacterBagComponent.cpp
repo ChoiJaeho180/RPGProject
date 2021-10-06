@@ -20,7 +20,11 @@ void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestIte
 	for (int i = 0; i < RestItemData.Num(); i++)
 	{
 		TSharedPtr<FRPGItemInfo> NewItem = MakeShareable(new FRPGItemInfo);
+		FGameItemType* ItemType = DTManager->GetNameToData(RestItemData[i].Name);
 		NewItem->Name = RestItemData[i].Name;
+		NewItem->Price = ItemType->Price;
+		NewItem->InventoryType = ItemType->InventoryType;
+		NewItem->Description = ItemType->Description;
 		NewItem->Count = RestItemData[i].Count;
 		AddItem(NewItem);
 	}
@@ -55,7 +59,7 @@ void URPGGameCharacterBagComponent::TestInfo()
 
 void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewItem)
 {
-	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(NewItem);
+	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(NewItem->Name);
 	if (ExistItem != nullptr)
 	{
 		ExistItem->Count += NewItem->Count;
@@ -66,7 +70,7 @@ void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewI
 
 void URPGGameCharacterBagComponent::RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem)
 {
-	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(NewItem);
+	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(NewItem->Name);
 	if (ExistItem == nullptr)
 		return;
 
@@ -78,13 +82,29 @@ void URPGGameCharacterBagComponent::RemoveItem(const TSharedPtr<FRPGItemInfo>& N
 	{
 		_CharacterItems.Remove(ExistItem);
 	}
+	ExistItem->TimeStamp++;
 }
 
-TSharedPtr<FRPGItemInfo> URPGGameCharacterBagComponent::FindItem(const TSharedPtr<FRPGItemInfo>& NewItem)
+void URPGGameCharacterBagComponent::RemoveItem(FName Name, int Count)
+{
+	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(Name);
+	if (ExistItem == nullptr)
+		return;
+	if (ExistItem->Count > Count)
+	{
+		ExistItem->Count -= Count;
+	}
+	else
+	{
+		_CharacterItems.Remove(ExistItem);
+	}
+}
+
+TSharedPtr<FRPGItemInfo> URPGGameCharacterBagComponent::FindItem(FName Name)
 {
 	for (int i = 0; i < _CharacterItems.Num(); i++)
 	{
-		if (_CharacterItems[i]->Name == NewItem->Name)
+		if (_CharacterItems[i]->Name == Name)
 		{
 			return _CharacterItems[i];
 		}

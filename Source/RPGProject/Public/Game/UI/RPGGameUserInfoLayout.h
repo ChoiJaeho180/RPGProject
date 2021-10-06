@@ -9,7 +9,6 @@
 #include "RPGGameUserInfoLayout.generated.h"
 
 class URPGGameProgressBarLayout;
-class URPGGameActionBarLayout;
 class UProgressBar;
 class URPGGameSpecialBar;
 /**
@@ -29,8 +28,6 @@ private:
 	URPGGameProgressBarLayout* _MPBar;
 	UPROPERTY()
 	URPGGameProgressBarLayout* _ExpBar;
-	UPROPERTY()
-	URPGGameActionBarLayout* _ActionBar;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
