@@ -41,6 +41,8 @@ public:
 	void UpdateLevel();
 	void ChangeWidget();
 	void SendInputState(const EInventoryUIType& NewInput);
+	TSharedPtr<FRPGItemInfo> GetInputPortionSlotData(const FString Key);
+	void ActiveShop();
 public:
 	TSubclassOf<URPGCommonFade> IntroFadeClass;
 	TSubclassOf<URPGGameMainWidget> GameMainClass;

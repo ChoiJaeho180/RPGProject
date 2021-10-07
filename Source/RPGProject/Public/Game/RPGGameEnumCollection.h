@@ -47,6 +47,7 @@ enum class EItemIsFrom : uint8
 	RIGHT_HOT_BAR = 3,
 	LEFT_HOT_BAR = 4,
 	EQUIP = 5,
+	SHOP = 6
 };
 
 UENUM(BlueprintType)
@@ -60,6 +61,6 @@ enum class EInventoryType : uint8
 #define NPC_TO_CHARACTER_DISTANCE 500
 #define STARNDARD_TIME 0.025
 
-#define PLUS_PERCENT_VALUE 0.001
+#define PLUS_PERCENT_VALUE 0.01
 #define STOP_LERP_VALUE 1
 #define INIT_PERCENT_VALUE 0.0

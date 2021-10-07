@@ -44,7 +44,7 @@ void URPGGameActionBarLayout::NativeTick()
 		auto FindItemData = FindItem(SlotData, CharacterItems);
 		if (FindItemData == nullptr)
 		{
-			if(FindItemData->Name != FName("None"))
+			if(SlotData->Name != FName("None"))
 				_ActionBarSlots[i]->UpdateNullItem();
 		}
 		else
@@ -64,6 +64,18 @@ TSharedPtr<FRPGItemInfo> URPGGameActionBarLayout::FindItem(const TSharedPtr<FRPG
 		{
 			return CharacterItems[i];
 		}
+	}
+	return nullptr;
+}
+
+TSharedPtr<FRPGItemInfo> URPGGameActionBarLayout::FindSlotData(const FString& Key)
+{
+	for (int i = 0; i < _ActionBarSlots.Num(); i++)
+	{
+		if (Key != _ActionBarSlots[i]->GetKeyText())
+			continue;
+		
+		return _ActionBarSlots[i]->GetItemSlotData();
 	}
 	return nullptr;
 }

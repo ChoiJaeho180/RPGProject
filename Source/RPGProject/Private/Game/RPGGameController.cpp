@@ -51,8 +51,20 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameController::MoveRight);
 
 	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
+	
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
+
+	//FString a = "1";
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_1"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("1"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_2"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("2"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_3"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("3"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_4"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("4"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_5"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("5"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_6"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("6"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_7"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("7"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_8"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("8"));
+	
 }
 
 void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
@@ -61,7 +73,6 @@ void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
 	AsyncTask(ENamedThreads::GameThread, [=]()
 	{
 		_GameUIManager->InitInventory(RestItemData);
-
 	});
 	
 }
@@ -102,14 +113,7 @@ void ARPGGameController::MoveRight(float NewAxisValue)
 
 void ARPGGameController::LeftMouseClick()
 {
-	UE_LOG(LogTemp, Warning, TEXT("LeftMouseClick"));
-	auto test = _PlayerStat->GetCharacterStat();
-	test->TimeStamp++;
-	test->SpecialState += 10;
-	TSharedPtr<FRPGItemInfo> Item = MakeShareable(new FRPGItemInfo);
-	Item->Name = "Green HP Portion";
-	Item->Count = 1;
-	_PlayerStat->GetCharacterBag()->RemoveItem(Item);
+
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_GameTraceChannel3, false, Hit);
 	if (Hit.bBlockingHit)
@@ -117,9 +121,7 @@ void ARPGGameController::LeftMouseClick()
 		float Distance = FVector::Dist(Hit.Location, _Character->GetActorLocation());
 		if (Distance > NPC_TO_CHARACTER_DISTANCE)
 			return;
-
-		UE_LOG(LogTemp, Warning, TEXT("wwww"));
-		// 충돌 결과가 있을 때의 처리
+		_GameUIManager->ActiveShop();
 	}
 }
 
@@ -127,4 +129,10 @@ void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
 {
 	UE_LOG(LogTemp, Warning, TEXT("InteractionUI"));
 	_GameUIManager->SendInputState(InteractionType);
+}
+
+void ARPGGameController::InteractionPortionBarUI(FString Key)
+{
+	TSharedPtr<FRPGItemInfo> Data = _GameUIManager->GetInputPortionSlotData(Key);
+	_PlayerStat->UsePortion(Data);
 }

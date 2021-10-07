@@ -29,6 +29,13 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 	{
 		RPGActionBarSlotClass = ACTION_BAR_SLOT_WIDGET.Class;
 	}
+
+	static ConstructorHelpers::FClassFinder<UUserWidget>SELL_HELPER_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/ShopSellHelperLayout.ShopSellHelperLayout_C'"));
+	if (SELL_HELPER_WIDGET.Succeeded())
+	{
+		RPGSellHelperClass = SELL_HELPER_WIDGET.Class;
+	}
+	//
 }
 
 void URPGCommonGameInstance::Init()

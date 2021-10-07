@@ -4,6 +4,7 @@
 #include "Game/UI/RPGGameEquipmentLayout.h"
 #include "Game/UI/RPGGameTitleDragAndDrop.h"
 #include "Game/UI/RPGGameActionBarLayout.h"
+#include "Game/UI/RPGGameShopLayout.h"
 
 void URPGGameInventoryLayout::NativeConstruct()
 {
@@ -13,6 +14,9 @@ void URPGGameInventoryLayout::NativeConstruct()
 	_BagLayout->Visibility = ESlateVisibility::Visible;
 	_EquipmentLayout = Cast<URPGGameEquipmentLayout>(GetWidgetFromName("Equipment"));
 	_ActionBar = Cast<URPGGameActionBarLayout>(GetWidgetFromName("ActionBar"));
+	_ShopLayout = Cast<URPGGameShopLayout>(GetWidgetFromName("ShopLayout"));
+	_ShopLayout->SetVisibility(ESlateVisibility::Hidden);
+	_ShopLayout->SetBagLayout(_BagLayout);
 }
 
 void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -33,7 +37,6 @@ void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDe
 		_BagLayout->NativeTick(MyGeometry, InDeltaTime);
 	}
 	_DeltaTime = 0.f; 
-	//UE_LOG(LogTemp, Warning, TEXT("wewewe"));
 }
 
 
@@ -73,8 +76,22 @@ void URPGGameInventoryLayout::UpdateVisibility(const EInventoryUIType& NewInput)
 	UE_LOG(LogTemp, Warning, TEXT("UpdateVisibility"));
 }
 
+URPGGameActionBarLayout* URPGGameInventoryLayout::GetActionBar()
+{
+	return _ActionBar;
+}
+
 void URPGGameInventoryLayout::InitInventory(const TArray<FRPGRestItem>& RestItemData)
 {
 	_BagLayout->InitBagSlots(RestItemData);
+}
+
+void URPGGameInventoryLayout::ActiveShop()
+{
+	_ShopLayout->SetVisibility(ESlateVisibility::Visible);
+	_BagLayout->RemoveFromParent();
+	_BagLayout->AddToViewport(10);
+	_BagLayout->SetVisibility(ESlateVisibility::Visible);
+	_BagLayout->SetPositionInViewport(FVector2D(600, 200));
 }
 

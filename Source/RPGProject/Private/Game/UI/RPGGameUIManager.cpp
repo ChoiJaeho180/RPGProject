@@ -83,3 +83,13 @@ void ARPGGameUIManager::SendInputState(const EInventoryUIType& NewInput)
 	_UIDeliver->SendInputState(NewInput);
 }
 
+TSharedPtr<FRPGItemInfo> ARPGGameUIManager::GetInputPortionSlotData(const FString Key)
+{
+	return _UIDeliver->GetInputPortionSlotInfo(Key);
+}
+
+void ARPGGameUIManager::ActiveShop()
+{
+	_UIDeliver->ActiveShop();
+}
+

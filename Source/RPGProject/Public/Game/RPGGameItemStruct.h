@@ -10,6 +10,15 @@
 class  UTexture2D;
 
 USTRUCT(Blueprintable)
+struct FMoney
+{
+	GENERATED_USTRUCT_BODY()
+public:
+	int Money = 0;
+	int TimeStamp = 0;
+};
+
+USTRUCT(Blueprintable)
 struct FRPGRestItem
 {
 	GENERATED_USTRUCT_BODY()

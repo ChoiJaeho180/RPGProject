@@ -38,9 +38,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	int Price;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	FString Stat;
+	TArray<FString> Property;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	TArray<int> Stat;
 };
-
 
 UCLASS()
 class RPGPROJECT_API ARPGGameDataTable : public AActor

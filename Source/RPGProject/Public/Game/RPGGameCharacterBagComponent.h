@@ -9,20 +9,23 @@
 
 
 
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RPGPROJECT_API URPGGameCharacterBagComponent : public UActorComponent
 {
 	GENERATED_BODY()
 private:
 	TArray<TSharedPtr<FRPGItemInfo>> _CharacterItems;
+	TSharedPtr<FMoney> _Money;
 public:	
 	// Sets default values for this component's properties
 	URPGGameCharacterBagComponent();
 	void InitData(const TArray<FRPGRestItem>& RestItemData);
 
+	void UpdateMoney(int AddMoney);
 	void AddItem(const TSharedPtr<FRPGItemInfo>& NewItem);
 	void RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem);
-	void RemoveItem(FName Name, int Count);
+	bool RemoveItem(FName Name, int Count);
 	TSharedPtr<FRPGItemInfo> FindItem(FName Name);
 protected:
 	// Called when the game starts
@@ -31,7 +34,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void TestInfo();
 public:
 	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetChartacterItems() { return _CharacterItems; }
+	FORCEINLINE TSharedPtr<FMoney> GetCharacterMoney() { return _Money; }
 };

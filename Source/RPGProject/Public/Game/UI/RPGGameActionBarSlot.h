@@ -38,4 +38,5 @@ public:
 	virtual UTexture2D* GetItemImage() const;
 public:
 	void SetKeyText(FString InputKey);
+	FString GetKeyText();
 };

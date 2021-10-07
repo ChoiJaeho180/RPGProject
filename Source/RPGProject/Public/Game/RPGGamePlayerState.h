@@ -14,36 +14,26 @@ struct FCharacterStat
 {
 	GENERATED_BODY();
 public:
-	FCharacterStat() {};
-	int Level;
-	int MaxExp;
-	int CurrentExp;
-	int Stx;
-	int Dex;
-	int Luk;
-	int Int;
-	int SpecialState;
-	int MaxHP = 100;
-	int CurrentHP = 100;
-	int MaxMP = 100;
-	int CurrentMP = 75;
+	TMap<FString, int> Stat;
 	int TimeStamp;
-
+	FCharacterStat()
+	{
+		Stat.Add("LEVEL", 1);
+		Stat.Add("MAXEXP", 100);
+		Stat.Add("EXP", 0);
+		Stat.Add("STX", 10);
+		Stat.Add("INT", 10);
+		Stat.Add("DEX", 10);
+		Stat.Add("LUK", 10);
+		Stat.Add("SPECIALSTATE", 0);
+		Stat.Add("MAXHP", 100);
+		Stat.Add("HP", 100);
+		Stat.Add("MAXMP", 100);
+		Stat.Add("MP", 75);
+	}
 	void SetInfo(const TSharedPtr<FCharacterStat>& rhs)
 	{
-		Level = rhs->Level;
-		MaxExp = rhs->MaxExp;
-		CurrentExp = rhs->CurrentExp;
-		Stx = rhs->Stx;
-		Dex = rhs->Dex;
-		Luk = rhs->Luk;
-		Int = rhs->Int;
-		MaxHP = rhs->MaxHP;
-		CurrentHP = rhs->CurrentHP;
-		MaxMP = rhs->MaxMP;
-		CurrentMP = rhs->CurrentMP;
-		TimeStamp = rhs->TimeStamp;
-		SpecialState = rhs->SpecialState;
+		Stat = rhs->Stat;
 	}
 };
 
@@ -63,6 +53,7 @@ public:
 	ARPGGamePlayerState();
 	virtual void PostInitializeComponents() override;
 	void InitData(TArray<FRPGRestItem> RestItemData);
+	void UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo);
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }

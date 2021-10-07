@@ -47,12 +47,12 @@ void URPGGameUserInfoLayout::SetGameDataCopy()
 
 void URPGGameUserInfoLayout::UpdateProperty()
 {
-	float NewSpecialPercent = (float)_CharacterStat->SpecialState * 0.01f;
+	float NewSpecialPercent = (float)_CharacterStat->Stat["SPECIALSTATE"] * 0.01f;
 	_SpecialBar->SetSpecialBarPercent(NewSpecialPercent);
 
-	float NewHPPercent = (float)_CharacterStat->CurrentHP / _CharacterStat->MaxHP;
+	float NewHPPercent = (float)_CharacterStat->Stat["HP"] / _CharacterStat->Stat["MAXHP"];
 	_HPBar->UpdateProgressBar(NewHPPercent);
 
-	float NewMPPercent = (float)_CharacterStat->CurrentMP / _CharacterStat->MaxMP;
+	float NewMPPercent = (float)_CharacterStat->Stat["MP"] / _CharacterStat->Stat["MAXMP"];
 	_MPBar->UpdateProgressBar(NewMPPercent);
 }

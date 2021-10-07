@@ -117,3 +117,8 @@ void URPGGameActionBarSlot::SetKeyText(FString InputKey)
 {
 	_KeyText->SetText(FText::FromString(InputKey));
 }
+
+FString URPGGameActionBarSlot::GetKeyText()
+{
+	return _KeyText->GetText().ToString();
+}

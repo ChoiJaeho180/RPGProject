@@ -21,4 +21,6 @@ public:
 	void InitInventory(const TArray<FRPGRestItem>& NewItem);
 	void SetDeliveryTargetUI(URPGGameInventoryLayout* NewUI);
 	void SendInputState(const EInventoryUIType& NewInput);
+	void ActiveShop();
+	TSharedPtr<FRPGItemInfo> GetInputPortionSlotInfo(const FString Key);
 };

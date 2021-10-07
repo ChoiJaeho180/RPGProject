@@ -17,6 +17,7 @@ class RPGPROJECT_API ARPGGameDataCopy : public AActor
 private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
 	TArray<TSharedPtr<FRPGItemInfo>> _CharacterItemInfo;
+	TSharedPtr<FMoney> _CharacterMoney;
 	ARPGGamePlayerState* _CheckStat;
 	float _DeltaTime;
 public:	
@@ -28,10 +29,12 @@ protected:
 	virtual void BeginPlay() override;
 	void CheckCharacterStat();
 	void CheckCharacterItems();
+	void CehckkCharacterMoney();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 public:
+	FORCEINLINE TSharedPtr<FMoney> GetCharacterMoney() { return _CharacterMoney; }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemsInfo() { return _CharacterItemInfo; }
 };

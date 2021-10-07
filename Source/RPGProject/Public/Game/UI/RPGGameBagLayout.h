@@ -34,6 +34,8 @@ private:
 	ARPGGameDataCopy* _CheckBagSlotData;
 	UPROPERTY()
 	TArray<URPGGameBagslot*> _SlotData;
+
+	TSharedPtr<FMoney> _Money;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

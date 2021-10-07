@@ -9,6 +9,7 @@ ARPGGameDataCopy::ARPGGameDataCopy()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	_CharacterStat = MakeShareable(new FCharacterStat());
+	_CharacterMoney = MakeShareable(new FMoney());
 }
 
 // Called when the game starts or when spawned
@@ -45,6 +46,14 @@ void ARPGGameDataCopy::CheckCharacterItems()
 	}
 }
 
+void ARPGGameDataCopy::CehckkCharacterMoney()
+{
+	auto Money = _CheckStat->GetCharacterBag()->GetCharacterMoney();
+	if (_CharacterMoney->TimeStamp == Money->TimeStamp)
+		return;
+	_CharacterMoney = Money;
+}
+
 // Called every frame
 void ARPGGameDataCopy::Tick(float DeltaTime)
 {
@@ -56,6 +65,7 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 
 	CheckCharacterStat();
 	CheckCharacterItems();
+	CehckkCharacterMoney();
 
 	_DeltaTime = 0.f;
 

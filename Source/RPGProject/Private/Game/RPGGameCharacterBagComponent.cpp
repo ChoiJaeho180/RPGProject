@@ -10,6 +10,7 @@ URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
+	_Money = MakeShareable(new FMoney);
 	// ...
 }
 
@@ -37,7 +38,6 @@ void URPGGameCharacterBagComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-
 // Called every frame
 void URPGGameCharacterBagComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -45,16 +45,10 @@ void URPGGameCharacterBagComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 }
 
-void URPGGameCharacterBagComponent::TestInfo()
+void URPGGameCharacterBagComponent::UpdateMoney(int AddMoney)
 {
-	
-	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
-	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
-	auto Test = DTManager->GetData();
-	TSharedPtr<FRPGItemInfo> NewData = MakeShareable(new FRPGItemInfo());
-	NewData->SetInfo(5, Test[0]->Price, Test[0]->Description, Test[0]->Name, Test[0]->InventoryType);
-	_CharacterItems.Add((NewData));
-	
+	_Money->Money += AddMoney;
+	_Money->TimeStamp++;
 }
 
 void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewItem)
@@ -85,11 +79,11 @@ void URPGGameCharacterBagComponent::RemoveItem(const TSharedPtr<FRPGItemInfo>& N
 	ExistItem->TimeStamp++;
 }
 
-void URPGGameCharacterBagComponent::RemoveItem(FName Name, int Count)
+bool URPGGameCharacterBagComponent::RemoveItem(FName Name, int Count)
 {
 	TSharedPtr<FRPGItemInfo> ExistItem = FindItem(Name);
 	if (ExistItem == nullptr)
-		return;
+		return false;
 	if (ExistItem->Count > Count)
 	{
 		ExistItem->Count -= Count;
@@ -98,6 +92,8 @@ void URPGGameCharacterBagComponent::RemoveItem(FName Name, int Count)
 	{
 		_CharacterItems.Remove(ExistItem);
 	}
+	ExistItem->TimeStamp++;
+	return true;
 }
 
 TSharedPtr<FRPGItemInfo> URPGGameCharacterBagComponent::FindItem(FName Name)

@@ -13,6 +13,7 @@ class ARPGGameCharacter;
 class ARPGGamePlayerState;
 
 DECLARE_DELEGATE_OneParam(FUIInteractionDelegate, EInventoryUIType);
+DECLARE_DELEGATE_OneParam(FUIInputActionBarDelegate, FString);
 /**
  * 
  */
@@ -43,6 +44,9 @@ public:
 	void MoveRight(float NewAxisValue);
 	void LeftMouseClick();
 	void InteractionUI(EInventoryUIType InteractionType);
+	void InteractionPortionBarUI(FString Key);
+public:
+	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:
 	TSubclassOf<ARPGGameUIManager> RPGGameUIManagerClass;
 

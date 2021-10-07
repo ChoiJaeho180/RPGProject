@@ -5,7 +5,7 @@
 
 URPGGameDataTableManager::URPGGameDataTableManager()
 {
-	FString ConsumptionPath = TEXT("DataTable'/Game/DataTable/ConsumptionItemType.ConsumptionItemType'");
+	FString ConsumptionPath = TEXT("DataTable'/Game/DataTable/ConsumptionPortionType.ConsumptionPortionType'");
 	static ConstructorHelpers::FObjectFinder<UDataTable> DT_CONSUMPTION(*ConsumptionPath);
 	if (DT_CONSUMPTION.Succeeded())
 	{

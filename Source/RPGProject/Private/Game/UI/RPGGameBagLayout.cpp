@@ -17,10 +17,12 @@ void URPGGameBagLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
 
+	if (_bRestInit == true)
+		return;
+	
 	_TitleBarLayout = Cast<URPGGameTitleBarLayout>(GetWidgetFromName("InventoryTitleBarLayout"));
 	_TitleBarLayout->SetParentWidget(this);
 	_BagGridPanel = Cast<UUniformGridPanel>(GetWidgetFromName("InventoryGridPanel"));
-	_GoldText = Cast<UTextBlock>(GetWidgetFromName("GoldText"));
 
 	FString DefaultSlotName = "InventorySlot_";
 	for(int i = 0; i < SLOT_COUNT; i++)
@@ -31,15 +33,15 @@ void URPGGameBagLayout::NativeConstruct()
 		NewData->SlotIndex = i;
 		NewSlot->ActiveSlot(ESlateVisibility::Hidden);
 		NewSlot->SetItemIsFrom(EItemIsFrom::BAG);
-		//NewSlot->SetParent(this);
 		NewSlot->SetItemSlotData(NewData);
 		_SlotData.Add(NewSlot);
-		//_BagSlots.Add(NewSlot);
 	}
 
 	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetGameInstance());
 	_CheckBagSlotData = GI->GetDataCopyClass();
 
+	_GoldText = Cast<UTextBlock>(GetWidgetFromName("GoldText"));
+	_Money = MakeShareable(new FMoney);
 }
 
 void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -67,7 +69,14 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 				_SlotData[i]->UpdateNullItem();
 		}
 	}
-	
+	TSharedPtr<FMoney> Money = _CheckBagSlotData->GetCharacterMoney();
+	if (_Money->TimeStamp != Money->TimeStamp)
+	{
+		_Money->TimeStamp = Money->TimeStamp;
+		_Money->Money = Money->Money;
+		;
+		_GoldText->SetText(FText::FromString(FString::FromInt(_Money->Money)));
+	}
 }
 
 void URPGGameBagLayout::InitBagSlots(const TArray<FRPGRestItem>& RestItemData)

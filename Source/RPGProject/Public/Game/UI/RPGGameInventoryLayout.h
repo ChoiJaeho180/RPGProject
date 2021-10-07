@@ -10,7 +10,7 @@
 class URPGGameBagLayout;
 class URPGGameEquipmentLayout;
 class URPGGameActionBarLayout;
-
+class URPGGameShopLayout;
 /**
  * 
  */
@@ -27,11 +27,16 @@ private:
 	URPGGameEquipmentLayout* _EquipmentLayout;
 	UPROPERTY()
 	URPGGameActionBarLayout* _ActionBar;
+	UPROPERTY()
+	URPGGameShopLayout* _ShopLayout;
+
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void UpdateVisibility(const EInventoryUIType& NewInput);
+	URPGGameActionBarLayout* GetActionBar();
 public:
 	void InitInventory(const TArray<FRPGRestItem>& RestItemData);
+	void ActiveShop();
 };
