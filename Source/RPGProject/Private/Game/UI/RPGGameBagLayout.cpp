@@ -10,6 +10,7 @@
 #include "Game/RPGGameDataCopy.h"
 #include "Game/UI/RPGGameSlotDragDropOperation.h"
 #include "Game/UI/RPGGameSlotDragDropBaseLayout.h"
+#include "Game/RPGGameDataTableManager.h"
 
 #define SLOT_COUNT 36
 
@@ -50,16 +51,21 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 
 	if (_bRestInit == false)
 		return;
+
 	TArray<TSharedPtr<FRPGItemInfo>> NewItemsInfo = _CheckBagSlotData->GetCharacterItemsInfo();
 	for (int i = 0; i < NewItemsInfo.Num(); i++)
 	{
 		URPGGameBagslot* Find = FindItem(NewItemsInfo[i]);
 		if (Find == nullptr)
+		{
+			UpdateNewSlot(NewItemsInfo[i]);
 			continue;
+		}
 
 		Find->UpdateItem(NewItemsInfo[i]);
 	}
-	
+
+	// 아이템 다 사용 후 UI 업데이트 
 	for (int i = 0; i < _SlotData.Num(); i++)
 	{
 		TSharedPtr<FRPGItemInfo> SlotData = FindItem(_SlotData[i]->GetItemSlotData(), NewItemsInfo);
@@ -69,12 +75,12 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 				_SlotData[i]->UpdateNullItem();
 		}
 	}
+
 	TSharedPtr<FMoney> Money = _CheckBagSlotData->GetCharacterMoney();
 	if (_Money->TimeStamp != Money->TimeStamp)
 	{
 		_Money->TimeStamp = Money->TimeStamp;
 		_Money->Money = Money->Money;
-		;
 		_GoldText->SetText(FText::FromString(FString::FromInt(_Money->Money)));
 	}
 }
@@ -110,6 +116,30 @@ URPGGameBagslot* URPGGameBagLayout::FindItem(const TSharedPtr<FRPGItemInfo>& New
 		}
 	}
 	return nullptr;
+}
+
+void URPGGameBagLayout::UpdateNewSlot(const TSharedPtr<FRPGItemInfo>& NewItem)
+{
+	int SlotIndex = FindEmptySlotIndex();
+	_SlotData[SlotIndex]->GetItemSlotData()->SetInfo(NewItem);
+	_SlotData[SlotIndex]->GetItemSlotData()->SlotIndex;
+
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
+	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
+	FGameItemType* Data = DTManager->GetNameToData(_SlotData[SlotIndex]->GetItemSlotData()->Name);
+	_SlotData[SlotIndex]->GetItemSlotData()->Image = Data->Image;
+	_SlotData[SlotIndex]->GetItemSlotData()->InventoryType = Data->InventoryType;
+	_SlotData[SlotIndex]->UpdateUI();
+}
+
+int URPGGameBagLayout::FindEmptySlotIndex()
+{
+	for (int i = 0; i < _SlotData.Num(); i++)
+	{
+		if (_SlotData[i]->GetItemSlotData()->Name == FName("None"))
+			return i;
+	}
+	return -1;
 }
 
 

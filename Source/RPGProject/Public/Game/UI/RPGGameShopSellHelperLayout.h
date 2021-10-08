@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Game/RPGGameItemStruct.h"
 #include "Blueprint/UserWidget.h"
 #include "RPGGameShopSellHelperLayout.generated.h"
 
@@ -10,7 +11,11 @@ class UButton;
 class UTextBlock;
 class UEditableTextBox;
 
-
+enum EShopTransactionType
+{
+	SELL,
+	BUY
+};
 /**
  * 
  */
@@ -29,6 +34,8 @@ private:
 	UEditableTextBox* InputText;
 	FName _SellName;
 	FText InputCountText;
+	EShopTransactionType _ShopTransactionType;
+	TSharedPtr<FRPGItemInfo> _ItemInfo;
 public:
 	virtual void NativeConstruct() override;
 	UFUNCTION()
@@ -37,7 +44,9 @@ public:
 	void OnInputSellCount(const FText& Text, ETextCommit::Type CommitMethod);
 	void SetMaxCount(int MaxCount);
 	void SetUnitPrice(int UnitPrice);
-	
+	void SetItemInfo(const TSharedPtr<FRPGItemInfo>& ItemInfo);
 public:
+	
+	FORCEINLINE void SetShopTransactionType(EShopTransactionType New) { _ShopTransactionType = New; }
 	FORCEINLINE void SetSellName(FName NewItem) { _SellName = NewItem; }
 };

@@ -6,17 +6,28 @@
 #include "GameFramework/Character.h"
 #include "RPGGameBaseCharacter.generated.h"
 
+class UDecalComponent;
+
 UCLASS()
 class RPGPROJECT_API ARPGGameBaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 protected:
+		/** A decal that projects to the cursor location. */
+	UPROPERTY()
+	UDecalComponent* _CursorToWorld;
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta=(AllowPrivateAccess=true))
 	USpringArmComponent* _SpringArm;
 
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
 
+	FVector _MoveFV;
+	FRotator _MoveR;
+	const FVector _InitDecalSize = FVector(16.f, 35.f, 35.f);
+	const FVector _FinishDecalSize = FVector(16.f, 0.f, 0.f);
+	float _DecalRatio = 0.f;
+	bool _bInputMove = false;
 public:
 	// Sets default values for this character's properties
 	ARPGGameBaseCharacter();
@@ -32,4 +43,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void InitDecalSize();
+	void InitDecalPostionAndRotation(FHitResult result);
+public:
+	/** Returns CursorToWorld subobject **/
+	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return _CursorToWorld; }
+	FORCEINLINE void SetbInputMove(bool bNew = false) { _bInputMove = bNew; }
 };

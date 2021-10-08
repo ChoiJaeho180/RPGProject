@@ -11,6 +11,8 @@ URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	_Money = MakeShareable(new FMoney);
+	_Money->Money = 10000;
+	_Money->TimeStamp++;
 	// ...
 }
 
@@ -57,9 +59,11 @@ void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewI
 	if (ExistItem != nullptr)
 	{
 		ExistItem->Count += NewItem->Count;
+		ExistItem->TimeStamp++;
 		return;
 	}
 	_CharacterItems.Add(NewItem);
+	
 }
 
 void URPGGameCharacterBagComponent::RemoveItem(const TSharedPtr<FRPGItemInfo>& NewItem)

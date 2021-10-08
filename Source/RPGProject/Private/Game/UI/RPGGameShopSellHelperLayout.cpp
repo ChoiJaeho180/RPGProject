@@ -27,12 +27,24 @@ void URPGGameShopSellHelperLayout::ClickedSellButton()
 		return;
 	int UnitPrice = FCString::Atoi(*_UnitPriceText->GetText().ToString());
 	int AddMoney = InputCount * UnitPrice;
-	
 	ARPGGamePlayerState* PS = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController())->GetGamePlayerState();
 	URPGGameCharacterBagComponent* Bag = PS->GetCharacterBag();
-	Bag->UpdateMoney(AddMoney);
-	Bag->RemoveItem(_SellName, UnitPrice);
-	RemoveFromParent();
+
+	if (_ShopTransactionType == EShopTransactionType::SELL)
+	{
+		Bag->UpdateMoney(AddMoney);
+		Bag->RemoveItem(_SellName, InputCount);
+		RemoveFromParent();
+	}
+	else
+	{
+		TSharedPtr<FRPGItemInfo> NewItem = MakeShareable(new FRPGItemInfo);
+		NewItem->SetInfo(_ItemInfo);
+		NewItem->Count = InputCount;
+		Bag->UpdateMoney(-AddMoney);
+		Bag->AddItem(NewItem);
+		RemoveFromParent();
+	}
 }
 
 void URPGGameShopSellHelperLayout::OnInputSellCount(const FText& Text, ETextCommit::Type CommitMethod)
@@ -48,4 +60,13 @@ void URPGGameShopSellHelperLayout::SetMaxCount(int MaxCount)
 void URPGGameShopSellHelperLayout::SetUnitPrice(int UnitPrice)
 {
 	_UnitPriceText->SetText(FText::FromString(FString::FromInt(UnitPrice)));
+}
+
+void URPGGameShopSellHelperLayout::SetItemInfo(const TSharedPtr<FRPGItemInfo>& ItemInfo)
+{
+	if (_ItemInfo == nullptr)
+	{
+		_ItemInfo = MakeShareable(new FRPGItemInfo);
+	}
+	_ItemInfo->SetInfo(ItemInfo);
 }

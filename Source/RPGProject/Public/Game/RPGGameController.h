@@ -35,13 +35,15 @@ public:
 	virtual void PostInitializeComponents() override;
 	virtual void SetupInputComponent() override;
 	void InitItemData(const TArray<FRPGRestItem>& RestItemData);
+protected:
+	void Move();
+	void MoveToMouseCursor();
+	void SetNewMoveDestination(FHitResult Hit);
 public:
-
+	
 	void SendActiveMap(const FString& MapName);
 	void SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo);
 
-	void MoveForward(float NewAxisValue);
-	void MoveRight(float NewAxisValue);
 	void LeftMouseClick();
 	void InteractionUI(EInventoryUIType InteractionType);
 	void InteractionPortionBarUI(FString Key);

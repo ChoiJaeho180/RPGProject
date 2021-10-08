@@ -24,7 +24,10 @@ private:
 	UPROPERTY()
 	UButton* _Button;
 public:
+	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	virtual void NativeConstruct() override;
 	virtual void ActiveSlot(ESlateVisibility NewState) override;
 	virtual void UpdateUI() override;
+	UFUNCTION()
+	void BuyItem();
 };

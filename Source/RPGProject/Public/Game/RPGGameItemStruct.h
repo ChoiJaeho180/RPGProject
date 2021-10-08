@@ -39,7 +39,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Item")
 	FText Description;
 	UPROPERTY(EditAnywhere, Category = "Item")
-	int Price;
+	int Price = 0;
 	
 };
 

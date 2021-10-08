@@ -5,13 +5,14 @@
 #include "Game/UI/RPGGameUIManager.h"
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGamePlayerState.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "HeadMountedDisplayFunctionLibrary.h"
+#include "Components/DecalComponent.h"
 
 ARPGGameController::ARPGGameController()
 {
-	PrimaryActorTick.bCanEverTick = true;
-
+	
 	RPGGameUIManagerClass = ARPGGameUIManager::StaticClass();
-
 	bShowMouseCursor = true;
 }
 void ARPGGameController::BeginPlay()
@@ -27,7 +28,9 @@ void ARPGGameController::BeginPlay()
 		CurrentGI->PostRequest("/game/getuserinfo", JsonObject);
 	});
 	
-	SetInputMode(FInputModeGameAndUI());
+	FInputModeGameAndUI InputMode;
+	InputMode.SetHideCursorDuringCapture(false);
+	SetInputMode(InputMode);
 	
 }
 
@@ -47,11 +50,8 @@ void ARPGGameController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	InputComponent->BindAxis(TEXT("MoveForward"), this, &ARPGGameController::MoveForward);
-	InputComponent->BindAxis(TEXT("MoveRight"), this, &ARPGGameController::MoveRight);
-
 	InputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameController::LeftMouseClick);
-	
+	InputComponent->BindAction(TEXT("Move"), EInputEvent::IE_Pressed, this, &ARPGGameController::Move);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
 
@@ -77,6 +77,52 @@ void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
 	
 }
 
+void ARPGGameController::MoveToMouseCursor()
+{
+	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
+	{
+		if (ARPGGameCharacter* MyPawn = Cast<ARPGGameCharacter>(GetPawn()))
+		{
+			if (MyPawn->GetCursorToWorld())
+			{
+				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
+				
+			}
+		}
+	}
+	else
+	{
+		// Trace to see what is under the mouse cursor
+		FHitResult Hit;
+		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+		if (Hit.bBlockingHit)
+		{
+			// We hit something, move there
+			SetNewMoveDestination(Hit);
+
+		}
+	}
+}
+
+void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
+{
+	ARPGGameCharacter* MyPawn = Cast<ARPGGameCharacter>(GetPawn());
+	if (MyPawn)
+	{
+		float const Distance = FVector::Dist(Hit.ImpactPoint, MyPawn->GetActorLocation());
+
+		// We need to issue move command only if far enough in order for walk animation to play correctly
+		if ((Distance > 120.0f))
+		{
+			UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, Hit.ImpactPoint);
+			MyPawn->InitDecalPostionAndRotation(Hit);
+			MyPawn->InitDecalSize();
+			MyPawn->SetbInputMove(true);
+		}
+	}
+	
+}
+
 void ARPGGameController::SendActiveMap(const FString& MapName)
 {
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
@@ -95,20 +141,9 @@ void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharact
 	
 }
 
-void ARPGGameController::MoveForward(float NewAxisValue)
+void ARPGGameController::Move()
 {
-	if (NewAxisValue == 0.0f)
-		return;
-
-	_Character->MoveForward(NewAxisValue);
-}
-
-void ARPGGameController::MoveRight(float NewAxisValue)
-{
-	if (NewAxisValue == 0.0f)
-		return;
-	
-	_Character->MoveRight(NewAxisValue);
+	MoveToMouseCursor();
 }
 
 void ARPGGameController::LeftMouseClick()

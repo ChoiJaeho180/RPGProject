@@ -10,6 +10,7 @@ UCLASS()
 class RPGPROJECT_API ARPGGameCharacter : public ARPGGameBaseCharacter
 {
 	GENERATED_BODY()
+private:
 
 public:
 	// Sets default values for this character's properties
@@ -26,7 +27,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
-	void MoveForward(float NewAxisValue);
-	void MoveRight(float NewAxisValue);
 };

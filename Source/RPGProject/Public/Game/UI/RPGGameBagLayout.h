@@ -43,4 +43,6 @@ public:
 	void InitBagSlots(const TArray<FRPGRestItem>& RestItemData);
 	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& NewItem, const TArray<TSharedPtr<FRPGItemInfo>>& NewItemsInfo);
 	URPGGameBagslot* FindItem(const TSharedPtr<FRPGItemInfo>& NewItem);
+	void UpdateNewSlot(const TSharedPtr<FRPGItemInfo>& NewItem);
+	int FindEmptySlotIndex();
 };

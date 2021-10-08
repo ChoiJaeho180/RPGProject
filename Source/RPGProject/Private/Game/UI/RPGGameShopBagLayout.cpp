@@ -38,6 +38,7 @@ void URPGGameShopBagLayout::NativeConstruct()
 		SlotData->Image = ConsumptionData[i]->Image;
 		SlotData->InventoryType = ConsumptionData[i]->InventoryType;
 		SlotData->Name = ConsumptionData[i]->Name;
+		SlotData->Price= ConsumptionData[i]->Price;
 		_ShopSlotData[i]->UpdateUI();
 	}
 
@@ -56,6 +57,7 @@ bool URPGGameShopBagLayout::NativeOnDrop(const FGeometry& InGeometry, const FDra
 
 	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
 	URPGGameShopSellHelperLayout* SellHelperLayout = CreateWidget<URPGGameShopSellHelperLayout>(GetWorld(), GI->RPGSellHelperClass);
+	SellHelperLayout->SetShopTransactionType(EShopTransactionType::SELL);
 	SellHelperLayout->AddToViewport(11);
 	SellHelperLayout->SetUnitPrice(SellItem->Price);
 	SellHelperLayout->SetMaxCount(SellItem->Count);

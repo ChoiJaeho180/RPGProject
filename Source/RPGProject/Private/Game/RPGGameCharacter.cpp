@@ -20,7 +20,6 @@ void ARPGGameCharacter::BeginPlay()
 void ARPGGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -30,15 +29,4 @@ void ARPGGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 	//PlayerInputComponent->BindAction(TEXT("LeftMouseClick"), EInputEvent::IE_Released, this, &ARPGGameCharacter::LeftMouseClick);
 }
-
-void ARPGGameCharacter::MoveForward(float NewAxisValue)
-{
-	AddMovementInput(GetActorForwardVector(), NewAxisValue);
-}
-
-void ARPGGameCharacter::MoveRight(float NewAxisValue)
-{
-	AddMovementInput(GetActorRightVector(), NewAxisValue);
-}
-
 

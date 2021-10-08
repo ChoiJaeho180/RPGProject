@@ -36,6 +36,12 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 		RPGSellHelperClass = SELL_HELPER_WIDGET.Class;
 	}
 	//
+	static ConstructorHelpers::FClassFinder<UUserWidget>BUY_HELPER_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/ShopBuylHelperLayout.ShopBuylHelperLayout_C'"));
+	if (BUY_HELPER_WIDGET.Succeeded())
+	{
+		RPGBuyHelperClass = BUY_HELPER_WIDGET.Class;
+	}
+	//
 }
 
 void URPGCommonGameInstance::Init()

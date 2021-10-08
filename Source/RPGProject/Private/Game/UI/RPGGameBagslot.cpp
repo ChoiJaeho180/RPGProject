@@ -27,7 +27,7 @@ bool URPGGameBagslot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 
 		if (_ItemIsFrom == ItemIsFrom)
 		{
-			ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI, this);
+     			ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI, this);
 		}
 		else if (_ItemIsFrom == EItemIsFrom::BAG && ItemIsFrom == EItemIsFrom::EQUIP)
 		{

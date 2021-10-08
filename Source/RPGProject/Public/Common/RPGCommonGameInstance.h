@@ -50,6 +50,7 @@ public:
 	TSubclassOf<UUserWidget> RPGSlotClass;
 	TSubclassOf<UUserWidget> RPGActionBarSlotClass;
 	TSubclassOf<UUserWidget> RPGSellHelperClass;
+	TSubclassOf<UUserWidget> RPGBuyHelperClass;
 	TSubclassOf<ARPGGameDataCopy> GameDataCopyClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;
 };
