@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGameController.h"
+#include "Game/Animation/RPGGameWarriorAnim.h"
+
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
 {
@@ -13,8 +15,17 @@ ARPGGameCharacter::ARPGGameCharacter()
 void ARPGGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	_WarriorAnim = Cast<URPGGameWarriorAnim>(GetMesh()->GetAnimInstance());
+	_WarriorAnim->Init();
 }
+
+void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	_WarriorAnim->OnClickedMove(MovePoint);
+}
+
+
 
 // Called every frame
 void ARPGGameCharacter::Tick(float DeltaTime)

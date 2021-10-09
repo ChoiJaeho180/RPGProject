@@ -28,6 +28,7 @@ private:
 	ARPGGameCharacter* _Character;
 	UPROPERTY()
 	ARPGGamePlayerState* _PlayerStat;
+private:
 public:
 	ARPGGameController();
 	virtual void BeginPlay() override;
@@ -35,10 +36,11 @@ public:
 	virtual void PostInitializeComponents() override;
 	virtual void SetupInputComponent() override;
 	void InitItemData(const TArray<FRPGRestItem>& RestItemData);
-protected:
+public:
 	void Move();
 	void MoveToMouseCursor();
 	void SetNewMoveDestination(FHitResult Hit);
+	void MovePoint();
 public:
 	
 	void SendActiveMap(const FString& MapName);
@@ -47,6 +49,7 @@ public:
 	void LeftMouseClick();
 	void InteractionUI(EInventoryUIType InteractionType);
 	void InteractionPortionBarUI(FString Key);
+
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

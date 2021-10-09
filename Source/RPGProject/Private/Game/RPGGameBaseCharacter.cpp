@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameBaseCharacter.h"
-#include "Game/RPGGameWarriorAnim.h"
+#include "Game/Animation/RPGGameWarriorAnim.h"
 #include "Components/DecalComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
@@ -20,7 +20,7 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
-	_SpringArm->TargetArmLength = 1400.0f;
+	_SpringArm->TargetArmLength = 1100.0f;
 	_SpringArm->RelativeRotation = FRotator(-45.0f, 0.0f, 0.0f);
 	_SpringArm->bUsePawnControlRotation = false;
 	_SpringArm->bInheritPitch = false;

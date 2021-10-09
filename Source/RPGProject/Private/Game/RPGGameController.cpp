@@ -86,7 +86,6 @@ void ARPGGameController::MoveToMouseCursor()
 			if (MyPawn->GetCursorToWorld())
 			{
 				UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, MyPawn->GetCursorToWorld()->GetComponentLocation());
-				
 			}
 		}
 	}
@@ -112,15 +111,19 @@ void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
 		float const Distance = FVector::Dist(Hit.ImpactPoint, MyPawn->GetActorLocation());
 
 		// We need to issue move command only if far enough in order for walk animation to play correctly
-		if ((Distance > 120.0f))
+		if ((Distance > MIN_MOVE_DIST))
 		{
-			UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, Hit.ImpactPoint);
 			MyPawn->InitDecalPostionAndRotation(Hit);
 			MyPawn->InitDecalSize();
 			MyPawn->SetbInputMove(true);
+			MyPawn->OnClikedMove(Hit.ImpactPoint);
 		}
 	}
-	
+}
+
+void ARPGGameController::MovePoint()
+{
+
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)

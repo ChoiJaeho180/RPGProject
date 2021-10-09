@@ -27,6 +27,8 @@ void URPGGameShopSellHelperLayout::ClickedSellButton()
 		return;
 	int UnitPrice = FCString::Atoi(*_UnitPriceText->GetText().ToString());
 	int AddMoney = InputCount * UnitPrice;
+	if (AddMoney == 0)
+		return;
 	ARPGGamePlayerState* PS = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController())->GetGamePlayerState();
 	URPGGameCharacterBagComponent* Bag = PS->GetCharacterBag();
 
