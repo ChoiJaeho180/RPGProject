@@ -16,6 +16,7 @@ class RPGPROJECT_API URPGGameGroundAnim : public UObject
 {
 	GENERATED_BODY()
 private:
+	bool _bUpdateMultipleMovePoint;
 	FVector_NetQuantize _MovePoint;
 	ARPGGameController* _Controller;
 public:
@@ -25,4 +26,7 @@ public:
 public:
 	FORCEINLINE void SetMovePoint(FVector_NetQuantize MovePoint) { _MovePoint = MovePoint; }
 	FORCEINLINE FVector_NetQuantize GetMovePoint() { return _MovePoint; }
+
+	FORCEINLINE void SetbUpdateMultipleMovePoint(bool bNew) { _bUpdateMultipleMovePoint = bNew; }
+	FORCEINLINE bool GetbUpdateMultipleMovePoint() { return _bUpdateMultipleMovePoint; }
 };

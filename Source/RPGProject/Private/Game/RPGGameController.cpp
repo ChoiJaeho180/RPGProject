@@ -8,6 +8,7 @@
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Components/DecalComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -161,6 +162,7 @@ void ARPGGameController::LeftMouseClick()
 			return;
 		_GameUIManager->ActiveShop();
 	}
+	_Character->InputAttack();
 }
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)

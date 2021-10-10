@@ -19,6 +19,11 @@ void ARPGGameCharacter::BeginPlay()
 	_WarriorAnim->Init();
 }
 
+void ARPGGameCharacter::InputAttack()
+{
+	_WarriorAnim->InputAttack();
+}
+
 void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
 {
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
