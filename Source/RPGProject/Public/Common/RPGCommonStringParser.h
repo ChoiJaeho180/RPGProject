@@ -13,8 +13,9 @@ class RPGPROJECT_API RPGCommonStringParser
 public:
 	RPGCommonStringParser();
 	~RPGCommonStringParser();
-	
+	static FString GetSpecificStat(const FString& Data, const FString& StatName);
+	static TMap<FString, FString> SingleStringParsing(const FString& Data);
 	static TMap<FString, FString> StringParsing(const FString& Data);
 	static TArray<FString> CommaStringParsing(const FString& Data);
-	static TArray<FRPGRestItem> ItemsDataParsing(const FString& Data);
+	static TArray<FRPGRestItem> ItemsDataParsing(const TArray<FString>& TempArray);
 };

@@ -20,7 +20,7 @@ private:
 public:	
 	// Sets default values for this component's properties
 	URPGGameCharacterBagComponent();
-	void InitData(const TArray<FRPGRestItem>& RestItemData);
+	void InitData(const TArray<FRPGRestItem>& RestItemData, const TMap<FString, FString>& MoneyData);
 
 	void UpdateMoney(int AddMoney);
 	void AddItem(const TSharedPtr<FRPGItemInfo>& NewItem);

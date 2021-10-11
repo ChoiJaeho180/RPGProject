@@ -3,9 +3,10 @@
 #include "Game/UI/RPGGameInventoryLayout.h"
 #include "Game/UI/RPGGameActionBarLayout.h"
 
-void URPGGameUIIdeliver::InitInventory(const TArray<FRPGRestItem>& NewItem)
+void URPGGameUIIdeliver::InitInventoryAndActionBar(const TArray<FRPGRestItem>& NewItem, const TArray<FRPGRestItem>& ActionBar)
 {
 	_TargetUI->InitInventory(NewItem);
+	_TargetUI->InitActionBar(ActionBar);
 }
 
 void URPGGameUIIdeliver::SetDeliveryTargetUI(URPGGameInventoryLayout* NewUI)

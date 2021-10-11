@@ -18,7 +18,6 @@ void URPGGameComboAttackAnim::InputAttack(EWarriorAnimType Type)
 		if (_bCanNextCombo)
 		{
 			_bIsComboInputOn = true;
-			//UE_LOG(LogTemp, Warning, TEXT("Combo Input"));
 		}
 	}
 	else
@@ -59,7 +58,6 @@ void URPGGameComboAttackAnim::AttackEndComboState()
 	_bCanNextCombo = false;
 	_bIsComboInputOn = false;
 	_CurrentCombo = 0;
-	//UE_LOG(LogTemp, Warning, TEXT("End ComboState"));
 }
 
 void URPGGameComboAttackAnim::PlayAttackMontage()
@@ -69,14 +67,8 @@ void URPGGameComboAttackAnim::PlayAttackMontage()
 
 void URPGGameComboAttackAnim::JumpToAttackMontageSection()
 {
-	/*
-	if (_AnimInstance->Montage_IsPlaying(AttackMontage) == false)
-	{
-		PlayAttackMontage();
-	}
-	*/
-	if (_AnimInstance->Montage_IsPlaying(AttackMontage) == false) 
-		return;
+	if (_AnimInstance->Montage_IsPlaying(AttackMontage) == false) return;
+
 	_AnimInstance->Montage_JumpToSection(GetAttackMontageSectionName(_CurrentCombo), AttackMontage);
 }
 

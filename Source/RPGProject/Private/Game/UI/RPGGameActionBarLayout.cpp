@@ -20,6 +20,7 @@ void URPGGameActionBarLayout::NativeConstruct()
 		EItemIsFrom NewState = i / (SlotNames.Num() / 2) == 0 ? EItemIsFrom::LEFT_HOT_BAR : EItemIsFrom::RIGHT_HOT_BAR;
 		URPGGameActionBarSlot* NewSlot = Cast<URPGGameActionBarSlot>(GetWidgetFromName(*SlotNames[i]));
 		TSharedPtr<FRPGItemSlot> NewData = MakeShareable(new FRPGItemSlot);
+		NewData->SlotIndex = i;
 		FString lhs, rhs;
 		SlotNames[i].Split("_", &lhs, &rhs);
 		NewSlot->SetKeyText(rhs);
@@ -34,25 +35,37 @@ void URPGGameActionBarLayout::NativeConstruct()
 
 void URPGGameActionBarLayout::NativeTick()
 {
+	if (_ChecActonBarSlotData->GetbInitFirstItem() == false) return;
 	auto CharacterItems = _ChecActonBarSlotData->GetCharacterItemsInfo();
+	
 	for (int i = PORTION_START_INDEX; i < _ActionBarSlots.Num(); i++)
 	{
 		auto SlotData = _ActionBarSlots[i]->GetItemSlotData();
-		if (SlotData->Name == FName("None"))
-			continue;
+		if (SlotData->Name == FName("None")) continue;
 
 		auto FindItemData = FindItem(SlotData, CharacterItems);
 		if (FindItemData == nullptr)
 		{
-			if(SlotData->Name != FName("None"))
+			if (SlotData->Name != FName("None"))
+			{
 				_ActionBarSlots[i]->UpdateNullItem();
+			}
 		}
 		else
 		{
-			if (SlotData->TimeStamp == FindItemData->TimeStamp)
-				continue;
+			if (SlotData->TimeStamp == FindItemData->TimeStamp) continue;
+				
 			_ActionBarSlots[i]->UpdateItem(FindItemData);
 		}
+	}
+}
+
+void URPGGameActionBarLayout::InitRestActionBar(const TArray<FRPGRestItem>& RestActionBar)
+{
+	UE_LOG(LogTemp, Warning, TEXT("URPGGameActionBarLayout : %d"), RestActionBar.Num());
+	for (int i = 0; i < RestActionBar.Num(); i++)
+	{
+		((URPGGameActionBarSlot*)_ActionBarSlots[RestActionBar[i].SlotIndex])->Init(RestActionBar[i].SlotIndex, RestActionBar[i].Name,  RestActionBar[i].Count);
 	}
 }
 
@@ -78,5 +91,17 @@ TSharedPtr<FRPGItemInfo> URPGGameActionBarLayout::FindSlotData(const FString& Ke
 		return _ActionBarSlots[i]->GetItemSlotData();
 	}
 	return nullptr;
+}
+
+TArray<TSharedPtr<FRPGItemSlot>> URPGGameActionBarLayout::GetValidSlotData()
+{
+	TArray<TSharedPtr<FRPGItemSlot>> Data;
+	for (int i = PORTION_START_INDEX; i < _ActionBarSlots.Num(); i++)
+	{
+		if (_ActionBarSlots[i]->GetItemImage() == nullptr)
+			continue;
+		Data.Add(_ActionBarSlots[i]->GetItemSlotData());
+	}
+	return Data;
 }
 

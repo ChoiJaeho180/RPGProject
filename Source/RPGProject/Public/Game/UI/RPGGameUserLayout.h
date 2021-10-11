@@ -9,6 +9,8 @@
 
 class URPGGameUserInfoLayout;
 class URPGGameInventoryLayout;
+class UButton;
+
 /**
  * 
  */
@@ -19,8 +21,13 @@ class RPGPROJECT_API URPGGameUserLayout : public URPGGameBaseLayout, public IRPG
 private:
 	UPROPERTY()
 	URPGGameUserInfoLayout* _UserInfoLayout;
+	UPROPERTY()
 	URPGGameInventoryLayout* _InventoryLayout;
+	UPROPERTY()
+	UButton* _ExitButton;
 public:
 	virtual void NativeConstruct() override;
 	virtual URPGGameInventoryLayout* GetUserInfoLayout() override;
+	UFUNCTION()
+	void ExitButton();
 };

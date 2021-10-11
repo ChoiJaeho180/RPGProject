@@ -31,6 +31,8 @@ public:
 	void AddNewNPC(TArray<FNPCInfo> NewNPC);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
 public:
+	FORCEINLINE FString GetCurrentMap() { return _CurrentMapName; }
+public:
 	TSubclassOf<URPGGameMapInfo> MapInfoClass;
 	TSubclassOf<ARPGGameNPC> GameNPCClass;
 	TSubclassOf<ARPGGameNPCShop> GameNPCShopClass;

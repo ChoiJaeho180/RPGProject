@@ -13,7 +13,7 @@ UCLASS()
 class RPGPROJECT_API URPGGameNextAttackCheck : public UAnimNotify
 {
 	GENERATED_BODY()
-		int as;
+
 public:
 	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation);
 	FString GetNotifyName_Implementation() const;

@@ -15,7 +15,7 @@ struct FCharacterStat
 	GENERATED_BODY();
 public:
 	TMap<FString, int> Stat;
-	int TimeStamp;
+	int TimeStamp = 0;
 	FCharacterStat()
 	{
 		Stat.Add("LEVEL", 1);
@@ -34,6 +34,23 @@ public:
 	void SetInfo(const TSharedPtr<FCharacterStat>& rhs)
 	{
 		Stat = rhs->Stat;
+		TimeStamp++;
+	}
+	void SetInfo(const TMap<FString, FString>& NewStat)
+	{
+		Stat["LEVEL"] = FCString::Atoi(*NewStat["LEVEL"]);
+		Stat["MAXEXP"] = FCString::Atoi(*NewStat["MAXEXP"]);
+		Stat["EXP"] = FCString::Atoi(*NewStat["EXP"]);
+		Stat["STX"] = FCString::Atoi(*NewStat["STX"]);
+		Stat["INT"] = FCString::Atoi(*NewStat["INT"]);
+		Stat["DEX"] = FCString::Atoi(*NewStat["DEX"]);
+		Stat["LUK"] = FCString::Atoi(*NewStat["LUK"]);
+		Stat["SPECIALSTATE"] = FCString::Atoi(*NewStat["SPECIALSTATE"]);
+		Stat["MAXHP"] = FCString::Atoi(*NewStat["MAXHP"]);
+		Stat["HP"] = FCString::Atoi(*NewStat["HP"]);
+		Stat["MAXMP"] = FCString::Atoi(*NewStat["MAXMP"]);
+		Stat["MP"] = FCString::Atoi(*NewStat["MP"]);
+		TimeStamp++;
 	}
 };
 
@@ -52,7 +69,7 @@ private:
 public:
 	ARPGGamePlayerState();
 	virtual void PostInitializeComponents() override;
-	void InitData(TArray<FRPGRestItem> RestItemData);
+	void InitData(TArray<FRPGRestItem> RestItemData, const TMap<FString, FString>& MoneyData);
 	void UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo);
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }

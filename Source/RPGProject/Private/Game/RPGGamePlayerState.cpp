@@ -17,9 +17,9 @@ void ARPGGamePlayerState::PostInitializeComponents()
 	//_CharacterBagComponent->TestInfo();
 }
 
-void ARPGGamePlayerState::InitData(TArray<FRPGRestItem> RestItemData)
+void ARPGGamePlayerState::InitData(TArray<FRPGRestItem> RestItemData, const TMap<FString, FString>& MoneyData)
 {
-	_CharacterBagComponent->InitData(RestItemData);
+	_CharacterBagComponent->InitData(RestItemData, MoneyData);
 }
 
 void ARPGGamePlayerState::UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo)

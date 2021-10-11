@@ -5,6 +5,8 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameMapInfo.h"
 #include "Game/RPGGamePlayerState.h"
+#include "Common/REST/RPGCommonSerializeData.h"
+#include "GameFramework/Controller.h"
 
 ARPGGameGameMode::ARPGGameGameMode()
 {
@@ -31,13 +33,13 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	}
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	GameInstance->PostRequest("/game/getnpcinfo", JsonObject);
-
 }
 
 void ARPGGameGameMode::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
+
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	GameInstance->PostRequest("/users/logout", JsonObject);
 	GameInstance->Release();

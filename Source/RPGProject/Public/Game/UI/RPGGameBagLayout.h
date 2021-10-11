@@ -40,6 +40,7 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 public:
+	TArray<TSharedPtr<FRPGItemSlot>> GetValidSlotData();
 	void InitBagSlots(const TArray<FRPGRestItem>& RestItemData);
 	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& NewItem, const TArray<TSharedPtr<FRPGItemInfo>>& NewItemsInfo);
 	URPGGameBagslot* FindItem(const TSharedPtr<FRPGItemInfo>& NewItem);

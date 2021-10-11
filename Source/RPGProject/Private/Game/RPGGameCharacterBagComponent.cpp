@@ -11,12 +11,12 @@ URPGGameCharacterBagComponent::URPGGameCharacterBagComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	_Money = MakeShareable(new FMoney);
-	_Money->Money = 10000;
+	_Money->Money = 0;
 	_Money->TimeStamp++;
 	// ...
 }
 
-void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestItemData)
+void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestItemData, const TMap<FString, FString>& MoneyData)
 {
 	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
 	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
@@ -31,6 +31,8 @@ void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestIte
 		NewItem->Count = RestItemData[i].Count;
 		AddItem(NewItem);
 	}
+
+	UpdateMoney(FCString::Atoi(*MoneyData["Money"]));
 }
 
 
@@ -62,6 +64,7 @@ void URPGGameCharacterBagComponent::AddItem(const TSharedPtr<FRPGItemInfo>& NewI
 		ExistItem->TimeStamp++;
 		return;
 	}
+	NewItem->TimeStamp++;
 	_CharacterItems.Add(NewItem);
 	
 }

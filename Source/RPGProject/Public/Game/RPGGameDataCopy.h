@@ -20,6 +20,7 @@ private:
 	TSharedPtr<FMoney> _CharacterMoney;
 	ARPGGamePlayerState* _CheckStat;
 	float _DeltaTime;
+	bool _bInitFirstItem = false;
 public:	
 	// Sets default values for this actor's properties
 	ARPGGameDataCopy();
@@ -37,4 +38,5 @@ public:
 	FORCEINLINE TSharedPtr<FMoney> GetCharacterMoney() { return _CharacterMoney; }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemsInfo() { return _CharacterItemInfo; }
+	FORCEINLINE bool GetbInitFirstItem() { return _bInitFirstItem; }
 };

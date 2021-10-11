@@ -36,7 +36,10 @@ public:
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	void UpdateVisibility(const EInventoryUIType& NewInput);
 	URPGGameActionBarLayout* GetActionBar();
+	TArray<TSharedPtr<FRPGItemSlot>> GetVaildBagData();
+	TArray<TSharedPtr<FRPGItemSlot>> GetVaildActionBarData();
 public:
 	void InitInventory(const TArray<FRPGRestItem>& RestItemData);
+	void InitActionBar(const TArray<FRPGRestItem>& RestActionBar);
 	void ActiveShop();
 };

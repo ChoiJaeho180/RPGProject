@@ -44,14 +44,23 @@ void ARPGCommonCharacterInfoExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 		ResultCharacterInfo->CurrentVillage = PositionData["Map"];
 
 		ResultCharacterInfo->Job = result->TryGetField("Job")->AsString();
-		ResultCharacterInfo->Level = FCString::Atoi(*result->TryGetField("Level")->AsString());
+		FString Stat = result->TryGetField("Stat")->AsString();
+		TMap<FString, FString> StatResult = RPGCommonStringParser::StringParsing(Stat);
+		ResultCharacterInfo->Stat = StatResult;
 
 		FString ItemInfo = result->TryGetField("Items")->AsString();
-		TArray<FRPGRestItem> ItemData = RPGCommonStringParser::ItemsDataParsing(ItemInfo);
+		TArray<FString> ResultCommaParsing = RPGCommonStringParser::CommaStringParsing(ItemInfo);
+		TMap<FString, FString> MoneyData = RPGCommonStringParser::SingleStringParsing(ResultCommaParsing[0]);
+		if(ResultCommaParsing.Num() != 0) ResultCommaParsing.RemoveAt(0);
+		TArray<FRPGRestItem> ItemData = RPGCommonStringParser::ItemsDataParsing(ResultCommaParsing);
 
+		// ActionBar 데이터 중 portion만 저장함
+		FString ActionBar_Portion = result->TryGetField("ActionBar")->IsNull() == true ? "" : result->TryGetField("ActionBar")->AsString();
+		TArray<FString> ActionBarCommaParsing = RPGCommonStringParser::CommaStringParsing(ActionBar_Portion);
+		TArray<FRPGRestItem> ActionBarData = RPGCommonStringParser::ItemsDataParsing(ActionBarCommaParsing);
 
 		CurrentController->SetCharacterInfo(ResultCharacterInfo);
-		CurrentController->InitItemData(ItemData);
+		CurrentController->InitItemData(ItemData, ActionBarData, MoneyData);
 	}
 
 }

@@ -18,7 +18,7 @@ class RPGPROJECT_API URPGGameUIIdeliver : public UObject
 private:
 	URPGGameInventoryLayout* _TargetUI;
 public:
-	void InitInventory(const TArray<FRPGRestItem>& NewItem);
+	void InitInventoryAndActionBar(const TArray<FRPGRestItem>& NewItem, const TArray<FRPGRestItem>& ActionBar);
 	void SetDeliveryTargetUI(URPGGameInventoryLayout* NewUI);
 	void SendInputState(const EInventoryUIType& NewInput);
 	void ActiveShop();

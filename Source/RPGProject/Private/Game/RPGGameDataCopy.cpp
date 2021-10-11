@@ -36,6 +36,7 @@ void ARPGGameDataCopy::CheckCharacterItems()
 	if (_CharacterItemInfo.Num() != CharacterItems.Num())
 	{
 		_CharacterItemInfo = CharacterItems;
+		_bInitFirstItem = true;
 		return;
 	}
 	for (int i = 0; i < CharacterItems.Num(); i++)
@@ -43,6 +44,7 @@ void ARPGGameDataCopy::CheckCharacterItems()
 		if (CharacterItems[i]->TimeStamp == _CharacterItemInfo[i]->TimeStamp)
 			continue;
 		_CharacterItemInfo[i] = CharacterItems[i];
+		_bInitFirstItem = true;
 	}
 }
 
@@ -68,6 +70,5 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 	CehckkCharacterMoney();
 
 	_DeltaTime = 0.f;
-
 }
 

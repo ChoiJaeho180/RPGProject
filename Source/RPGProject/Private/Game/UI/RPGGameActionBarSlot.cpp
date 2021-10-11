@@ -7,6 +7,7 @@
 #include "Components/Border.h"
 #include "Game/UI/RPGGameTitleDragAndDrop.h"
 #include "Common/RPGCommonGameInstance.h"
+#include "Game/RPGGameDataTableManager.h"
 
 void URPGGameActionBarSlot::NativeConstruct()
 {
@@ -72,6 +73,18 @@ void URPGGameActionBarSlot::UpdateUI()
 		_AmountText->SetText(FText::AsNumber(_ItemInfo->Count));
 
 	_IconBorder->SetBrushFromTexture(_ItemInfo->Image);
+}
+
+void URPGGameActionBarSlot::Init(int SlotIndex, FName Name, int Count)
+{
+	_ItemInfo = MakeShareable(new FRPGItemSlot);
+
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetGameInstance());
+	URPGGameDataTableManager* DT = GI->GetDataTableManager();
+	FGameItemType* ItemType = DT->GetNameToData(Name);
+	_ItemInfo->SetInfo(Count, ItemType->Price, ItemType->Description, Name, ItemType->InventoryType, 0);
+	_ItemInfo->SetInfo(ItemType->Image, SlotIndex);
+	UpdateUI();
 }
 
 void URPGGameActionBarSlot::UpdateNullItem()

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Intro/UI/RPGIntroLobbyInfoLayout.h"
 #include "Intro/UI/RPGIntroLobbySlotInfoLayout.h"
-
+#include "Common/RPGCommonStringParser.h"
 
 void URPGIntroLobbyInfoLayout::NativeConstruct()
 {
@@ -49,9 +49,9 @@ void URPGIntroLobbyInfoLayout::SetSlotInfo()
 		if (Info.Num() <= JsonCount)
 			break;
 		auto CharacterInfo = Info[JsonCount]->AsObject();
-		auto LevelValue = CharacterInfo->TryGetField(FString("Level"));
-		if(LevelValue != nullptr)
-			_CharacterSlotInfo[i]->SetLevelText(LevelValue->AsString());
+		auto LevelValue = RPGCommonStringParser::GetSpecificStat(CharacterInfo->TryGetField(FString("Stat"))->AsString(),"Level");
+		if(LevelValue != FString(""))
+			_CharacterSlotInfo[i]->SetLevelText(LevelValue);
 
 		auto JobValue = CharacterInfo->TryGetField(FString("Job"));
 		if (JobValue != nullptr)

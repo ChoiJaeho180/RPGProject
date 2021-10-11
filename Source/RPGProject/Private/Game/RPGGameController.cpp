@@ -9,6 +9,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Components/DecalComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Common/REST/RPGCommonSerializeData.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -56,7 +57,6 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
 
-	//FString a = "1";
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_1"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("1"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_2"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("2"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_3"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("3"));
@@ -68,14 +68,41 @@ void ARPGGameController::SetupInputComponent()
 	
 }
 
-void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData)
+void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData, const TArray<FRPGRestItem>& RestActionBar, const TMap<FString, FString>& MoneyData)
 {
-	_PlayerStat->InitData(RestItemData);
+	_PlayerStat->InitData(RestItemData, MoneyData);
 	AsyncTask(ENamedThreads::GameThread, [=]()
 	{
-		_GameUIManager->InitInventory(RestItemData);
+		_GameUIManager->InitInventoryAndActionBar(RestItemData, RestActionBar);
 	});
 	
+}
+
+void ARPGGameController::UpdateCharacterInfoToDB(const TArray<TSharedPtr<FRPGItemSlot>>& BagData, const TArray<TSharedPtr<FRPGItemSlot>>& PortionSlotData)
+{
+	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
+	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
+	//AsyncTask(ENamedThreads::AnyThread, [=]()
+	//{
+	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+	// Position Data
+	FString LastPosition = URPGCommonSerializeData::GetLastPosition(GM->GetCurrentMap(), GetPawn()->GetActorLocation());
+	JsonObject->SetStringField("LastPosition", LastPosition);
+	// Bag Data
+	int CurrentMoney = _PlayerStat->GetCharacterBag()->GetCharacterMoney()->Money;
+	FString MoneyData = URPGCommonSerializeData::GetMoney(CurrentMoney);
+	FString ItemData = URPGCommonSerializeData::GetItemsData(BagData);
+	if (ItemData.Len() != 0) MoneyData = MoneyData + ",";
+	FString Items = MoneyData + ItemData;
+	JsonObject->SetStringField("Items", Items);
+
+	FString PortionSlot = URPGCommonSerializeData::GetItemsData(PortionSlotData);
+	if(PortionSlot.IsEmpty() == false)JsonObject->SetStringField("ActionBar", PortionSlot);
+
+	FString Stat = URPGCommonSerializeData::GetCharacterStat(_PlayerStat->GetCharacterStat()->Stat);
+	JsonObject->SetStringField("Stat", Stat);
+	JsonObject->SetStringField("CharacterName", GameInstance->GetCharacterName());
+	GameInstance->PostRequest("/game/updatecharacterinfo", JsonObject);
 }
 
 void ARPGGameController::MoveToMouseCursor()
@@ -99,7 +126,6 @@ void ARPGGameController::MoveToMouseCursor()
 		{
 			// We hit something, move there
 			SetNewMoveDestination(Hit);
-
 		}
 	}
 }
@@ -110,7 +136,6 @@ void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
 	if (MyPawn)
 	{
 		float const Distance = FVector::Dist(Hit.ImpactPoint, MyPawn->GetActorLocation());
-
 		// We need to issue move command only if far enough in order for walk animation to play correctly
 		if ((Distance > MIN_MOVE_DIST))
 		{
@@ -120,11 +145,6 @@ void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
 			MyPawn->OnClikedMove(Hit.ImpactPoint);
 		}
 	}
-}
-
-void ARPGGameController::MovePoint()
-{
-
 }
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
@@ -139,7 +159,7 @@ void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharact
 	{
 		SendActiveMap(NewCharacterInfo->CurrentVillage);
 		GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
-
+		_PlayerStat->GetCharacterStat()->SetInfo(NewCharacterInfo->Stat);
 		_GameUIManager->UpdateLevel();
 	});
 	
@@ -152,7 +172,6 @@ void ARPGGameController::Move()
 
 void ARPGGameController::LeftMouseClick()
 {
-
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_GameTraceChannel3, false, Hit);
 	if (Hit.bBlockingHit)

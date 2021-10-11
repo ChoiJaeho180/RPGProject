@@ -85,6 +85,19 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 	}
 }
 
+TArray<TSharedPtr<FRPGItemSlot>> URPGGameBagLayout::GetValidSlotData()
+{
+	TArray<TSharedPtr<FRPGItemSlot>> Data;
+	for (int i = 0; i < _SlotData.Num(); i++)
+	{
+		auto SlotData = _SlotData[i]->GetItemSlotData();
+		if (SlotData->Image == nullptr)
+			continue;
+		Data.Add(SlotData);
+	}
+	return Data;
+}
+
 void URPGGameBagLayout::InitBagSlots(const TArray<FRPGRestItem>& RestItemData)
 {
 	for (int i = 0; i < RestItemData.Num(); i++)

@@ -47,9 +47,9 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_UIDeliver->SetDeliveryTargetUI(GetUSerobj->GetUserInfoLayout());
 }
 
-void ARPGGameUIManager::InitInventory(const TArray<FRPGRestItem>& NewItem)
+void ARPGGameUIManager::InitInventoryAndActionBar(const TArray<FRPGRestItem>& NewItem, const TArray<FRPGRestItem>& RestActionBar)
 {
-	_UIDeliver->InitInventory(NewItem);
+	_UIDeliver->InitInventoryAndActionBar(NewItem, RestActionBar);
 }
 
 // Called when the game starts or when spawned

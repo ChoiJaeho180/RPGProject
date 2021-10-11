@@ -11,7 +11,7 @@ USTRUCT(BlueprintType)
 struct FCharacterInfo
 {
 	GENERATED_BODY()
-	TMap<FString, FString> AttachItems;
+	TMap<FString, FString> Stat;
 	TMap<FString, FString> Items;
 	FVector CurrentPosition;
 	FString CurrentVillage;

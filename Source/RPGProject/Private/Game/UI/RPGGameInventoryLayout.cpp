@@ -81,9 +81,24 @@ URPGGameActionBarLayout* URPGGameInventoryLayout::GetActionBar()
 	return _ActionBar;
 }
 
+TArray<TSharedPtr<FRPGItemSlot>> URPGGameInventoryLayout::GetVaildBagData()
+{
+	return _BagLayout->GetValidSlotData();
+}
+
+TArray<TSharedPtr<FRPGItemSlot>> URPGGameInventoryLayout::GetVaildActionBarData()
+{
+	return _ActionBar->GetValidSlotData();
+}
+
 void URPGGameInventoryLayout::InitInventory(const TArray<FRPGRestItem>& RestItemData)
 {
 	_BagLayout->InitBagSlots(RestItemData);
+}
+
+void URPGGameInventoryLayout::InitActionBar(const TArray<FRPGRestItem>& RestActionBar)
+{
+	_ActionBar->InitRestActionBar(RestActionBar);
 }
 
 void URPGGameInventoryLayout::ActiveShop()

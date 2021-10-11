@@ -30,7 +30,7 @@ public:
 	// Sets default values for this actor's properties
 	ARPGGameUIManager();
 	void Initialize(ARPGGameController* NewController);
-	void InitInventory(const TArray<FRPGRestItem>& NewItem);
+	void InitInventoryAndActionBar(const TArray<FRPGRestItem>& NewItem, const TArray<FRPGRestItem>& RestActionBar);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

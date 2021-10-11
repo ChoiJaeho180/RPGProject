@@ -10,10 +10,6 @@ void URPGGameNextAttackCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSequ
 	URPGGameComboAttackAnim* GameComboAttack = Anim->GetComboAttackAnim();
 	GameComboAttack->SetbCanNextCombo(false);
 	
-	if (GameComboAttack->GetCurrentCombo() == 2)
-	{
-		as = GameComboAttack->GetCurrentCombo();
-	}
 	if (GameComboAttack->GetbIsComboInputOn() == false) return;
 
 	GameComboAttack->AttackStartComboState();

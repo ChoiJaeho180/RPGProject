@@ -4,6 +4,7 @@
 #include "Components/Button.h"
 #include "Components/EditableTextBox.h"
 #include "Components/TextBlock.h"
+#include "Common/RPGCommonGameInstance.h"
 
 void URPGIntroRegisterLayout::NativeConstruct()
 {
@@ -29,6 +30,11 @@ void URPGIntroRegisterLayout::NativeConstruct()
 
 void URPGIntroRegisterLayout::OnChangeLayoutClicked(EIntroDerivedWidgetState NewState)
 {
-	_RegisterInfo->SetText(FText::FromString("Test"));
+	//_RegisterInfo->SetText(FText::FromString("Test"));
+	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
+	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
+	//JsonObject->SetStringField("ID", LastPosition);
+	GameInstance->PostRequest("/users/register", JsonObject);
+
 	delegateSendLayoutChange.ExecuteIfBound(NewState, 0);
 }

@@ -32,6 +32,9 @@ public:
 public:
 	virtual void ActiveSlot(ESlateVisibility NewState) override;
 	virtual void UpdateUI() override;
+	
+public:
+	void Init(int SlotIndex, FName Name, int Count);
 	void UpdateNullItem();
 	void UpdateItem(const TSharedPtr<FRPGItemInfo> KeySlotData);
 	virtual URPGGameSlotDragDropBaseLayout* GetDragObject() override;

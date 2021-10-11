@@ -18,15 +18,17 @@ class RPGPROJECT_API URPGGameActionBarLayout : public URPGGameBaseLayout
 {
 	GENERATED_BODY()
 private:
+
 	TArray<URPGGameActionBarSlot*> _ActionBarSlots;
 	UPROPERTY()
 	ARPGGameDataCopy* _ChecActonBarSlotData;
-
+	
 public:
 	virtual void NativeConstruct() override;
 	void NativeTick();
 public:
+	void InitRestActionBar(const TArray<FRPGRestItem>& RestActionBar);
 	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& KeySlotData, const TArray<TSharedPtr<FRPGItemInfo>>& CharacterItems);
 	TSharedPtr<FRPGItemInfo> FindSlotData(const FString& Key);
-
+	TArray<TSharedPtr<FRPGItemSlot>> GetValidSlotData();
 };
