@@ -10,7 +10,7 @@
 #include "RPGGameGameMode.generated.h"
 
 class URPGGameMapInfo;
-
+class ARPGGameCharacter;
 /**
  * 
  */
@@ -21,17 +21,14 @@ class RPGPROJECT_API ARPGGameGameMode : public AGameMode
 private:
 	UPROPERTY()
 	TArray<URPGGameMapInfo*> _MapInfo;
-	FString _CurrentMapName;
 public:
 	ARPGGameGameMode();
 
 	void PostLogin(APlayerController* NewPlayer);
 	void Logout(AController* Exiting);
-	void ActiveMap(const FString& MapName);
+	void ActiveMap(const FString& MapName, ARPGGameCharacter* _Character);
 	void AddNewNPC(TArray<FNPCInfo> NewNPC);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
-public:
-	FORCEINLINE FString GetCurrentMap() { return _CurrentMapName; }
 public:
 	TSubclassOf<URPGGameMapInfo> MapInfoClass;
 	TSubclassOf<ARPGGameNPC> GameNPCClass;

@@ -11,6 +11,12 @@ URPGGameDataTableManager::URPGGameDataTableManager()
 	{
 		_ConsumptionDT = DT_CONSUMPTION.Object;
 	}
+	FString PorTalInfoPath = TEXT("DataTable'/Game/DataTable/PorTalInfo.PorTalInfo'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> DT_PORTALINFO(*PorTalInfoPath);
+	if (DT_PORTALINFO.Succeeded())
+	{
+		_PortalInfoDT = DT_PORTALINFO.Object;
+	}
 	
 }
 
@@ -18,6 +24,7 @@ void URPGGameDataTableManager::Init()
 {
 	FString Context;
 	_ConsumptionDT->GetAllRows<FGameItemType>(Context, _ConsumptionData);
+	_PortalInfoDT->GetAllRows<FPortalInfo>(Context, _PortalData);
 }
 
 void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT)
@@ -34,6 +41,17 @@ FGameItemType* URPGGameDataTableManager::GetNameToData(const FName& Name)
 			return _ConsumptionData[i];
 	}
 	return nullptr;
+}
+
+TArray<FPortalInfo*> URPGGameDataTableManager::GetPortalNameToData(const FString& Name)
+{
+	TArray<FPortalInfo*> Data;
+	for (int i = 0; i < _PortalData.Num(); i++)
+	{
+		if (_PortalData[i]->CurrentMap == Name)
+			Data.Add(_PortalData[i]);
+	}
+	return Data;
 }
 
 UTexture2D* URPGGameDataTableManager::GetNameToTexture(const FName& Name)

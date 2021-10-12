@@ -9,6 +9,8 @@
 class ARPGGameNPC;
 class ARPGGameNPCShop;
 class ARPGGameNPCQuest;
+class ARPGGamePortal;
+class URPGCommonGameInstance;
 /**
  * 
  */
@@ -20,12 +22,16 @@ private:
 	FString _MapName;
 	TArray<ARPGGameNPCShop*> _ShopNPCs;
 	TArray<ARPGGameNPCQuest*> _QuestNPCs;
-
+	TArray<ARPGGamePortal*> _Portals;
 public:
+	URPGGameMapInfo();
 	void AddNewNPC(ARPGGameNPCQuest* NewNPC);
 	void AddNewNPC(ARPGGameNPCShop* NewNPC);
+	void CreatePortal(UWorld* world);
 	void SetHiddenGame(bool bHide);
 public:
 	FORCEINLINE void SetMapName(const FString& MapName) { _MapName = MapName; }
 	FORCEINLINE FString GetMapName() { return _MapName; }
+public:
+	TSubclassOf<ARPGGamePortal> PortalClass;
 };

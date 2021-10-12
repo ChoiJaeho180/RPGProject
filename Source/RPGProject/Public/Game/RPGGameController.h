@@ -49,7 +49,8 @@ public:
 	void LeftMouseClick();
 	void InteractionUI(EInventoryUIType InteractionType);
 	void InteractionPortionBarUI(FString Key);
-
+	
+	void PortalMove();
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

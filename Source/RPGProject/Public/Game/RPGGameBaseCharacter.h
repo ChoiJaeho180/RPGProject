@@ -13,6 +13,7 @@ class RPGPROJECT_API ARPGGameBaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
 protected:
+	
 		/** A decal that projects to the cursor location. */
 	UPROPERTY()
 	UDecalComponent* _CursorToWorld;
@@ -21,9 +22,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
-
-	FVector _MoveFV;
-	FRotator _MoveR;
+private:
+	FString _CurrentMap;
+	FString _NextMap;
+	FVector _NextMapPosition;
+private:
+	FVector _CursorMoveFV;
+	FRotator _CursorMoveR;
 	const FVector _InitDecalSize = FVector(16.f, 35.f, 35.f);
 	const FVector _FinishDecalSize = FVector(16.f, 0.f, 0.f);
 	float _DecalRatio = 0.f;
@@ -49,4 +54,10 @@ public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return _CursorToWorld; }
 	FORCEINLINE void SetbInputMove(bool bNew = false) { _bInputMove = bNew; }
+	FORCEINLINE FString GetCurrentMap() { return _CurrentMap; }
+	FORCEINLINE void SetCurrentMap(const FString& NewMap) { _CurrentMap = NewMap; }
+	FORCEINLINE FString GetNextMap() { return _NextMap; }
+	FORCEINLINE void SetNextMap(const FString& NextMap) { _NextMap = NextMap; }
+	FORCEINLINE FVector GetNextMapPosition() { return _NextMapPosition; }
+	FORCEINLINE void SetNextMapPosition(const FVector& NextMapPosition) { _NextMapPosition = NextMapPosition; }
 };

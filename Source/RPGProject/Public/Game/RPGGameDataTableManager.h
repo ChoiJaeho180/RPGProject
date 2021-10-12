@@ -17,8 +17,12 @@ class RPGPROJECT_API URPGGameDataTableManager : public UObject
 {
 	GENERATED_BODY()
 private:
+	UPROPERTY()
 	UDataTable* _ConsumptionDT;
 	TArray<FGameItemType*> _ConsumptionData;
+	UPROPERTY()
+	UDataTable* _PortalInfoDT;
+	TArray<FPortalInfo*> _PortalData;
 public:
 	URPGGameDataTableManager();
 	void Init();
@@ -26,7 +30,9 @@ private:
 	void SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT);
 public:
 	FGameItemType* GetNameToData(const FName& Name);
+	TArray<FPortalInfo*> GetPortalNameToData(const FString& Name);
 	UTexture2D* GetNameToTexture(const FName& Name);
 public:
 	FORCEINLINE TArray<FGameItemType*> GetData() { return _ConsumptionData; }
+
 };

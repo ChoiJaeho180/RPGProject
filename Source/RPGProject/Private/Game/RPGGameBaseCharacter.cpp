@@ -95,8 +95,8 @@ void ARPGGameBaseCharacter::Tick(float DeltaTime)
 		{
 			if (_bInputMove == true)
 			{
-				_CursorToWorld->SetWorldLocation(_MoveFV);
-				_CursorToWorld->SetWorldRotation(_MoveR);
+				_CursorToWorld->SetWorldLocation(_CursorMoveFV);
+				_CursorToWorld->SetWorldRotation(_CursorMoveR);
 			}
 		}
 		
@@ -131,7 +131,7 @@ void ARPGGameBaseCharacter::InitDecalSize()
 void ARPGGameBaseCharacter::InitDecalPostionAndRotation(FHitResult result)
 {
 	FVector CursorFV = result.ImpactNormal;
-	_MoveR = CursorFV.Rotation();
-	_MoveFV = result.Location;
+	_CursorMoveR = CursorFV.Rotation();
+	_CursorMoveFV = result.Location;
 }
 

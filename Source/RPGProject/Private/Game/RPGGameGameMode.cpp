@@ -26,9 +26,12 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	GameInstance->CreateGameNPCData();
 	GameInstance->CreateGameDataCopyClass();
 	GameInstance->Init();
+	TArray<FString> MapName = { "Game_Village", "Desert" };
+	for(int i =0; i < MapName.Num(); i++)
 	{
 		URPGGameMapInfo* NewMap = NewObject<URPGGameMapInfo>();
-		NewMap->SetMapName("Game_Village");
+		NewMap->SetMapName(MapName[i]);
+		NewMap->CreatePortal(GetWorld());
 		_MapInfo.Add(NewMap);
 	}
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
@@ -45,19 +48,20 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 	GameInstance->Release();
 }
 
-void ARPGGameGameMode::ActiveMap(const FString& MapName)
+void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* _Character)
 {
 	FLatentActionInfo info;
-	if (_CurrentMapName.IsEmpty() == false)
+	FString CharacterCurrentMap = _Character->GetCurrentMap();
+	if (CharacterCurrentMap.IsEmpty() == false)
 	{
-		URPGGameMapInfo* Map = GetGameMap(_CurrentMapName);
+		URPGGameMapInfo* Map = GetGameMap(CharacterCurrentMap);
 		Map->SetHiddenGame(true);
-		UGameplayStatics::UnloadStreamLevel(this, FName(*_CurrentMapName), info, true);
+		UGameplayStatics::UnloadStreamLevel(this, FName(*CharacterCurrentMap), info, true);
 	}
-	_CurrentMapName = MapName;
-	URPGGameMapInfo* Map = GetGameMap(_CurrentMapName);
+	_Character->SetCurrentMap(MapName);
+	URPGGameMapInfo* Map = GetGameMap(_Character->GetCurrentMap());
 	Map->SetHiddenGame(false);
-	UGameplayStatics::LoadStreamLevel(this, FName(*_CurrentMapName), true, true, info);
+	UGameplayStatics::LoadStreamLevel(this, FName(*_Character->GetCurrentMap()), true, true, info);
 }
 
 void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)

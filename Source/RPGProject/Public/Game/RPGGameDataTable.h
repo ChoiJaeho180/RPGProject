@@ -22,6 +22,22 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FPortalInfo : public FTableRowBase
+{
+	GENERATED_BODY();
+public:
+	FPortalInfo() {};
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Data")
+	FVector CurrentPosition;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Data")
+	FString CurrentMap;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Data")
+	FString NextMap;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Data")
+	FVector NextPosition;
+};
+
+USTRUCT(BlueprintType)
 struct FGameItemType : public FTableRowBase
 {
 	GENERATED_BODY();

@@ -66,6 +66,7 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_7"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("7"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_8"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("8"));
 	
+	InputComponent->BindAction(TEXT("Portal"), EInputEvent::IE_Released, this, &ARPGGameController::PortalMove);
 }
 
 void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData, const TArray<FRPGRestItem>& RestActionBar, const TMap<FString, FString>& MoneyData)
@@ -86,7 +87,7 @@ void ARPGGameController::UpdateCharacterInfoToDB(const TArray<TSharedPtr<FRPGIte
 	//{
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	// Position Data
-	FString LastPosition = URPGCommonSerializeData::GetLastPosition(GM->GetCurrentMap(), GetPawn()->GetActorLocation());
+	FString LastPosition = URPGCommonSerializeData::GetLastPosition(_Character->GetCurrentMap(), GetPawn()->GetActorLocation());
 	JsonObject->SetStringField("LastPosition", LastPosition);
 	// Bag Data
 	int CurrentMoney = _PlayerStat->GetCharacterBag()->GetCharacterMoney()->Money;
@@ -149,8 +150,9 @@ void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
 
 void ARPGGameController::SendActiveMap(const FString& MapName)
 {
+	//_Character->SetCurrentMap(MapName);
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
-	GM->ActiveMap(MapName);
+	GM->ActiveMap(MapName, _Character);
 }
 
 void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo)
@@ -194,4 +196,11 @@ void ARPGGameController::InteractionPortionBarUI(FString Key)
 {
 	TSharedPtr<FRPGItemInfo> Data = _GameUIManager->GetInputPortionSlotData(Key);
 	_PlayerStat->UsePortion(Data);
+}
+
+void ARPGGameController::PortalMove()
+{
+	if (_Character->GetNextMap() == FString("")) return;
+	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
+	GM->ActiveMap(_Character->GetNextMap(), _Character);
 }
