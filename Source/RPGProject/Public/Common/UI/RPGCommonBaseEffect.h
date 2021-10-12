@@ -28,4 +28,5 @@ public:
 public:
 	virtual void PlayAnim() {};
 	FORCEINLINE void SetChangeLevel(bool bNew) { _bChangeLevel = bNew; }
+	FORCEINLINE bool GetChangeLevel() { return _bChangeLevel; }
 };

@@ -17,7 +17,7 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 
 	_SpringArm->SetupAttachment(GetCapsuleComponent());
 	_Camera->SetupAttachment(_SpringArm);
-
+	
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -88.0f), FRotator(0.0f, -90.0f, 0.0f));
 
 	_SpringArm->TargetArmLength = 1100.0f;
@@ -31,7 +31,7 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-
+	GetCharacterMovement()->MaxStepHeight = 3000;
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	
@@ -60,6 +60,7 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 
 	_CursorToWorld->DecalSize = FVector(16.0f,0.0f, 0.0f);
 	_CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
+	
 }
 
 // Called when the game starts or when spawned
@@ -68,6 +69,7 @@ void ARPGGameBaseCharacter::BeginPlay()
 	Super::BeginPlay();
 	_CursorToWorld->SetActive(false);
 	_CursorToWorld->Activate(false);
+	_NextMapPosition = FVector::ZeroVector;
 }
 
 // Called every frame

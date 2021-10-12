@@ -66,7 +66,7 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_7"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("7"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_8"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("8"));
 	
-	InputComponent->BindAction(TEXT("Portal"), EInputEvent::IE_Released, this, &ARPGGameController::PortalMove);
+	InputComponent->BindAction(TEXT("Portal"), EInputEvent::IE_Released, this, &ARPGGameController::PreChangeMap);
 }
 
 void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData, const TArray<FRPGRestItem>& RestActionBar, const TMap<FString, FString>& MoneyData)
@@ -198,9 +198,21 @@ void ARPGGameController::InteractionPortionBarUI(FString Key)
 	_PlayerStat->UsePortion(Data);
 }
 
-void ARPGGameController::PortalMove()
+void ARPGGameController::PreChangeMap()
 {
 	if (_Character->GetNextMap() == FString("")) return;
+	_GameUIManager->SetFadeEffectType(ECommonFadeState::FADE_IN, true);
+	_GameUIManager->UpdateLevel();
+}
+
+void ARPGGameController::ComplateChangeMap()
+{
+	_GameUIManager->SetFadeEffectType(ECommonFadeState::FADE_OUT, true);
+	_GameUIManager->UpdateLevel();
+}
+
+void ARPGGameController::ChangeMap()
+{
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	GM->ActiveMap(_Character->GetNextMap(), _Character);
 }

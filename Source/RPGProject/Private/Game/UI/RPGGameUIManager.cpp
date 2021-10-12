@@ -30,9 +30,11 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_CurrentController = NewController;
 	_GameFadeEffect = CreateWidget<URPGCommonFade>(_CurrentController, IntroFadeClass);
 	_GameFadeEffect->delegateAttachWidget.BindUObject(this, &ARPGGameUIManager::ChangeWidget);
-	_GameFadeEffect->AddToViewport(5);
-
-	((URPGCommonFade*)_GameFadeEffect)->SetFadeState(ECommonFadeState::FADE_OUT);
+	IRPGCommonChangeLevel* FadeChangeLevel = Cast<IRPGCommonChangeLevel>(_GameFadeEffect);
+	FadeChangeLevel->delegateChangeLevel.BindUObject(this, &ARPGGameUIManager::SendChangeLevel);
+	_GameFadeEffect->AddToViewport(20);
+	SetFadeEffectType(ECommonFadeState::FADE_OUT, false);
+	
 
 	_MainWidget = CreateWidget<URPGGameMainWidget>(_CurrentController, GameMainClass);
 	_MainWidget->SetLayoutList();
@@ -59,6 +61,19 @@ void ARPGGameUIManager::BeginPlay()
 	
 }
 
+void ARPGGameUIManager::SetFadeEffectType(ECommonFadeState EffectType, bool bChangeLevel)
+{
+	((URPGCommonFade*)_GameFadeEffect)->SetFadeState(EffectType);
+	_GameFadeEffect->SetChangeLevel(bChangeLevel);
+}
+
+void ARPGGameUIManager::SendChangeLevel()
+{
+	if (_GameFadeEffect->GetChangeLevel() == true) _CurrentController->ChangeMap();
+
+	_GameFadeEffect->SetChangeLevel(false);
+}
+
 // Called every frame
 void ARPGGameUIManager::Tick(float DeltaTime)
 {
@@ -73,6 +88,7 @@ void ARPGGameUIManager::UpdateLevel()
 
 void ARPGGameUIManager::ChangeWidget()
 {
+	
 }
 
 void ARPGGameUIManager::SendInputState(const EInventoryUIType& NewInput)

@@ -50,7 +50,9 @@ public:
 	void InteractionUI(EInventoryUIType InteractionType);
 	void InteractionPortionBarUI(FString Key);
 	
-	void PortalMove();
+	void PreChangeMap();
+	void ComplateChangeMap();
+	void ChangeMap();
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

@@ -31,9 +31,13 @@ public:
 	ARPGGameUIManager();
 	void Initialize(ARPGGameController* NewController);
 	void InitInventoryAndActionBar(const TArray<FRPGRestItem>& NewItem, const TArray<FRPGRestItem>& RestActionBar);
+
+	void SetFadeEffectType(ECommonFadeState EffectType, bool bChangeLevel);
+	void SendChangeLevel();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 
 public:	
 	// Called every frame
@@ -43,6 +47,7 @@ public:
 	void SendInputState(const EInventoryUIType& NewInput);
 	TSharedPtr<FRPGItemInfo> GetInputPortionSlotData(const FString Key);
 	void ActiveShop();
+	
 public:
 	TSubclassOf<URPGCommonFade> IntroFadeClass;
 	TSubclassOf<URPGGameMainWidget> GameMainClass;

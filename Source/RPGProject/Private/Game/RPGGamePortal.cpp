@@ -31,7 +31,7 @@ void ARPGGamePortal::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(OtherActor);
 	Character->SetNextMap(FString(""));
-	Character->SetNextMapPosition(FVector::ZeroVector);
+	//Character->SetNextMapPosition(FVector::ZeroVector);
 }
 
 void ARPGGamePortal::Init(FPortalInfo* Data)

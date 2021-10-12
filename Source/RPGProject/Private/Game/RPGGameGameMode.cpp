@@ -48,20 +48,57 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 	GameInstance->Release();
 }
 
-void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* _Character)
+void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Character)
 {
-	FLatentActionInfo info;
-	FString CharacterCurrentMap = _Character->GetCurrentMap();
+	
+	FString CharacterCurrentMap = Character->GetCurrentMap();
 	if (CharacterCurrentMap.IsEmpty() == false)
 	{
+		FLatentActionInfo info;
+		info.CallbackTarget = this;
+		info.ExecutionFunction = FName("ExecutionUnLoad");
+		info.UUID = 1;
+		info.Linkage = 0;
+		Character->SetCurrentMap(MapName);
 		URPGGameMapInfo* Map = GetGameMap(CharacterCurrentMap);
 		Map->SetHiddenGame(true);
 		UGameplayStatics::UnloadStreamLevel(this, FName(*CharacterCurrentMap), info, true);
 	}
-	_Character->SetCurrentMap(MapName);
-	URPGGameMapInfo* Map = GetGameMap(_Character->GetCurrentMap());
+	else
+	{
+		Character->SetCurrentMap(MapName);
+		ExecutionUnLoad();
+	}
+}
+
+void ARPGGameGameMode::ExecutionUnLoad()
+{
+	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
+	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
+
+	FLatentActionInfo info;
+	if (Character->GetNextMapPosition() != FVector::ZeroVector)
+	{
+		info.CallbackTarget = this;
+		info.ExecutionFunction = FName("ExecutionLoad");
+		info.UUID = 1;
+		info.Linkage = 0;
+	}
+	
+	URPGGameMapInfo* Map = GetGameMap(Character->GetCurrentMap());
+	UGameplayStatics::LoadStreamLevel(this, FName(*Character->GetCurrentMap()), true, true, info);
 	Map->SetHiddenGame(false);
-	UGameplayStatics::LoadStreamLevel(this, FName(*_Character->GetCurrentMap()), true, true, info);
+	UE_LOG(LogTemp, Warning, TEXT("ExecutionUnLoad"));
+}
+
+void ARPGGameGameMode::ExecutionLoad()
+{
+	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
+	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
+	//if (Character->GetNextMap() == FString("")) return;
+	Character->SetActorLocation(Character->GetNextMapPosition());
+	Controller->ComplateChangeMap();
+	UE_LOG(LogTemp, Warning, TEXT("??"));
 }
 
 void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)

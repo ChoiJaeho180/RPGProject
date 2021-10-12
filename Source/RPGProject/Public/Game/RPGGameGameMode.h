@@ -27,6 +27,10 @@ public:
 	void PostLogin(APlayerController* NewPlayer);
 	void Logout(AController* Exiting);
 	void ActiveMap(const FString& MapName, ARPGGameCharacter* _Character);
+	UFUNCTION()
+	void ExecutionUnLoad();
+	UFUNCTION()
+	void ExecutionLoad();
 	void AddNewNPC(TArray<FNPCInfo> NewNPC);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
 public:
