@@ -22,7 +22,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
-private:
+
+protected:
+	float _BaseAttackRadius;
+	float _BaseAttackRange;
 	FString _CurrentMap;
 	FString _NextMap;
 	FVector _NextMapPosition;
@@ -60,4 +63,7 @@ public:
 	FORCEINLINE void SetNextMap(const FString& NextMap) { _NextMap = NextMap; }
 	FORCEINLINE FVector GetNextMapPosition() { return _NextMapPosition; }
 	FORCEINLINE void SetNextMapPosition(const FVector& NextMapPosition) { _NextMapPosition = NextMapPosition; }
+
+	FORCEINLINE float GetBaseAttackRadius() { return _BaseAttackRadius; }
+	FORCEINLINE float GetBaseAttackRange() { return _BaseAttackRange; }
 };

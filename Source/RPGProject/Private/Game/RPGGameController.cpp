@@ -183,6 +183,15 @@ void ARPGGameController::LeftMouseClick()
 			return;
 		_GameUIManager->ActiveShop();
 	}
+	FHitResult Hit2;
+	GetHitResultUnderCursor(ECC_Visibility, false, Hit2);
+	if (Hit2.bBlockingHit)
+	{
+		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(GetPawn()->GetActorLocation(), Hit2.Location);
+		_Character->SetRotationRow(rotation);
+		//GetPawn()->SetActorRotation(FRotator(GetPawn()->GetActorRotation().Pitch, asd.Yaw, GetPawn()->GetActorRotation().Roll));
+		//UE_LOG(LogTemp, Warning, TEXT("%f"), asd.Yaw);
+	}
 	_Character->InputAttack();
 }
 

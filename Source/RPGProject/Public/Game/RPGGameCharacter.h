@@ -14,6 +14,8 @@ class RPGPROJECT_API ARPGGameCharacter : public ARPGGameBaseCharacter
 	GENERATED_BODY()
 private:
 	URPGGameWarriorAnim* _WarriorAnim;
+	FRotator _TargetRotator;
+
 public:
 	// Sets default values for this character's properties
 	ARPGGameCharacter();
@@ -32,4 +34,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+public:
+	FORCEINLINE void SetRotationRow(FRotator NewRotation) { _TargetRotator = NewRotation; }
 };

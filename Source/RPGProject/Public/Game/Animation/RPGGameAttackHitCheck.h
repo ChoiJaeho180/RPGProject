@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../RPGProject.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
 #include "RPGGameAttackHitCheck.generated.h"
 

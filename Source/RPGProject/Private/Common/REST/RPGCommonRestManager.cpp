@@ -50,6 +50,7 @@ void ARPGCommonRestManager::Update()
 {
 	AsyncTask(ENamedThreads::AnyThread, [=]()
 	{
+			
 		while(_bEndedGame == false)
 		{
 			if (_RestApiMsg.IsEmpty() != true)
@@ -60,6 +61,7 @@ void ARPGCommonRestManager::Update()
 			}
 			FPlatformProcess::Sleep(0.1f);
 		}
+		
 	});
 }
 

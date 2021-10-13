@@ -9,6 +9,8 @@ ARPGGameCharacter::ARPGGameCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	_BaseAttackRadius = 80.f;
+	_BaseAttackRange = 300.f;
 }
 
 // Called when the game starts or when spawned
@@ -36,6 +38,11 @@ void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
 void ARPGGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (_WarriorAnim->GetWarriorAnimType() == EWarriorAnimType::GROUND)
+		return;
+	FRotator SmoothRotator = FMath::RInterpTo(GetActorRotation(), _TargetRotator, DeltaTime, 10);
+	SetActorRotation(FRotator(GetActorRotation().Pitch, SmoothRotator.Yaw, GetActorRotation().Roll));
+
 }
 
 // Called to bind functionality to input
