@@ -57,6 +57,14 @@ enum class EInventoryType : uint8
 	CONSUMPTION_INVENTORY,
 	ETC_INVENTORY
 };
+
+UENUM(BlueprintType)
+enum class EEnemyType : uint8
+{
+	DOG
+};
+
+
 #define MIN_MOVE_DIST 150
 #define PAWN_TO_POINT_DIST 120
 #define NPC_TO_CHARACTER_DISTANCE 500

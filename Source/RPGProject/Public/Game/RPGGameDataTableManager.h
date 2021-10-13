@@ -23,6 +23,10 @@ private:
 	UPROPERTY()
 	UDataTable* _PortalInfoDT;
 	TArray<FPortalInfo*> _PortalData;
+
+	UPROPERTY()
+	UDataTable* _EnemyInfoDT;
+	TArray<FGameEnemyInfo*> _EnemyData;
 public:
 	URPGGameDataTableManager();
 	void Init();
@@ -30,6 +34,7 @@ private:
 	void SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT);
 public:
 	FGameItemType* GetNameToData(const FName& Name);
+	FGameEnemyInfo* GetEnemyTypeToData(const EEnemyType& Type);
 	TArray<FPortalInfo*> GetPortalNameToData(const FString& Name);
 	UTexture2D* GetNameToTexture(const FName& Name);
 public:

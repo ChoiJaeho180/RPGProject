@@ -59,6 +59,22 @@ public:
 	TArray<int> Stat;
 };
 
+USTRUCT(BlueprintType)
+struct FGameEnemyInfo : public FTableRowBase
+{
+	GENERATED_BODY();
+public:
+	FGameEnemyInfo() {};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	EEnemyType EnemyType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	int HP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	int Exp;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	int AverageDropGold;
+};
 UCLASS()
 class RPGPROJECT_API ARPGGameDataTable : public AActor
 {

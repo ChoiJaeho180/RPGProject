@@ -21,13 +21,14 @@ void URPGGameMapInfo::AddNewNPC(ARPGGameNPCShop* NewNPC)
 	_ShopNPCs.Add(NewNPC);
 }
 
-void URPGGameMapInfo::CreatePortal(UWorld* world)
+void URPGGameMapInfo::CreatePortal()
 {;
-	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(world->GetGameInstance())->GetDataTableManager();
+	
+	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(_World->GetGameInstance())->GetDataTableManager();
 	TArray<FPortalInfo*> PortalInfo = DTManager->GetPortalNameToData(_MapName);
 	for (int i = 0; i < PortalInfo.Num(); i++)
 	{
-		ARPGGamePortal* NewPortal = world->SpawnActor<ARPGGamePortal>(PortalClass);
+		ARPGGamePortal* NewPortal = _World->SpawnActor<ARPGGamePortal>(PortalClass);
 		NewPortal->Init(PortalInfo[i]);
 		NewPortal->SetActorHiddenInGame(false);
 		_Portals.Add(NewPortal);

@@ -3,10 +3,11 @@
 #include "Game/RPGGameController.h"
 #include "Game/RPGGameCharacter.h"
 #include "Common/RPGCommonGameInstance.h"
-#include "Game/RPGGameMapInfo.h"
 #include "Game/RPGGamePlayerState.h"
 #include "Common/REST/RPGCommonSerializeData.h"
 #include "GameFramework/Controller.h"
+#include "Game/RPGGameVillageInfo.h"
+#include "Game/RPGGameHuntMapInfo.h"
 
 ARPGGameGameMode::ARPGGameGameMode()
 {
@@ -27,12 +28,19 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	GameInstance->CreateGameDataCopyClass();
 	GameInstance->Init();
 	TArray<FString> MapName = { "Game_Village", "Desert" };
+	{
+		URPGGameMapInfo* NewVillageMap = NewObject<URPGGameVillageInfo>();
+		_MapInfo.Add(NewVillageMap);
+	}
+	{
+		URPGGameMapInfo* NewDesertMap = NewObject<URPGGameHuntMapInfo>();
+		_MapInfo.Add(NewDesertMap);
+	}
 	for(int i =0; i < MapName.Num(); i++)
 	{
-		URPGGameMapInfo* NewMap = NewObject<URPGGameMapInfo>();
-		NewMap->SetMapName(MapName[i]);
-		NewMap->CreatePortal(GetWorld());
-		_MapInfo.Add(NewMap);
+		_MapInfo[i]->SetMapName(MapName[i]);
+		_MapInfo[i]->SetWorld(GetWorld());
+		_MapInfo[i]->CreatePortal();
 	}
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	GameInstance->PostRequest("/game/getnpcinfo", JsonObject);

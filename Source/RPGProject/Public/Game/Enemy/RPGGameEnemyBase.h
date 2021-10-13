@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "RPGGameEnemyBase.generated.h"
 
+class UWidgetComponent;
+class URPGGameEnemyStatComponent;
+
 UCLASS()
 class RPGPROJECT_API ARPGGameEnemyBase : public APawn
 {
@@ -15,6 +18,10 @@ protected:
 	USkeletalMeshComponent* _SkeletalMeshCompo;
 	UPROPERTY()
 	UCapsuleComponent* _CapsuleCompo;
+	UPROPERTY(VisibleAnywhere, Category = UI)
+	UWidgetComponent* _HPBarWidget;
+	UPROPERTY()
+	URPGGameEnemyStatComponent* _EnemyStatComponent;
 public:
 	// Sets default values for this pawn's properties
 	ARPGGameEnemyBase();

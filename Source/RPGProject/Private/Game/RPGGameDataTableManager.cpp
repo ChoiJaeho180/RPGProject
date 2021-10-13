@@ -17,7 +17,12 @@ URPGGameDataTableManager::URPGGameDataTableManager()
 	{
 		_PortalInfoDT = DT_PORTALINFO.Object;
 	}
-	
+	FString EnemyInfoPath = TEXT("DataTable'/Game/DataTable/EnemyInfo.EnemyInfo'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> DT_ENEMYINFO(*EnemyInfoPath);
+	if (DT_ENEMYINFO.Succeeded())
+	{
+		_EnemyInfoDT = DT_ENEMYINFO.Object;
+	}
 }
 
 void URPGGameDataTableManager::Init()
@@ -25,6 +30,7 @@ void URPGGameDataTableManager::Init()
 	FString Context;
 	_ConsumptionDT->GetAllRows<FGameItemType>(Context, _ConsumptionData);
 	_PortalInfoDT->GetAllRows<FPortalInfo>(Context, _PortalData);
+	_EnemyInfoDT->GetAllRows<FGameEnemyInfo>(Context, _EnemyData);
 }
 
 void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT)
@@ -39,6 +45,16 @@ FGameItemType* URPGGameDataTableManager::GetNameToData(const FName& Name)
 	{
 		if (_ConsumptionData[i]->Name == Name)
 			return _ConsumptionData[i];
+	}
+	return nullptr;
+}
+
+FGameEnemyInfo* URPGGameDataTableManager::GetEnemyTypeToData(const EEnemyType& Type)
+{
+	for (int i = 0; i < _ConsumptionData.Num(); i++)
+	{
+		if (_EnemyData[i]->EnemyType == Type)
+			return _EnemyData[i];
 	}
 	return nullptr;
 }

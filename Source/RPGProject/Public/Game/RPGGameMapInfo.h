@@ -18,20 +18,22 @@ UCLASS()
 class RPGPROJECT_API URPGGameMapInfo : public UObject
 {
 	GENERATED_BODY()
-private:
+protected:
 	FString _MapName;
 	TArray<ARPGGameNPCShop*> _ShopNPCs;
 	TArray<ARPGGameNPCQuest*> _QuestNPCs;
 	TArray<ARPGGamePortal*> _Portals;
+	UWorld* _World;
 public:
 	URPGGameMapInfo();
 	void AddNewNPC(ARPGGameNPCQuest* NewNPC);
 	void AddNewNPC(ARPGGameNPCShop* NewNPC);
-	void CreatePortal(UWorld* world);
+	void CreatePortal();
 	void SetHiddenGame(bool bHide);
 public:
 	FORCEINLINE void SetMapName(const FString& MapName) { _MapName = MapName; }
 	FORCEINLINE FString GetMapName() { return _MapName; }
+	FORCEINLINE void SetWorld(UWorld* New) { _World = New; }
 public:
 	TSubclassOf<ARPGGamePortal> PortalClass;
 };
