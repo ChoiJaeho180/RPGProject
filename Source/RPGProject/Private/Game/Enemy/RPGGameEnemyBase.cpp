@@ -4,6 +4,8 @@
 #include "Game/UI/Enemy/RPGGameEnemyHPWidget.h"
 #include "Game/Enemy/RPGGameEnemyStatComponent.h"
 #include "Game/Enemy/RPGGameBaseAIController.h"
+#include "Game/Enemy/RPGGameTImer.h"
+
 // Sets default values
 ARPGGameEnemyBase::ARPGGameEnemyBase()
 {
@@ -14,6 +16,11 @@ ARPGGameEnemyBase::ARPGGameEnemyBase()
 	//_CapsuleCompo = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleCompo"));
 	_HPBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBARWIDGET"));
 	_EnemyStatComponent = CreateDefaultSubobject<URPGGameEnemyStatComponent>(TEXT("EnemyStat"));
+	_ActiveWidgetTimer = CreateDefaultSubobject<URPGGameTImer>(TEXT("WidgetTimer"));
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = false;
+	bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
@@ -28,7 +35,8 @@ ARPGGameEnemyBase::ARPGGameEnemyBase()
 		_HPBarWidget->SetWidgetClass(UI_HUD.Class);
 		_HPBarWidget->SetDrawSize(FVector2D(150.0f,200.0f));
 	}
-	_HPBarWidget->SetHiddenInGame(false);
+	SetHiddenHPWidgetBar(true);
+	
 ;
 	_HPBarWidget->SetupAttachment(GetMesh());
 	_HPBarWidget->SetRelativeLocation(FVector(0, 0, 58.f));
@@ -49,12 +57,21 @@ void ARPGGameEnemyBase::BeginPlay()
 	Super::BeginPlay();
 	auto EnemyWidget = Cast<URPGGameEnemyHPWidget>(_HPBarWidget->GetUserWidgetObject());
 	if (EnemyWidget !=  nullptr ) EnemyWidget->BindCharacterStat(_EnemyStatComponent);
-	
+
+	_ActiveWidgetTimer->delegateAchieveTime.BindLambda([this]() -> void {
+		SetHiddenHPWidgetBar(true);
+	});
 }
 
 void ARPGGameEnemyBase::Init(int HP, EEnemyType Type, int Exp, int AvegGold)
 {
 	_EnemyStatComponent->Init(HP, Type, Exp, AvegGold);
+}
+
+void ARPGGameEnemyBase::SetHiddenHPWidgetBar(bool bNew)
+{
+	_HPBarWidget->SetHiddenInGame(bNew);
+	_ActiveWidgetTimer->SetStandardTime(3);
 }
 
 // Called every frame

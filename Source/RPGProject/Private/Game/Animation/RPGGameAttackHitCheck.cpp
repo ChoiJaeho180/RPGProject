@@ -74,6 +74,7 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 		if (HitResult.Actor.IsValid())
 		{
 			ARPGGameEnemyBase* Enemy = Cast<ARPGGameEnemyBase>(HitResult.Actor);
+			Enemy->SetHiddenHPWidgetBar(false);
 			URPGGameEnemyStatComponent* EnemyStat = Enemy->GetEnemyStatCompo();
 			int EnemyLevel = Enemy->GetEnemyStatCompo()->GetLevel();
 			int ResultDamage = URPGGameAttackJudgement::GetInstance()->JudgeBaseAttack(CharacterSTX * ComboCoefficient, CharacterLevel, EnemyLevel);

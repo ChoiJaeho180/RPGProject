@@ -8,6 +8,7 @@
 
 class UWidgetComponent;
 class URPGGameEnemyStatComponent;
+class URPGGameTImer;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameEnemyBase : public ACharacter
@@ -18,6 +19,7 @@ protected:
 	UWidgetComponent* _HPBarWidget;
 	UPROPERTY()
 	URPGGameEnemyStatComponent* _EnemyStatComponent;
+	URPGGameTImer* _ActiveWidgetTimer;
 public:
 	// Sets default values for this pawn's properties
 	ARPGGameEnemyBase();
@@ -33,6 +35,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Init(int HP, EEnemyType Type, int Exp, int AvegGold);
+	void SetHiddenHPWidgetBar(bool bNew);
 public:
 	FORCEINLINE URPGGameEnemyStatComponent* GetEnemyStatCompo() { return _EnemyStatComponent; }
 };
