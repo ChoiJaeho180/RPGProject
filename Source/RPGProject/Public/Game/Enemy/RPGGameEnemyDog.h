@@ -6,6 +6,8 @@
 #include "Game/Enemy/RPGGameEnemyBase.h"
 #include "RPGGameEnemyDog.generated.h"
 
+class URPGGameDogAnim;
+
 /**
  * 
  */
@@ -13,8 +15,9 @@ UCLASS()
 class RPGPROJECT_API ARPGGameEnemyDog : public ARPGGameEnemyBase
 {
 	GENERATED_BODY()
-	
+private:
+	URPGGameDogAnim* _DogAnim;
 public:
 	ARPGGameEnemyDog();
-	virtual void Init() override;
+	virtual void BeginPlay() override;
 };

@@ -16,5 +16,6 @@ class RPGPROJECT_API URPGGameDogAnim : public UAnimInstance
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool _isDie;
-	
+public:
+	FORCEINLINE void SetDie(bool bNewStat) { _isDie = bNewStat; }
 };

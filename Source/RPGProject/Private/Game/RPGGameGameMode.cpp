@@ -30,18 +30,19 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	TArray<FString> MapName = { "Game_Village", "Desert" };
 	{
 		URPGGameMapInfo* NewVillageMap = NewObject<URPGGameVillageInfo>();
+		NewVillageMap->SetMapName(MapName[0]);
+		NewVillageMap->SetWorld(GetWorld());
+		NewVillageMap->CreatePortal();
 		_MapInfo.Add(NewVillageMap);
 	}
 	{
 		URPGGameMapInfo* NewDesertMap = NewObject<URPGGameHuntMapInfo>();
+		NewDesertMap->SetMapName(MapName[1]);
+		NewDesertMap->SetWorld(GetWorld());
+		NewDesertMap->CreatePortal();
 		_MapInfo.Add(NewDesertMap);
 	}
-	for(int i =0; i < MapName.Num(); i++)
-	{
-		_MapInfo[i]->SetMapName(MapName[i]);
-		_MapInfo[i]->SetWorld(GetWorld());
-		_MapInfo[i]->CreatePortal();
-	}
+
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	GameInstance->PostRequest("/game/getnpcinfo", JsonObject);
 }
@@ -58,7 +59,6 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 
 void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Character)
 {
-	
 	FString CharacterCurrentMap = Character->GetCurrentMap();
 	if (CharacterCurrentMap.IsEmpty() == false)
 	{
@@ -94,6 +94,9 @@ void ARPGGameGameMode::ExecutionUnLoad()
 	}
 	
 	URPGGameMapInfo* Map = GetGameMap(Character->GetCurrentMap());
+	IRPGGameHuntMapInit* HuntInit = Cast<IRPGGameHuntMapInit>(Map);
+	if (HuntInit != nullptr) HuntInit->Init();
+
 	UGameplayStatics::LoadStreamLevel(this, FName(*Character->GetCurrentMap()), true, true, info);
 	Map->SetHiddenGame(false);
 	UE_LOG(LogTemp, Warning, TEXT("ExecutionUnLoad"));
@@ -103,7 +106,7 @@ void ARPGGameGameMode::ExecutionLoad()
 {
 	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
-	//if (Character->GetNextMap() == FString("")) return;
+
 	Character->SetActorLocation(Character->GetNextMapPosition());
 	Controller->ComplateChangeMap();
 	UE_LOG(LogTemp, Warning, TEXT("??"));

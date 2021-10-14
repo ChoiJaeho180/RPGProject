@@ -225,3 +225,8 @@ void ARPGGameController::ChangeMap()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	GM->ActiveMap(_Character->GetNextMap(), _Character);
 }
+
+void ARPGGameController::AddExp(int Exp)
+{
+	_PlayerStat->AddExp(Exp);
+}

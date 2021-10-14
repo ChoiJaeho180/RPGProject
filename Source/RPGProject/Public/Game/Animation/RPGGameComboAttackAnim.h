@@ -25,6 +25,7 @@ private:
 	bool _bCanNextCombo;
 	int32 _CurrentCombo;
 	int32 _MaxCombo;
+	TArray<float> _ComboCoefficient;
 public:
 
 	URPGGameComboAttackAnim();
@@ -49,4 +50,5 @@ public:
 	FORCEINLINE void SetbIsComboInputOn(bool bNew) { _bIsComboInputOn = bNew; }
 	FORCEINLINE bool GetbIsAttacking() { return _bIsAttacking; }
 	FORCEINLINE void SetbIsAttacking(bool bNew) { _bIsAttacking = bNew; }
+	FORCEINLINE float GetCoefficient(float ComboIndex) { return _ComboCoefficient[ComboIndex]; }
 };

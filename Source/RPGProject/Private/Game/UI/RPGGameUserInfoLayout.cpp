@@ -55,4 +55,7 @@ void URPGGameUserInfoLayout::UpdateProperty()
 
 	float NewMPPercent = (float)_CharacterStat->Stat["MP"] / _CharacterStat->Stat["MAXMP"];
 	_MPBar->UpdateProgressBar(NewMPPercent);
+
+	float NewExpPercent = (float)_CharacterStat->Stat["EXP"] / _CharacterStat->Stat["MAXEXP"];
+	_ExpBar->UpdateProgressBar(NewExpPercent);
 }

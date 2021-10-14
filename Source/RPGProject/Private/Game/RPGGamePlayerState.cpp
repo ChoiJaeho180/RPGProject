@@ -39,4 +39,31 @@ void ARPGGamePlayerState::UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddExp(int Exp)
+{
+	int NewExp = _CharacterStat->Stat["EXP"] + Exp;
+	if (NewExp > _CharacterStat->Stat["MAXEXP"])
+	{
+		int RestExp = NewExp - _CharacterStat->Stat["MAXEXP"];
+		_CharacterStat->Stat["EXP"] = RestExp;
+		LevelUp();
+	}
+	else
+	{
+		_CharacterStat->Stat["EXP"] += Exp;
+	}
+	_CharacterStat->TimeStamp++;
+}
+
+void ARPGGamePlayerState::LevelUp()
+{
+	_CharacterStat->Stat["STX"] += 5;
+	_CharacterStat->Stat["MAXHP"] += 100;
+	_CharacterStat->Stat["HP"] = _CharacterStat->Stat["MAXHP"];
+
+	_CharacterStat->Stat["MAXMP"] += 50;
+	_CharacterStat->Stat["MP"] = _CharacterStat->Stat["MAXMP"];
+	_CharacterStat->Stat["LEVEL"]++;
+}
+
 

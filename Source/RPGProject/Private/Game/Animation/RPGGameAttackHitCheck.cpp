@@ -2,6 +2,11 @@
 #include "Game/Animation/RPGGameAttackHitCheck.h"
 #include "Game/Animation/RPGGameWarriorAnim.h"
 #include "Game/RPGGameCharacter.h"
+#include "Game/Enemy/RPGGameEnemyBase.h"
+#include "Game/Enemy/RPGGameEnemyStatComponent.h"
+#include "Game/Animation/RPGGameComboAttackAnim.h"
+#include "Game/RPGGamePlayerState.h"
+#include "Game/RPGGameAttackJudgement.h"
 #include "DrawDebugHelpers.h"
 
 void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
@@ -59,13 +64,24 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 
 	if (bResult)
 	{
+		URPGGameComboAttackAnim* ComboAnim = Anim->GetComboAttackAnim();
+		ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
+		int ComboIndex = ComboAnim->GetCurrentCombo();
+		UE_LOG(LogTemp, Warning, TEXT("%d"), ComboIndex);
+		float ComboCoefficient = ComboAnim->GetCoefficient(ComboIndex - 1);
+		int CharacterSTX = PlayerState->GetCharacterStat()->Stat["STX"];
+		int CharacterLevel = PlayerState->GetCharacterStat()->Stat["LEVEL"];
 		if (HitResult.Actor.IsValid())
 		{
-			// 대상 액터에 대미지를 전달
-			FDamageEvent DamageEvent;
-			UE_LOG(LogTemp, Warning, TEXT("Hit!!"));
-			//HitResult.Actor->TakeDamage(GetFinalAttackDamage(), DamageEvent, GetController(), this);
+			ARPGGameEnemyBase* Enemy = Cast<ARPGGameEnemyBase>(HitResult.Actor);
+			URPGGameEnemyStatComponent* EnemyStat = Enemy->GetEnemyStatCompo();
+			int EnemyLevel = Enemy->GetEnemyStatCompo()->GetLevel();
+			int ResultDamage = URPGGameAttackJudgement::GetInstance()->JudgeBaseAttack(CharacterSTX * ComboCoefficient, CharacterLevel, EnemyLevel);
+			EnemyStat->SetDamage(ResultDamage);
+			UE_LOG(LogTemp, Warning, TEXT("%d"), ResultDamage);
 		}
+		
+	
 	}
 	
 }

@@ -18,7 +18,7 @@ URPGGameEnemyStatComponent::URPGGameEnemyStatComponent()
 void URPGGameEnemyStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	UE_LOG(LogTemp, Warning, TEXT("w23232"));
 	// ...
 	
 }
@@ -32,8 +32,17 @@ void URPGGameEnemyStatComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	// ...
 }
 
+void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int AvegGold)
+{
+	_CurrentHP = _MaxHP = HP;
+	_DropExp = Exp;
+	_AverageGold = AvegGold;
+	SetHP(_CurrentHP);
+}
+
 void URPGGameEnemyStatComponent::SetDamage(float NewDamage)
 {
+	SetHP(FMath::Clamp<float>(_CurrentHP - NewDamage, 0.0f, _MaxHP));
 }
 
 void URPGGameEnemyStatComponent::SetHP(float NewHP)
@@ -53,7 +62,6 @@ void URPGGameEnemyStatComponent::SetHP(float NewHP)
 
 float URPGGameEnemyStatComponent::GetHPRatio() const
 {
-	return 0.0f;
-	//return (CurrentStatData->MaxHP < KINDA_SMALL_NUMBER) ? 0.0f : (CurrentHP / CurrentStatData->MaxHP);
+	return(_MaxHP < KINDA_SMALL_NUMBER) ? 0.0f : (_CurrentHP / _MaxHP);
 }
 

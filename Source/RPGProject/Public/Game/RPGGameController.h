@@ -53,6 +53,8 @@ public:
 	void PreChangeMap();
 	void ComplateChangeMap();
 	void ChangeMap();
+
+	void AddExp(int Exp);
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

@@ -26,6 +26,7 @@ protected:
 protected:
 	float _BaseAttackRadius;
 	float _BaseAttackRange;
+
 	FString _CurrentMap;
 	FString _NextMap;
 	FVector _NextMapPosition;

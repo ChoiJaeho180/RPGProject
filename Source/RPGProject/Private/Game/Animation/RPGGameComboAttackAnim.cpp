@@ -8,6 +8,7 @@ URPGGameComboAttackAnim::URPGGameComboAttackAnim()
 		AttackMontage = ATTACK_MONTAGE.Object;
 	_CurrentCombo = 0;
 	_MaxCombo = 3;
+	_ComboCoefficient = { 1, 0.9f, 1.4f };
 }
 
 void URPGGameComboAttackAnim::InputAttack(EWarriorAnimType Type)

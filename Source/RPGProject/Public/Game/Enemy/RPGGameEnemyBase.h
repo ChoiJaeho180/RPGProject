@@ -3,21 +3,17 @@
 #pragma once
 
 #include "../../../RPGProject.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "RPGGameEnemyBase.generated.h"
 
 class UWidgetComponent;
 class URPGGameEnemyStatComponent;
 
 UCLASS()
-class RPGPROJECT_API ARPGGameEnemyBase : public APawn
+class RPGPROJECT_API ARPGGameEnemyBase : public ACharacter
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY()
-	USkeletalMeshComponent* _SkeletalMeshCompo;
-	UPROPERTY()
-	UCapsuleComponent* _CapsuleCompo;
 	UPROPERTY(VisibleAnywhere, Category = UI)
 	UWidgetComponent* _HPBarWidget;
 	UPROPERTY()
@@ -25,16 +21,18 @@ protected:
 public:
 	// Sets default values for this pawn's properties
 	ARPGGameEnemyBase();
-
+	virtual void PostInitializeComponents() override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void Init();
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	virtual void Init(int HP, EEnemyType Type, int Exp, int AvegGold);
+public:
+	FORCEINLINE URPGGameEnemyStatComponent* GetEnemyStatCompo() { return _EnemyStatComponent; }
 };
