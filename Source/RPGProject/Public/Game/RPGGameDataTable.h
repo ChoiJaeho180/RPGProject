@@ -74,6 +74,8 @@ public:
 	int Exp;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	int AverageDropGold;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
+	int BaseAttack;
 };
 UCLASS()
 class RPGPROJECT_API ARPGGameDataTable : public AActor

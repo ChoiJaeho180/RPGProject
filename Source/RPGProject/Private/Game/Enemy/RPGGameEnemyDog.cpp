@@ -20,21 +20,18 @@ ARPGGameEnemyDog::ARPGGameEnemyDog()
 	}
 	GetMesh()->SetRelativeLocationAndRotation(FVector(0.0f, 0.0f, -70.0f), FRotator(0.0f, -90.0f, 0.0f));
 
-	//_CapsuleCompo->SetRelativeLocation(FVector(0, 0, 100.f));
-	//_CapsuleCompo->SetRelativeScale3D(FVector(2.f,10.f, 3.5f));
+	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 }
 
 void ARPGGameEnemyDog::BeginPlay()
 {
 	Super::BeginPlay();
-	_DogAnim = Cast<URPGGameDogAnim>(GetMesh()->GetAnimInstance());
-	_EnemyStatComponent->OnHPIsZero.AddLambda([this]() -> void
-	{
-		_DogAnim->SetDie(true);
-		ARPGGameController* PlayerController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
-		PlayerController->AddExp(_EnemyStatComponent->GetExp());
-		SetActorEnableCollision(false);
-	});
+
+	_Anim = Cast<URPGGameDogAnim>(GetMesh()->GetAnimInstance());
+	
+	_DetectRadius = 500.f;
+	_AttackRange = 350.f;
+
 	ARPGGameBaseAIController* ABAIController = Cast<ARPGGameBaseAIController>(GetController());
 	ABAIController->RunAI();
 }

@@ -5,6 +5,8 @@
 #include "Game/Enemy/RPGGameEnemyStatComponent.h"
 #include "Game/Enemy/RPGGameBaseAIController.h"
 #include "Game/Enemy/RPGGameTImer.h"
+#include "Game/Animation/Enemy/RPGGameEnemyBaseAnim.h"
+#include "Game/RPGGameController.h"
 
 // Sets default values
 ARPGGameEnemyBase::ARPGGameEnemyBase()
@@ -18,9 +20,9 @@ ARPGGameEnemyBase::ARPGGameEnemyBase()
 	_EnemyStatComponent = CreateDefaultSubobject<URPGGameEnemyStatComponent>(TEXT("EnemyStat"));
 	_ActiveWidgetTimer = CreateDefaultSubobject<URPGGameTImer>(TEXT("WidgetTimer"));
 
-	bUseControllerRotationPitch = false;
+	//bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
-	bUseControllerRotationRoll = false;
+	//bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
@@ -58,20 +60,41 @@ void ARPGGameEnemyBase::BeginPlay()
 	auto EnemyWidget = Cast<URPGGameEnemyHPWidget>(_HPBarWidget->GetUserWidgetObject());
 	if (EnemyWidget !=  nullptr ) EnemyWidget->BindCharacterStat(_EnemyStatComponent);
 
+	_EnemyStatComponent->OnHPIsZero.AddLambda([this]() -> void
+	{
+		_Anim->SetDie(true);
+		ARPGGameBaseAIController* AIController = Cast<ARPGGameBaseAIController>(GetController());
+		AIController->StopAI();
+		ARPGGameController* PlayerController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
+		PlayerController->AddExp(_EnemyStatComponent->GetExp());
+		SetActorEnableCollision(false);
+	});
+
 	_ActiveWidgetTimer->delegateAchieveTime.BindLambda([this]() -> void {
 		SetHiddenHPWidgetBar(true);
 	});
+
 }
 
-void ARPGGameEnemyBase::Init(int HP, EEnemyType Type, int Exp, int AvegGold)
+void ARPGGameEnemyBase::Init(int HP, EEnemyType Type, int Exp, int AvegGold, int BaseAttack)
 {
-	_EnemyStatComponent->Init(HP, Type, Exp, AvegGold);
+	_EnemyStatComponent->Init(HP, Type, Exp, AvegGold, BaseAttack);
 }
 
 void ARPGGameEnemyBase::SetHiddenHPWidgetBar(bool bNew)
 {
 	_HPBarWidget->SetHiddenInGame(bNew);
 	_ActiveWidgetTimer->SetStandardTime(3);
+}
+
+void ARPGGameEnemyBase::GetHit()
+{
+	_Anim->SetHit(true);
+}
+
+void ARPGGameEnemyBase::Attack(bool bNew)
+{
+	_Anim->SetAttacking(bNew);
 }
 
 // Called every frame

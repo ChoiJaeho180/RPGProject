@@ -5,6 +5,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
+#include "Game/RPGGameCameraShake.h"
 
 // Sets default values
 ARPGGameBaseCharacter::ARPGGameBaseCharacter()
@@ -12,6 +13,7 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	MyShake = URPGGameCameraShake::StaticClass();
 	_SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SPRINGARM"));
 	_Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("CAMERA"));
 
@@ -34,7 +36,8 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 	GetCharacterMovement()->MaxStepHeight = 3000;
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Rotate character to moving direction
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
-	
+
+	GetMesh()->SetCollisionProfileName("Character");
 	//GetCharacterMovement()->bUseControllerDesiredRotation = true;
 
 	_CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
@@ -136,4 +139,5 @@ void ARPGGameBaseCharacter::InitDecalPostionAndRotation(FHitResult result)
 	_CursorMoveR = CursorFV.Rotation();
 	_CursorMoveFV = result.Location;
 }
+
 

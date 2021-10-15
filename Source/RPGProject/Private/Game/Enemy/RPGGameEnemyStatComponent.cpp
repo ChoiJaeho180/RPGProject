@@ -32,11 +32,12 @@ void URPGGameEnemyStatComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	// ...
 }
 
-void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int AvegGold)
+void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int AvegGold, int BaseAttack)
 {
 	_CurrentHP = _MaxHP = HP;
 	_DropExp = Exp;
 	_AverageGold = AvegGold;
+	_BaseAttack = BaseAttack;
 	SetHP(_CurrentHP);
 }
 

@@ -15,7 +15,7 @@ void URPGGameProgressBarLayout::NativeTick(const FGeometry& MyGeometry, float In
 {
 	Super::NativeTick( MyGeometry, InDeltaTime);
 
-	if (_NewPercent == INIT_PERCENT_VALUE)
+	if (_NewPercent < INIT_PERCENT_VALUE)
 		return;
 
 	float result = FMath::Lerp(_ProgressBar->Percent, _NewPercent, _PercentRatio);
@@ -28,5 +28,4 @@ void URPGGameProgressBarLayout::UpdateProgressBar(float Percent)
 {
 	_NewPercent = Percent;
 	_PercentRatio = INIT_PERCENT_VALUE;
-	//_ProgressBar->SetPercent(Percent);
 }

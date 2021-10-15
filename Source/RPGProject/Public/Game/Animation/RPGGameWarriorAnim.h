@@ -14,6 +14,7 @@ enum class EWarriorAnimType : uint8
 {
 	GROUND UMETA(DisplayName = "GROUND"),
 	BASE_ATTACK UMETA(DisplayName = "BASE_ATTACK"),
+	HITTING UMETA(DisplayName = "HITTING"),
 	NONE UMETA(DisplayName = "NONE"),
 };
 
@@ -45,9 +46,11 @@ private:
 	EWarriorAnimType _WarriorAnimType;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn1, Meta = (AllowPrivateAccess = true))
 	EWarriorGroundAnimType _WarriorGroundAnimType;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn1, Meta = (AllowPrivateAccess = true))
+	FVector _HittingDir;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool _bIsDead;
+
 	bool _bIsAttacking;
 public:
 	URPGGameWarriorAnim();
@@ -58,8 +61,12 @@ public:
 	void OnClickedMove(FVector_NetQuantize MovePoint);
 public:
 	FORCEINLINE EWarriorAnimType GetWarriorAnimType() { return _WarriorAnimType; }
+	FORCEINLINE void SetWarriorAnimType(EWarriorAnimType NewType) { _WarriorAnimType = NewType; }
 	FORCEINLINE void SetGroundAnimType(EWarriorGroundAnimType NewType) { _WarriorGroundAnimType = NewType; }
 	FORCEINLINE EWarriorGroundAnimType GetGroundAnimType() { return _WarriorGroundAnimType; }
 	FORCEINLINE URPGGameGroundAnim* GetGroundAnim() { return _GroundAnim; }
 	FORCEINLINE URPGGameComboAttackAnim* GetComboAttackAnim() { return _ComboAttackAnim; }
+	FORCEINLINE void SetHittingDir(FVector New) { _HittingDir = New; }
+	FORCEINLINE void SetDead(bool New) { _bIsDead = New; }
+	FORCEINLINE bool GetDead() { return _bIsDead; }
 };

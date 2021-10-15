@@ -8,6 +8,7 @@
 #include "Game/RPGGamePlayerState.h"
 #include "Game/RPGGameAttackJudgement.h"
 #include "DrawDebugHelpers.h"
+#include "Game/RPGGameController.h"
 
 void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
@@ -74,12 +75,15 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 		if (HitResult.Actor.IsValid())
 		{
 			ARPGGameEnemyBase* Enemy = Cast<ARPGGameEnemyBase>(HitResult.Actor);
+			if (Enemy == nullptr) return;
 			Enemy->SetHiddenHPWidgetBar(false);
 			URPGGameEnemyStatComponent* EnemyStat = Enemy->GetEnemyStatCompo();
 			int EnemyLevel = Enemy->GetEnemyStatCompo()->GetLevel();
 			int ResultDamage = URPGGameAttackJudgement::GetInstance()->JudgeBaseAttack(CharacterSTX * ComboCoefficient, CharacterLevel, EnemyLevel);
 			EnemyStat->SetDamage(ResultDamage);
-			UE_LOG(LogTemp, Warning, TEXT("%d"), ResultDamage);
+			Enemy->GetHit();
+			Cast<ARPGGameController>(Character->GetController())->PlayerCameraManager->PlayCameraShake(Character->MyShake);
+			//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(Character->MyShake);
 		}
 		
 	

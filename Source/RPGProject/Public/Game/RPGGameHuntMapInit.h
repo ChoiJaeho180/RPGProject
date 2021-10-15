@@ -24,4 +24,5 @@ class RPGPROJECT_API IRPGGameHuntMapInit
 public:
 	bool _bFirstInit;
 	virtual void Init() = 0;
+	virtual void SetHiddenEnemy(bool bNewState) = 0;
 };

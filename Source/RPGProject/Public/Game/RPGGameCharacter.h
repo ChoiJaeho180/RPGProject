@@ -3,10 +3,10 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/Animation/RPGGameWarriorAnim.h"
 #include "Game/RPGGameBaseCharacter.h"
 #include "RPGGameCharacter.generated.h"
 
-class URPGGameWarriorAnim;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameCharacter : public ARPGGameBaseCharacter
@@ -31,9 +31,12 @@ public:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	void GetHitting(FVector HitDir);
+	void Dead();
+	EWarriorAnimType GetAnimState();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 public:
+	FORCEINLINE URPGGameWarriorAnim* GetAnim() { return _WarriorAnim; }
 	FORCEINLINE void SetRotationRow(FRotator NewRotation) { _TargetRotator = NewRotation; }
 };

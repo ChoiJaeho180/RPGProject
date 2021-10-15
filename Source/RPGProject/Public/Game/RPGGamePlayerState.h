@@ -71,10 +71,11 @@ public:
 	virtual void PostInitializeComponents() override;
 	void InitData(TArray<FRPGRestItem> RestItemData, const TMap<FString, FString>& MoneyData);
 	void UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo);
+	void AddHP(int AddHP = 99999);
 	void AddExp(int Exp);
 	void LevelUp();
 public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
-
+	FORCEINLINE int GetCharacterHP() { return _CharacterStat->Stat["HP"]; }
 };

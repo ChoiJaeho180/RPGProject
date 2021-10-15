@@ -10,6 +10,7 @@
 #include "Components/DecalComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Common/REST/RPGCommonSerializeData.h"
+#include "Game/Animation/RPGGameWarriorAnim.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -189,8 +190,6 @@ void ARPGGameController::LeftMouseClick()
 	{
 		FRotator rotation = UKismetMathLibrary::FindLookAtRotation(GetPawn()->GetActorLocation(), Hit2.Location);
 		_Character->SetRotationRow(rotation);
-		//GetPawn()->SetActorRotation(FRotator(GetPawn()->GetActorRotation().Pitch, asd.Yaw, GetPawn()->GetActorRotation().Roll));
-		//UE_LOG(LogTemp, Warning, TEXT("%f"), asd.Yaw);
 	}
 	_Character->InputAttack();
 }
@@ -210,12 +209,20 @@ void ARPGGameController::InteractionPortionBarUI(FString Key)
 void ARPGGameController::PreChangeMap()
 {
 	if (_Character->GetNextMap() == FString("")) return;
+	
 	_GameUIManager->SetFadeEffectType(ECommonFadeState::FADE_IN, true);
 	_GameUIManager->UpdateLevel();
 }
 
 void ARPGGameController::ComplateChangeMap()
 {
+	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
+	if (_Character->GetAnim()->GetDead() == true)
+	{
+		_Character->GetAnim()->SetDead(false);
+		_PlayerStat->AddHP(50);
+	}
+	
 	_GameUIManager->SetFadeEffectType(ECommonFadeState::FADE_OUT, true);
 	_GameUIManager->UpdateLevel();
 }

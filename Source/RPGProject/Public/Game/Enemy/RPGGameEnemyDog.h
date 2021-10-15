@@ -16,7 +16,7 @@ class RPGPROJECT_API ARPGGameEnemyDog : public ARPGGameEnemyBase
 {
 	GENERATED_BODY()
 private:
-	URPGGameDogAnim* _DogAnim;
+	
 public:
 	ARPGGameEnemyDog();
 	virtual void BeginPlay() override;

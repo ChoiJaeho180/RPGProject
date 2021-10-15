@@ -39,6 +39,13 @@ void ARPGGamePlayerState::UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddHP(int AddHP)
+{
+	int resultHP = FMath::Clamp(_CharacterStat->Stat["HP"] + AddHP, 0, _CharacterStat->Stat["MAXHP"]);
+	_CharacterStat->Stat["HP"] = resultHP;
+	_CharacterStat->TimeStamp++;
+}
+
 void ARPGGamePlayerState::AddExp(int Exp)
 {
 	int NewExp = _CharacterStat->Stat["EXP"] + Exp;

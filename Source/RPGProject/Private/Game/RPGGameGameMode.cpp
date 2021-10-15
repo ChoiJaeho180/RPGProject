@@ -60,6 +60,7 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Character)
 {
 	FString CharacterCurrentMap = Character->GetCurrentMap();
+	//처음 맵로드가 아닐떄
 	if (CharacterCurrentMap.IsEmpty() == false)
 	{
 		FLatentActionInfo info;
@@ -69,10 +70,15 @@ void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Char
 		info.Linkage = 0;
 		Character->SetCurrentMap(MapName);
 		URPGGameMapInfo* Map = GetGameMap(CharacterCurrentMap);
+
 		Map->SetHiddenGame(true);
+
+		IRPGGameHuntMapInit* HuntInit = Cast<IRPGGameHuntMapInit>(Map);
+		if (HuntInit != nullptr) HuntInit->SetHiddenEnemy(true);
+
 		UGameplayStatics::UnloadStreamLevel(this, FName(*CharacterCurrentMap), info, true);
 	}
-	else
+	else //게임 시작 후 맵로드가 처음일 때
 	{
 		Character->SetCurrentMap(MapName);
 		ExecutionUnLoad();
@@ -92,13 +98,19 @@ void ARPGGameGameMode::ExecutionUnLoad()
 		info.UUID = 1;
 		info.Linkage = 0;
 	}
-	
-	URPGGameMapInfo* Map = GetGameMap(Character->GetCurrentMap());
-	IRPGGameHuntMapInit* HuntInit = Cast<IRPGGameHuntMapInit>(Map);
-	if (HuntInit != nullptr) HuntInit->Init();
 
 	UGameplayStatics::LoadStreamLevel(this, FName(*Character->GetCurrentMap()), true, true, info);
+
+	URPGGameMapInfo* Map = GetGameMap(Character->GetCurrentMap());
 	Map->SetHiddenGame(false);
+
+	IRPGGameHuntMapInit* HuntInit = Cast<IRPGGameHuntMapInit>(Map);
+	if (HuntInit != nullptr)
+	{
+		HuntInit->Init();
+		HuntInit->SetHiddenEnemy(false);
+	}
+	
 	UE_LOG(LogTemp, Warning, TEXT("ExecutionUnLoad"));
 }
 
@@ -109,6 +121,7 @@ void ARPGGameGameMode::ExecutionLoad()
 
 	Character->SetActorLocation(Character->GetNextMapPosition());
 	Controller->ComplateChangeMap();
+	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), Character->GetNextMapPosition().X, Character->GetNextMapPosition().Y, Character->GetNextMapPosition().Z);
 	UE_LOG(LogTemp, Warning, TEXT("??"));
 }
 

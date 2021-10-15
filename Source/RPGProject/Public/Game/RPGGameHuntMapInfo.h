@@ -19,7 +19,8 @@ private:
 	TArray<ARPGGameEnemyDog*> _GameEnemyDogs;
 public:
 	URPGGameHuntMapInfo();
-	virtual void Init();
+	virtual void Init() override;
+	virtual void SetHiddenEnemy(bool bNewState) override;
 	FVector GetSpawnPosition();
 public:
 	TSubclassOf<ARPGGameEnemyDog> GameEnemyDogClass;

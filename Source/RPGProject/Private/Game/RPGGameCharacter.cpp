@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGameController.h"
-#include "Game/Animation/RPGGameWarriorAnim.h"
 
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
@@ -38,11 +37,29 @@ void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
 void ARPGGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (_WarriorAnim->GetWarriorAnimType() == EWarriorAnimType::GROUND)
+	if (_WarriorAnim->GetWarriorAnimType() != EWarriorAnimType::BASE_ATTACK )
 		return;
+	
 	FRotator SmoothRotator = FMath::RInterpTo(GetActorRotation(), _TargetRotator, DeltaTime, 10);
 	SetActorRotation(FRotator(GetActorRotation().Pitch, SmoothRotator.Yaw, GetActorRotation().Roll));
+	
+}
 
+void ARPGGameCharacter::GetHitting(FVector HitDir)
+{
+	_WarriorAnim->SetWarriorAnimType(EWarriorAnimType::HITTING);
+	_WarriorAnim->SetHittingDir(HitDir);
+}
+
+void ARPGGameCharacter::Dead()
+{
+	_WarriorAnim->SetDead(true);
+	GetMesh()->SetCollisionProfileName("NoCollision");
+}
+
+EWarriorAnimType ARPGGameCharacter::GetAnimState()
+{
+	return _WarriorAnim->GetWarriorAnimType();
 }
 
 // Called to bind functionality to input

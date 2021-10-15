@@ -23,7 +23,6 @@ void URPGGameMapInfo::AddNewNPC(ARPGGameNPCShop* NewNPC)
 
 void URPGGameMapInfo::CreatePortal()
 {;
-	
 	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(_World->GetGameInstance())->GetDataTableManager();
 	TArray<FPortalInfo*> PortalInfo = DTManager->GetPortalNameToData(_MapName);
 	for (int i = 0; i < PortalInfo.Num(); i++)

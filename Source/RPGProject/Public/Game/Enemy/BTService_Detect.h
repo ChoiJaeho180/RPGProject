@@ -2,10 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../RPGProject.h"
 #include "BehaviorTree/BTService.h"
 #include "BTService_Detect.generated.h"
 
+class UBlackboardComponent;
+class ARPGGameCharacter;
 /**
  * 
  */
@@ -16,5 +18,7 @@ class RPGPROJECT_API UBTService_Detect : public UBTService
 protected:
 	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory,float DeltaSeconds) override;
 public:
-
+	UBTService_Detect();
+	bool CheckAfterDetectRadius(APawn* AI, ARPGGameCharacter* Character, float AIDetectRadius);
+	void UpdateHittingTarget(UBlackboardComponent* Blackboard, ARPGGameCharacter* Target);
 };

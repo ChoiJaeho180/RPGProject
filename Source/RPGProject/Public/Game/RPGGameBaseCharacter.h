@@ -7,6 +7,7 @@
 #include "RPGGameBaseCharacter.generated.h"
 
 class UDecalComponent;
+class URPGGameCameraShake;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameBaseCharacter : public ACharacter
@@ -22,6 +23,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
+
 
 protected:
 	float _BaseAttackRadius;
@@ -54,6 +56,8 @@ public:
 
 	void InitDecalSize();
 	void InitDecalPostionAndRotation(FHitResult result);
+	UPROPERTY()
+	TSubclassOf<UCameraShake> MyShake;
 public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return _CursorToWorld; }
