@@ -85,6 +85,11 @@ void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Char
 	}
 }
 
+void ARPGGameGameMode::StartPlay()
+{
+	Super::StartPlay();
+}
+
 void ARPGGameGameMode::ExecutionUnLoad()
 {
 	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());

@@ -61,7 +61,8 @@ enum class EInventoryType : uint8
 UENUM(BlueprintType)
 enum class EEnemyType : uint8
 {
-	DOG
+	DOG,
+	GRIFFON
 };
 
 

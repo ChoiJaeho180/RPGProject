@@ -10,6 +10,7 @@ class UWidgetComponent;
 class URPGGameEnemyStatComponent;
 class URPGGameTImer;
 class URPGGameEnemyBaseAnim;
+class URPGGameDamageComponent;
 UCLASS()
 class RPGPROJECT_API ARPGGameEnemyBase : public ACharacter
 {
@@ -23,6 +24,8 @@ protected:
 	URPGGameTImer* _ActiveWidgetTimer;
 	UPROPERTY()
 	URPGGameEnemyBaseAnim* _Anim;
+	UPROPERTY()
+	URPGGameDamageComponent* _DamageComponent;
 	int _DetectRadius;
 	int _AttackRange;
 public:
@@ -39,13 +42,16 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void Init(int HP, EEnemyType Type, int Exp, int AvegGold, int BaseAttack);
+	virtual void Init(int HP, EEnemyType Type, int Exp, int AvegGold, TArray<int> BaseAttack);
 	void SetHiddenHPWidgetBar(bool bNew);
-	void GetHit();
+	void GetHit(int Damage);
 	void Attack(bool bNew);
+	virtual void SetBaseAttackType();
 public:
 	FORCEINLINE URPGGameEnemyBaseAnim* GetEnemyBaseAnim() { return _Anim; }
 	FORCEINLINE URPGGameEnemyStatComponent* GetEnemyStatCompo() { return _EnemyStatComponent; }
 	FORCEINLINE int GetDetectRadius() { return _DetectRadius; }
 	FORCEINLINE int GetAttackRange() { return _AttackRange; }
+public:
+	
 };

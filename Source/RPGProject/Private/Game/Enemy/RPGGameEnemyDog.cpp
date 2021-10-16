@@ -4,6 +4,7 @@
 #include "Game/Animation/Enemy/RPGGameDogAnim.h"
 #include "Game/RPGGameController.h"
 #include "Game/Enemy/RPGGameBaseAIController.h"
+#include "Components/WidgetComponent.h"
 
 ARPGGameEnemyDog::ARPGGameEnemyDog()
 {
@@ -27,10 +28,13 @@ void ARPGGameEnemyDog::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_HPBarWidget->SetRelativeLocation(FVector(0, 0, 100.f));
+	_HPBarWidget->SetDrawSize(FVector2D(150.0f, 200.0f));
+
 	_Anim = Cast<URPGGameDogAnim>(GetMesh()->GetAnimInstance());
 	
 	_DetectRadius = 500.f;
-	_AttackRange = 350.f;
+	_AttackRange = 250;
 
 	ARPGGameBaseAIController* ABAIController = Cast<ARPGGameBaseAIController>(GetController());
 	ABAIController->RunAI();

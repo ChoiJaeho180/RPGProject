@@ -4,6 +4,8 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameDataTableManager.h"
 #include "Game/Enemy/RPGGameBaseAIController.h"
+#include "Game/Animation/Enemy/RPGGameEnemyBaseAnim.h"
+#include "Game/Enemy/RPGGameEnemyGriffon.h"
 
 #define SPAWN_X_MIN -4000
 #define SPAWN_X_MAX 4000
@@ -18,6 +20,7 @@
 URPGGameHuntMapInfo::URPGGameHuntMapInfo()
 {
 	GameEnemyDogClass = ARPGGameEnemyDog::StaticClass();
+	GameEnemyGriffonClass = ARPGGameEnemyGriffon::StaticClass();
 }
 
 void URPGGameHuntMapInfo::Init()
@@ -27,7 +30,7 @@ void URPGGameHuntMapInfo::Init()
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(_World->GetGameInstance());
 	URPGGameDataTableManager* DataTableManager = GameInstance->GetDataTableManager();
 	FGameEnemyInfo* TypeData = DataTableManager->GetEnemyTypeToData(EEnemyType::DOG);
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		FVector Spawn = GetSpawnPosition();
 		ARPGGameEnemyDog* Dog = _World->SpawnActor<ARPGGameEnemyDog>(GameEnemyDogClass, Spawn, FRotator());
@@ -35,6 +38,17 @@ void URPGGameHuntMapInfo::Init()
 		Dog->Init(TypeData->HP, TypeData->EnemyType, TypeData->Exp, TypeData->AverageDropGold, TypeData->BaseAttack);
 		_GameEnemyDogs.Add(Dog);
 	}
+	FGameEnemyInfo* TypeData2 = DataTableManager->GetEnemyTypeToData(EEnemyType::GRIFFON);
+	for (int i = 0; i < 1; i++)
+	{
+		FVector Spawn = GetSpawnPosition();
+		ARPGGameEnemyBase* Griffon = _World->SpawnActor<ARPGGameEnemyGriffon>(GameEnemyGriffonClass, Spawn, FRotator());
+		
+		if (Griffon == nullptr)continue;
+		Griffon->Init(TypeData2->HP, TypeData2->EnemyType, TypeData2->Exp, TypeData2->AverageDropGold, TypeData2->BaseAttack);
+		_GameEnemyDogs.Add(Griffon);
+	}
+	
 	_bFirstInit = true;
 }
 
@@ -50,6 +64,8 @@ void URPGGameHuntMapInfo::SetHiddenEnemy(bool bNewState)
 		}
 		else
 		{
+			if(_GameEnemyDogs[i]->GetEnemyBaseAnim()->GetDie() == true) continue;
+				
 			AIController->RunAI();
 			_GameEnemyDogs[i]->GetCharacterMovement()->GravityScale = 1.0f;
 		}

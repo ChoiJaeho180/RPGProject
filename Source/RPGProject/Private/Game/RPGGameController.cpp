@@ -219,7 +219,9 @@ void ARPGGameController::ComplateChangeMap()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	if (_Character->GetAnim()->GetDead() == true)
 	{
-		_Character->GetAnim()->SetDead(false);
+		_Character->Resurrection();
+		//_Character->GetAnim()->SetDead(false);
+		//_Character->GetMesh()->SetCollisionProfileName("Character");
 		_PlayerStat->AddHP(50);
 	}
 	

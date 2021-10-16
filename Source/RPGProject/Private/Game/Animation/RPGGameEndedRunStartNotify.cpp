@@ -9,7 +9,7 @@ void URPGGameEndedRunStartNotify::Notify(USkeletalMeshComponent* MeshComp, UAnim
 	if (!::IsValid(Anim)) return;
 	if (Anim->GetWarriorAnimType() != EWarriorAnimType::GROUND) return;
 	if (Anim->GetGroundAnimType() != EWarriorGroundAnimType::RUN_START) return;
-	UE_LOG(LogTemp, Warning, TEXT("RUN_LOOP!!!!!!!!!!!"));
+	//UE_LOG(LogTemp, Warning, TEXT("RUN_LOOP!!!!!!!!!!!"));
 	Anim->SetGroundAnimType(EWarriorGroundAnimType::RUN_LOOP);
 }
 

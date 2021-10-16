@@ -33,6 +33,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void GetHitting(FVector HitDir);
 	void Dead();
+	void Resurrection();
 	EWarriorAnimType GetAnimState();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

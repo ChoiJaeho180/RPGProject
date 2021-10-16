@@ -16,11 +16,9 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 	auto Enemy = Cast<ARPGGameEnemyBase>(OwnerComp.GetAIOwner()->GetPawn());
 	if (nullptr == Enemy)
 		return EBTNodeResult::Failed;
-
+	UE_LOG(LogTemp, Warning, TEXT("Attack Start"));
+	Enemy->SetBaseAttackType();
 	Enemy->Attack(true);
-//IsAttacking = true;
-
-	
 	/*
 	공격 태스크는 공격 애니메이션이 끝날 때 까지 대기해야 하는 지연 태스크이므로
 	ExecuteTask의 결과 값을 InProgress 일단 반환하고 공격이 끝났을때 끝났다고 알려줘야함.

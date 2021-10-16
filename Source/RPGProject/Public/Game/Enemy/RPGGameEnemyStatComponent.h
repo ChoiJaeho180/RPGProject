@@ -19,7 +19,8 @@ private:
 	int _DropExp;
 	int _AverageGold;
 	int _Level;
-	int _BaseAttack;
+	TArray<int> _BaseAttack;
+	int _CurrentAttackDamage;
 public:	
 	// Sets default values for this component's properties
 	URPGGameEnemyStatComponent();
@@ -31,15 +32,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void Init(int HP, EEnemyType Type, int Exp, int AvegGold, int BaseAttack);
+	void Init(int HP, EEnemyType Type, int Exp, int AvegGold, TArray<int> BaseAttack);
 	void SetDamage(float NewDamage);
 	void SetHP(float NewHP);
 	float GetHPRatio() const;
-
+	void SetCurrentBaseAttackDamage(int index);
 public:
 	FORCEINLINE int GetLevel() { return _Level; }
 	FORCEINLINE int GetExp() { return _DropExp; }
-	FORCEINLINE int GetAttack() { return _BaseAttack; }
+	FORCEINLINE int GettCurrentAttack() { return _CurrentAttackDamage; }
+	FORCEINLINE TArray<int> GetAttack() { return _BaseAttack; }
 public:
 	FOnHPIsZeroDelegate OnHPIsZero;
 	FOnHPChangedDelegate OnHPChanged;

@@ -81,7 +81,7 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 			int EnemyLevel = Enemy->GetEnemyStatCompo()->GetLevel();
 			int ResultDamage = URPGGameAttackJudgement::GetInstance()->JudgeBaseAttack(CharacterSTX * ComboCoefficient, CharacterLevel, EnemyLevel);
 			EnemyStat->SetDamage(ResultDamage);
-			Enemy->GetHit();
+			Enemy->GetHit(ResultDamage);
 			Cast<ARPGGameController>(Character->GetController())->PlayerCameraManager->PlayCameraShake(Character->MyShake);
 			//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(Character->MyShake);
 		}

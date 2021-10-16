@@ -28,7 +28,7 @@ void URPGGameEnemyAttackHitCheckNotify::Notify(USkeletalMeshComponent* MeshComp,
 		// Attack 트레이스 채널
 		ECollisionChannel::ECC_GameTraceChannel5,
 		// 탐색할 도형 : 50cm 반지름 구체
-		FCollisionShape::MakeSphere(100),
+		FCollisionShape::MakeSphere(150),
 		// 공격 명령을 내리는 자신은 이 탐색에 감지되지 않도록 설정
 		Params);
 
@@ -42,11 +42,11 @@ void URPGGameEnemyAttackHitCheckNotify::Notify(USkeletalMeshComponent* MeshComp,
 		float angle = FMath::RadiansToDegrees(FMath::Acos(dot));
 		FVector crossPrdt = FVector::CrossProduct(Character->GetActorForwardVector(), CharacterToEnemyDir);
 		FVector HitDir = GetAngleToDir(crossPrdt, angle);
-		PlayerState->AddHP(-Enemy->GetEnemyStatCompo()->GetAttack());
-		if (PlayerState->GetCharacterHP() == 0) Character->Dead();
+		PlayerState->AddHP(-Enemy->GetEnemyStatCompo()->GettCurrentAttack());
 
 		Cast<ARPGGameController>(Character->GetController())->PlayerCameraManager->PlayCameraShake(Character->MyShake);
-		Character->GetHitting(HitDir);
+		if (PlayerState->GetCharacterHP() <= 0) Character->Dead();
+		else Character->GetHitting(HitDir);
 	}
 	//
 	//DrawDebugSphere(Anim->GetWorld(), test, 20, 16, FColor::Green, false, 0.2f);

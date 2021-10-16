@@ -7,6 +7,7 @@ void URPGGameEnemyAttackEndNotify::Notify(USkeletalMeshComponent* MeshComp, UAni
 	URPGGameEnemyBaseAnim* Anim = Cast<URPGGameEnemyBaseAnim>(MeshComp->GetAnimInstance());
 	if (!::IsValid(Anim)) return;
 	Anim->SetAttacking(false);
+	UE_LOG(LogTemp, Warning, TEXT("Attack End"));
 }
 
 

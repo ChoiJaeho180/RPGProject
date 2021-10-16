@@ -57,6 +57,12 @@ void ARPGGameCharacter::Dead()
 	GetMesh()->SetCollisionProfileName("NoCollision");
 }
 
+void ARPGGameCharacter::Resurrection()
+{
+	_WarriorAnim->SetDead(false);
+	GetMesh()->SetCollisionProfileName("Character");
+}
+
 EWarriorAnimType ARPGGameCharacter::GetAnimState()
 {
 	return _WarriorAnim->GetWarriorAnimType();

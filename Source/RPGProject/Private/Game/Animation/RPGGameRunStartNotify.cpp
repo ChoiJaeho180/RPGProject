@@ -11,7 +11,7 @@ void URPGGameRunStartNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 	if (!::IsValid(Anim)) return;
 	if (Anim->GetWarriorAnimType() != EWarriorAnimType::GROUND) return;
 	if (Anim->GetGroundAnimType() != EWarriorGroundAnimType::RUN_START) return;
-	UE_LOG(LogTemp, Warning, TEXT("RUN_START!!!!!!!!"))
+//	UE_LOG(LogTemp, Warning, TEXT("RUN_START!!!!!!!!"))
 	URPGGameGroundAnim* GroundAnim = Anim->GetGroundAnim();
 	GroundAnim->SetbUpdateMultipleMovePoint(true);
 	GroundAnim->MovePoint();

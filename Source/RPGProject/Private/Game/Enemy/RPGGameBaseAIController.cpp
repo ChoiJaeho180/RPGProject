@@ -30,7 +30,7 @@ void ARPGGameBaseAIController::OnPossess(APawn* InPawn)
 
 	if (UseBlackboard(BBAsset, Blackboard))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RunAI"));
+		///UE_LOG(LogTemp, Warning, TEXT("RunAI"));
 		Blackboard->SetValueAsVector(HomePosKey, GetPawn()->GetActorLocation());
 		if (!RunBehaviorTree(BTAsset))
 			UE_LOG(LogTemp, Warning, TEXT("AIController couldn't run behavior tree !"));
@@ -41,7 +41,7 @@ void ARPGGameBaseAIController::RunAI()
 {
 	if (UseBlackboard(BBAsset, Blackboard))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("RunAI"));
+		//UE_LOG(LogTemp, Warning, TEXT("RunAI"));
 		Blackboard->SetValueAsVector(HomePosKey, GetPawn()->GetActorLocation());
 		if (!RunBehaviorTree(BTAsset))
 			UE_LOG(LogTemp,Warning, TEXT("AIController couldn't run behavior tree !"));

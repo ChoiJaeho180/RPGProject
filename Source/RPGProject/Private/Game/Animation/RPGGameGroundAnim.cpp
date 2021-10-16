@@ -13,7 +13,6 @@ void URPGGameGroundAnim::Update(FVector PawnLocation, EWarriorGroundAnimType& Gr
 
 	if (Dist > PAWN_TO_POINT_DIST) return;
 	
-	UE_LOG(LogTemp, Warning, TEXT("RUN_END!!!!!!!!"))
 	GroundState = EWarriorGroundAnimType::RUN_END;
 	Cast<ARPGGameCharacter>(_Controller->GetPawn())->GetCharacterMovement()->MaxWalkSpeed = 150;
 }

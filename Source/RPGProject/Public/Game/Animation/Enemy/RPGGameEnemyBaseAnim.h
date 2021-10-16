@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../../RPGProject.h"
 #include "Animation/AnimInstance.h"
 #include "RPGGameEnemyBaseAnim.generated.h"
 
@@ -24,8 +24,11 @@ protected:
 	bool _isAttacking;
 public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+	virtual int SetBaseAttackType();
+	virtual void SetBasetAttackNone() {};
 public:
 	FORCEINLINE void SetDie(bool bNewStat) { _isDie = bNewStat; }
+	FORCEINLINE bool GetDie() { return _isDie; }
 	FORCEINLINE void SetHit(bool bNewStat) { _isGetHit = bNewStat; }
 	FORCEINLINE bool GetHit() { return _isGetHit; }
 	FORCEINLINE void SetAttacking(bool bNewStat) { _isAttacking = bNewStat; }

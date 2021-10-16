@@ -19,3 +19,8 @@ void URPGGameEnemyBaseAnim::NativeUpdateAnimation(float DeltaSeconds)
 	}
 
 }
+
+int URPGGameEnemyBaseAnim::SetBaseAttackType()
+{
+	return 0;
+}

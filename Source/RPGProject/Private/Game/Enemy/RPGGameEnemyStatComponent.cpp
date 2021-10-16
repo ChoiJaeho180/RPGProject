@@ -32,7 +32,7 @@ void URPGGameEnemyStatComponent::TickComponent(float DeltaTime, ELevelTick TickT
 	// ...
 }
 
-void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int AvegGold, int BaseAttack)
+void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int AvegGold, TArray<int> BaseAttack)
 {
 	_CurrentHP = _MaxHP = HP;
 	_DropExp = Exp;
@@ -64,5 +64,10 @@ void URPGGameEnemyStatComponent::SetHP(float NewHP)
 float URPGGameEnemyStatComponent::GetHPRatio() const
 {
 	return(_MaxHP < KINDA_SMALL_NUMBER) ? 0.0f : (_CurrentHP / _MaxHP);
+}
+
+void URPGGameEnemyStatComponent::SetCurrentBaseAttackDamage(int index)
+{
+	_CurrentAttackDamage = _BaseAttack[index];
 }
 

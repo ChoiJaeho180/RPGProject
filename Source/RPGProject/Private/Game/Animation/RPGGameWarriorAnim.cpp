@@ -7,7 +7,6 @@
 
 URPGGameWarriorAnim::URPGGameWarriorAnim()
 {
-	
 	_WarriorAnimType = EWarriorAnimType::GROUND;
 	_WarriorGroundAnimType = EWarriorGroundAnimType::IDLE;
 }

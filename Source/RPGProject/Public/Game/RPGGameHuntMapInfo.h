@@ -8,6 +8,8 @@
 #include "RPGGameHuntMapInfo.generated.h"
 
 class ARPGGameEnemyDog;
+class ARPGGameEnemyGriffon;
+class ARPGGameEnemyBase;
 /**
  * 
  */
@@ -16,7 +18,7 @@ class RPGPROJECT_API URPGGameHuntMapInfo : public URPGGameMapInfo, public IRPGGa
 {
 	GENERATED_BODY()
 private:
-	TArray<ARPGGameEnemyDog*> _GameEnemyDogs;
+	TArray<ARPGGameEnemyBase*> _GameEnemyDogs;
 public:
 	URPGGameHuntMapInfo();
 	virtual void Init() override;
@@ -24,4 +26,5 @@ public:
 	FVector GetSpawnPosition();
 public:
 	TSubclassOf<ARPGGameEnemyDog> GameEnemyDogClass;
+	TSubclassOf<ARPGGameEnemyGriffon> GameEnemyGriffonClass;
 };

@@ -27,6 +27,7 @@ public:
 	void PostLogin(APlayerController* NewPlayer);
 	void Logout(AController* Exiting);
 	void ActiveMap(const FString& MapName, ARPGGameCharacter* _Character);
+	virtual void StartPlay() override;
 	UFUNCTION()
 	void ExecutionUnLoad();
 	UFUNCTION()
