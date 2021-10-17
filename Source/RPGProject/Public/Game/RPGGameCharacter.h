@@ -7,6 +7,7 @@
 #include "Game/RPGGameBaseCharacter.h"
 #include "RPGGameCharacter.generated.h"
 
+class ARPGGameAbilityUltimage;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameCharacter : public ARPGGameBaseCharacter
@@ -27,6 +28,7 @@ protected:
 	
 public:
 	void InputAttack();
+	void InputSkill(const FString& InputKey);
 	void OnClikedMove(FVector_NetQuantize MovePoint);
 public:	
 	// Called every frame
@@ -36,8 +38,12 @@ public:
 	void Resurrection();
 	EWarriorAnimType GetAnimState();
 	// Called to bind functionality to input
+	void Test(bool test);
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 public:
 	FORCEINLINE URPGGameWarriorAnim* GetAnim() { return _WarriorAnim; }
 	FORCEINLINE void SetRotationRow(FRotator NewRotation) { _TargetRotator = NewRotation; }
+public:
+	TSubclassOf<ARPGGameBaseEffect> AbilityRClass;
+	TSubclassOf<ARPGGameAbilityUltimage> AbilityUltimgeClass;
 };

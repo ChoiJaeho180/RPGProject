@@ -66,7 +66,9 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_6"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("6"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_7"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("7"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_8"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("8"));
-	
+	InputComponent->BindAction(TEXT("Test"), EInputEvent::IE_Pressed, this, &ARPGGameController::Test);
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Skill_Q"), EInputEvent::IE_Pressed, this, &ARPGGameController::InputSkills, FString("Q"));
+	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Skill_W"), EInputEvent::IE_Pressed, this, &ARPGGameController::InputSkills, FString("W"));
 	InputComponent->BindAction(TEXT("Portal"), EInputEvent::IE_Released, this, &ARPGGameController::PreChangeMap);
 }
 
@@ -149,6 +151,13 @@ void ARPGGameController::SetNewMoveDestination(FHitResult Hit)
 	}
 }
 
+void ARPGGameController::Test()
+{
+	static bool test = true;
+	test = !test;
+	_Character->Test(test);
+}
+
 void ARPGGameController::SendActiveMap(const FString& MapName)
 {
 	//_Character->SetCurrentMap(MapName);
@@ -204,6 +213,11 @@ void ARPGGameController::InteractionPortionBarUI(FString Key)
 {
 	TSharedPtr<FRPGItemInfo> Data = _GameUIManager->GetInputPortionSlotData(Key);
 	_PlayerStat->UsePortion(Data);
+}
+
+void ARPGGameController::InputSkills(FString Key)
+{
+	_Character->InputSkill(Key);
 }
 
 void ARPGGameController::PreChangeMap()

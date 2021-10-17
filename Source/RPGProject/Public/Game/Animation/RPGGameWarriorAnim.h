@@ -8,6 +8,7 @@
 
 class URPGGameGroundAnim;
 class URPGGameComboAttackAnim;
+class URPGGameWarriorSkillAnim;
 
 UENUM(BlueprintType)
 enum class EWarriorAnimType : uint8
@@ -15,6 +16,7 @@ enum class EWarriorAnimType : uint8
 	GROUND UMETA(DisplayName = "GROUND"),
 	BASE_ATTACK UMETA(DisplayName = "BASE_ATTACK"),
 	HITTING UMETA(DisplayName = "HITTING"),
+	SKILL UMETA(DisplayName = "SKILL"),
 	NONE UMETA(DisplayName = "NONE"),
 };
 
@@ -41,6 +43,8 @@ private:
 	URPGGameGroundAnim* _GroundAnim;
 	UPROPERTY()
 	URPGGameComboAttackAnim* _ComboAttackAnim;
+	UPROPERTY()
+	URPGGameWarriorSkillAnim* _SkillAnim;
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	EWarriorAnimType _WarriorAnimType;
@@ -59,6 +63,7 @@ public:
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 	void InputAttack();
 	void OnClickedMove(FVector_NetQuantize MovePoint);
+	bool PlaySkill(const FString& KeyInput);
 public:
 	FORCEINLINE EWarriorAnimType GetWarriorAnimType() { return _WarriorAnimType; }
 	FORCEINLINE void SetWarriorAnimType(EWarriorAnimType NewType) { _WarriorAnimType = NewType; }

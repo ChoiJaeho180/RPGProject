@@ -6,7 +6,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Game/RPGGameCameraShake.h"
-
+#include "Game/Skill/RPGGameBaseEffect.h"
 // Sets default values
 ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 {
@@ -45,21 +45,14 @@ ARPGGameBaseCharacter::ARPGGameBaseCharacter()
 	
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_CARDBOARD(TEXT("SkeletalMesh'/Game/ParagonGreystone/Characters/Heroes/Greystone/Meshes/Greystone.Greystone'"));
-	if (SK_CARDBOARD.Succeeded())
-	{
-		GetMesh()->SetSkeletalMesh(SK_CARDBOARD.Object);
-	}
+	if (SK_CARDBOARD.Succeeded()) GetMesh()->SetSkeletalMesh(SK_CARDBOARD.Object);
+
 	static ConstructorHelpers::FClassFinder<URPGGameWarriorAnim> WARRIOR_ANIM(TEXT("AnimBlueprint'/Game/ParagonGreystone/Characters/Heroes/Greystone/Game_Greystone.Game_Greystone_C'"));
-	if (WARRIOR_ANIM.Succeeded())
-	{
-		GetMesh()->SetAnimInstanceClass(WARRIOR_ANIM.Class);
-	}
+	if (WARRIOR_ANIM.Succeeded()) GetMesh()->SetAnimInstanceClass(WARRIOR_ANIM.Class);
 
 	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/Materials/M_Cursor_Decal.M_Cursor_Decal'"));
-	if (DecalMaterialAsset.Succeeded())
-	{
-		_CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
-	}
+	if (DecalMaterialAsset.Succeeded()) _CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
+	
 
 	_CursorToWorld->DecalSize = FVector(16.0f,0.0f, 0.0f);
 	_CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
@@ -73,6 +66,9 @@ void ARPGGameBaseCharacter::BeginPlay()
 	_CursorToWorld->SetActive(false);
 	_CursorToWorld->Activate(false);
 	_NextMapPosition = FVector::ZeroVector;
+
+
+
 }
 
 // Called every frame
@@ -138,6 +134,11 @@ void ARPGGameBaseCharacter::InitDecalPostionAndRotation(FHitResult result)
 	FVector CursorFV = result.ImpactNormal;
 	_CursorMoveR = CursorFV.Rotation();
 	_CursorMoveFV = result.Location;
+}
+
+void ARPGGameBaseCharacter::SetTargetArmLength(float Length)
+{
+	_SpringArm->TargetArmLength = Length;
 }
 
 

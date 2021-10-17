@@ -37,7 +37,6 @@ void URPGGameComboAttackAnim::OnAttackMontageEnded(UAnimMontage* Montage, bool b
 	if (_CurrentCombo == 0) return;
 	_bIsAttacking = false;
 	AttackEndComboState();
-	
 }
 
 FName URPGGameComboAttackAnim::GetAttackMontageSectionName(int32 Section)
@@ -56,6 +55,7 @@ void URPGGameComboAttackAnim::AttackStartComboState()
 
 void URPGGameComboAttackAnim::AttackEndComboState()
 {
+	_AnimInstance->SetWarriorAnimType(EWarriorAnimType::GROUND);
 	_bCanNextCombo = false;
 	_bIsComboInputOn = false;
 	_CurrentCombo = 0;

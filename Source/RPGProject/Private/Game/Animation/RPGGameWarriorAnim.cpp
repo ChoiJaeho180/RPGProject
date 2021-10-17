@@ -4,6 +4,7 @@
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGameController.h"
 #include "Game/Animation/RPGGameComboAttackAnim.h"
+#include "Game/Animation/RPGGameWarriorSkillAnim.h"
 
 URPGGameWarriorAnim::URPGGameWarriorAnim()
 {
@@ -20,7 +21,12 @@ void URPGGameWarriorAnim::Init()
 	_ComboAttackAnim = NewObject<URPGGameComboAttackAnim>();
 	_ComboAttackAnim->SetAnimInstance(this);
 	OnMontageEnded.AddDynamic(_ComboAttackAnim, &URPGGameComboAttackAnim::OnAttackMontageEnded);
-//	OnMontageEnded.AddDynamic(this, &URPGGameWarriorAnim::FinishBaseAttack);
+
+	_SkillAnim = NewObject<URPGGameWarriorSkillAnim>();
+	_SkillAnim->SetAnimParent(this);
+	OnMontageEnded.AddDynamic(_SkillAnim, &URPGGameWarriorSkillAnim::OnAttackMontageEnded);
+	_WarriorAnimType = EWarriorAnimType::GROUND;
+	_WarriorGroundAnimType = EWarriorGroundAnimType::IDLE;
 }
 
 void URPGGameWarriorAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -52,6 +58,8 @@ void URPGGameWarriorAnim::OnAttackMontageEnded(UAnimMontage* Montage, bool bInte
 void URPGGameWarriorAnim::InputAttack()
 {
 	if (_bIsDead == true) return;
+	if (_WarriorAnimType == EWarriorAnimType::SKILL) return;
+
 	_WarriorGroundAnimType = EWarriorGroundAnimType::IDLE;
 	//움직일 때 공격 시 제자리로 MovePoint 후 공격하도록 처리
 	if (_WarriorAnimType == EWarriorAnimType::GROUND)
@@ -88,4 +96,11 @@ void URPGGameWarriorAnim::OnClickedMove(FVector_NetQuantize MovePoint)
 	_GroundAnim->SetbUpdateMultipleMovePoint(false);
 	_WarriorGroundAnimType = EWarriorGroundAnimType::RUN_START;
 	_WarriorAnimType = EWarriorAnimType::GROUND;
+}
+
+bool URPGGameWarriorAnim::PlaySkill(const FString& KeyInput)
+{
+	if (_WarriorAnimType != EWarriorAnimType::GROUND) return false;
+	if (_bIsDead == true) return false;
+	return _SkillAnim->PlaySkillAnimation(KeyInput);
 }

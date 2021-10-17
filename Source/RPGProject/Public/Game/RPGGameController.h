@@ -42,7 +42,7 @@ public:
 	void MoveToMouseCursor();
 	void SetNewMoveDestination(FHitResult Hit);
 public:
-	
+	void Test();
 	void SendActiveMap(const FString& MapName);
 	void SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo);
 
@@ -50,6 +50,8 @@ public:
 	void InteractionUI(EInventoryUIType InteractionType);
 	void InteractionPortionBarUI(FString Key);
 	
+	void InputSkills(FString Key);
+
 	void PreChangeMap();
 	void ComplateChangeMap();
 	void ChangeMap();

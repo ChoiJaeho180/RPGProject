@@ -25,3 +25,9 @@ void ARPGGameBaseEffect::Tick(float DeltaTime)
 
 }
 
+bool ARPGGameBaseEffect::CheckUsableSkill()
+{
+	if (_CurrentCoolDown >= _CoolDown) return true;
+	return false;
+}
+

@@ -8,6 +8,7 @@
 
 class UDecalComponent;
 class URPGGameCameraShake;
+class ARPGGameBaseEffect;
 
 UCLASS()
 class RPGPROJECT_API ARPGGameBaseCharacter : public ACharacter
@@ -24,7 +25,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
 
-
+	TArray<ARPGGameBaseEffect*> _Skills;
 protected:
 	float _BaseAttackRadius;
 	float _BaseAttackRange;
@@ -56,8 +57,7 @@ public:
 
 	void InitDecalSize();
 	void InitDecalPostionAndRotation(FHitResult result);
-	UPROPERTY()
-	TSubclassOf<UCameraShake> MyShake;
+	void SetTargetArmLength(float Length);
 public:
 	/** Returns CursorToWorld subobject **/
 	FORCEINLINE class UDecalComponent* GetCursorToWorld() { return _CursorToWorld; }
@@ -71,4 +71,7 @@ public:
 
 	FORCEINLINE float GetBaseAttackRadius() { return _BaseAttackRadius; }
 	FORCEINLINE float GetBaseAttackRange() { return _BaseAttackRange; }
+public:
+	UPROPERTY()
+	TSubclassOf<UCameraShake> MyShake;
 };

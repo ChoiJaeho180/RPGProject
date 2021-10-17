@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/RPGGameCharacter.h"
 #include "Game/RPGGameController.h"
-
+#include "Game/Skill/RPGGameAbilityR.h"
+#include "Game/Skill/RPGGameAbilityUltimage.h"
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
 {
@@ -10,12 +11,22 @@ ARPGGameCharacter::ARPGGameCharacter()
 
 	_BaseAttackRadius = 80.f;
 	_BaseAttackRange = 300.f;
+
+	AbilityRClass = ARPGGameAbilityR::StaticClass();
+	AbilityUltimgeClass = ARPGGameAbilityUltimage::StaticClass();
 }
 
 // Called when the game starts or when spawned
 void ARPGGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	ARPGGameBaseEffect* AbilityR = GetWorld()->SpawnActor<ARPGGameAbilityR>(AbilityRClass);
+	AbilityR->SetInputKeyIdentify("Q");
+	AbilityR->Init();
+	_Skills.Add(AbilityR);
+	ARPGGameBaseEffect* AbilityUltimate = GetWorld()->SpawnActor<ARPGGameAbilityUltimage>(AbilityUltimgeClass);
+	AbilityUltimate->SetInputKeyIdentify("W");
+	_Skills.Add(AbilityUltimate);
 	_WarriorAnim = Cast<URPGGameWarriorAnim>(GetMesh()->GetAnimInstance());
 	_WarriorAnim->Init();
 }
@@ -25,8 +36,29 @@ void ARPGGameCharacter::InputAttack()
 	_WarriorAnim->InputAttack();
 }
 
+void ARPGGameCharacter::InputSkill(const FString& InputKey)
+{
+	for (int i = 0; i < _Skills.Num(); i++)
+	{
+		if (_Skills[i]->GetInputKeyIdentify() != InputKey)
+			continue;
+		if (_Skills[i]->CheckUsableSkill() == false)
+			return;
+
+		// 쿨타임 체크 적용해야함
+		if (_WarriorAnim->PlaySkill(InputKey) == true)
+		{
+			_Skills[i]->ApplyProperty(this);
+			_WarriorAnim->SetWarriorAnimType(EWarriorAnimType::SKILL);
+		}
+	}
+
+	
+}
+
 void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
 {
+	if (_WarriorAnim->GetWarriorAnimType() == EWarriorAnimType::SKILL) return;
 	GetCharacterMovement()->MaxWalkSpeed = 600.f;
 	_WarriorAnim->OnClickedMove(MovePoint);
 }
@@ -66,6 +98,13 @@ void ARPGGameCharacter::Resurrection()
 EWarriorAnimType ARPGGameCharacter::GetAnimState()
 {
 	return _WarriorAnim->GetWarriorAnimType();
+}
+
+void ARPGGameCharacter::Test(bool test1)
+{
+	GetMesh()->SetVisibility(test1);
+	GetMesh()->bHiddenInGame = !test1;
+	UE_LOG(LogTemp, Warning, TEXT("Test"));
 }
 
 // Called to bind functionality to input
