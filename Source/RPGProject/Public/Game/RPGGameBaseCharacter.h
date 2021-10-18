@@ -78,6 +78,7 @@ public:
 	FORCEINLINE void SetbInvincibility(bool bNew) { _bInvincibility = bNew; }
 	FORCEINLINE bool GetbInvincibility() { return _bInvincibility; }
 	FORCEINLINE ARPGGameBaseEffect* GetUseCurrentSkill() { return _UseCurrentSkill; }
+	FORCEINLINE TArray<ARPGGameBaseEffect*> GetSkills() { return _Skills; }
 public:
 	UPROPERTY()
 	TSubclassOf<UCameraShake> MyShake;

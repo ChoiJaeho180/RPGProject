@@ -2,6 +2,8 @@
 #include "Game/RPGGameDataCopy.h"
 #include "Game/RPGGamePlayerState.h"
 #include "Game/RPGGameCharacterBagComponent.h"
+#include "Game/Skill/RPGGameBaseEffect.h"
+#include "Game/RPGGameCharacter.h"
 
 // Sets default values
 ARPGGameDataCopy::ARPGGameDataCopy()
@@ -19,6 +21,7 @@ void ARPGGameDataCopy::BeginPlay()
 
 	APlayerController* Controller = GetWorld()->GetFirstPlayerController();
 	_CheckStat = Controller->GetPlayerState<ARPGGamePlayerState>();
+	_Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
 }
 
 void ARPGGameDataCopy::CheckCharacterStat()
@@ -56,6 +59,69 @@ void ARPGGameDataCopy::CehckkCharacterMoney()
 	_CharacterMoney = Money;
 }
 
+void ARPGGameDataCopy::CheckCharacterSkillCoolDown()
+{
+	auto Skills = _Character->GetSkills();
+	if (_CharacterSkillInfo.Num() != Skills.Num())
+	{
+		for (int i = 0; i < Skills.Num(); i++)
+		{
+			if (FindSkill(Skills[i]->GetName()) == true) continue;
+
+			TSharedPtr<FGameSkillDataCopyInfo> NewSkillCopy = MakeShareable(new FGameSkillDataCopyInfo);
+			NewSkillCopy->CoolDown = Skills[i]->GetCoolDown();
+			NewSkillCopy->CurrentCoolDown = Skills[i]->GetCurrentCoolDown();
+			NewSkillCopy->TimeStamp = Skills[i]->GetTimeStamp();
+			NewSkillCopy->Identify = Skills[i]->GetInputKeyIdentify();
+			NewSkillCopy->Name = Skills[i]->GetName();
+			NewSkillCopy->SkillState = Skills[i]->GetESkillState();
+			_CharacterSkillInfo.Add(NewSkillCopy);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < Skills.Num(); i++)
+		{
+			auto CopyInfo = FindCopySkillInfo(Skills[i]->GetName());
+			if (CopyInfo == nullptr) continue;
+			if (CopyInfo->TimeStamp == Skills[i]->GetTimeStamp()) continue;
+
+			CopyInfo->CoolDown = Skills[i]->GetCoolDown();
+			CopyInfo->CurrentCoolDown = Skills[i]->GetCurrentCoolDown();
+			CopyInfo->Identify = Skills[i]->GetInputKeyIdentify();
+			CopyInfo->Name = Skills[i]->GetName();
+			CopyInfo->SkillState = Skills[i]->GetESkillState();
+			CopyInfo->TimeStamp = Skills[i]->GetTimeStamp();
+		}
+	}
+}
+
+bool ARPGGameDataCopy::FindSkill(const FName& SkillName)
+{
+	bool bExistSkill = false;
+	for (int i = 0; i < _CharacterSkillInfo.Num(); i++)
+	{
+		if (_CharacterSkillInfo[i]->Name == SkillName)
+		{
+			bExistSkill = true;
+			break;
+		}
+	}
+	return bExistSkill;
+}
+
+TSharedPtr<FGameSkillDataCopyInfo> ARPGGameDataCopy::FindCopySkillInfo(const FName& SkillName)
+{
+	for (int i = 0; i < _CharacterSkillInfo.Num(); i++)
+	{
+		if (_CharacterSkillInfo[i]->Name == SkillName)
+		{
+			return _CharacterSkillInfo[i];
+		}
+	}
+	return nullptr;
+}
+
 // Called every frame
 void ARPGGameDataCopy::Tick(float DeltaTime)
 {
@@ -68,6 +134,7 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 	CheckCharacterStat();
 	CheckCharacterItems();
 	CehckkCharacterMoney();
+	CheckCharacterSkillCoolDown();
 
 	_DeltaTime = 0.f;
 }

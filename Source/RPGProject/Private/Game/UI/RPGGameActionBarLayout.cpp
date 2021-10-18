@@ -4,6 +4,7 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameDataCopy.h"
 #include "Game/UI/RPGGameActionBarSkillSlot.h"
+#include "Game/RPGGameDataTableManager.h"
 
 void URPGGameActionBarLayout::NativeConstruct()
 {
@@ -20,6 +21,10 @@ void URPGGameActionBarLayout::NativeConstruct()
 		NewSlot->SetKeyText(rhs);
 		_ActionBarSkillSlots.Add(NewSlot);
 	}
+	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(GetGameInstance())->GetDataTableManager();
+	_ActionBarSkillSlots[0]->SetIcon(DTManager->GetSkillNameToData("Cut the Ground")->Image);
+	_ActionBarSkillSlots[1]->SetIcon(DTManager->GetSkillNameToData("Hack the Earth")->Image);
+
 	TArray<FString> SlotNames = { 
 								"Slot_1", "Slot_2", "Slot_3", "Slot_4", 
 								"Slot_5", "Slot_6", "Slot_7", "Slot_8", };
@@ -45,8 +50,25 @@ void URPGGameActionBarLayout::NativeConstruct()
 void URPGGameActionBarLayout::NativeTick()
 {
 	if (_ChecActonBarSlotData->GetbInitFirstItem() == false) return;
+	UpdatePortionSlot();
+	UpdateSkillSlot();
+}
+
+void URPGGameActionBarLayout::UpdateSkillSlot()
+{
+	auto SkillInfo = _ChecActonBarSlotData->GetSkillCoolDownInfo();
+	for (int i = 0; i < SkillInfo.Num(); i++)
+	{
+		auto result = FindSkillInfo(SkillInfo[i]->Identify);
+		if (result == nullptr) continue;
+		result->Update(SkillInfo[i]);
+	}
+}
+
+void URPGGameActionBarLayout::UpdatePortionSlot()
+{
 	auto CharacterItems = _ChecActonBarSlotData->GetCharacterItemsInfo();
-	
+
 	for (int i = 0; i < _ActionBarSlots.Num(); i++)
 	{
 		auto SlotData = _ActionBarSlots[i]->GetItemSlotData();
@@ -63,7 +85,7 @@ void URPGGameActionBarLayout::NativeTick()
 		else
 		{
 			if (SlotData->TimeStamp == FindItemData->TimeStamp) continue;
-				
+
 			_ActionBarSlots[i]->UpdateItem(FindItemData);
 		}
 	}
@@ -76,6 +98,15 @@ void URPGGameActionBarLayout::InitRestActionBar(const TArray<FRPGRestItem>& Rest
 	{
 		((URPGGameActionBarSlot*)_ActionBarSlots[RestActionBar[i].SlotIndex])->Init(RestActionBar[i].SlotIndex, RestActionBar[i].Name,  RestActionBar[i].Count);
 	}
+}
+
+URPGGameActionBarSkillSlot* URPGGameActionBarLayout::FindSkillInfo(const FString& Identify)
+{
+	for (int i = 0; i < _ActionBarSkillSlots.Num(); i++)
+	{
+		if (_ActionBarSkillSlots[i]->GetKeyText() == Identify) return _ActionBarSkillSlots[i];
+	}
+	return nullptr;
 }
 
 TSharedPtr<FRPGItemInfo> URPGGameActionBarLayout::FindItem(const TSharedPtr<FRPGItemInfo>& KeySlotData, const TArray<TSharedPtr<FRPGItemInfo>>& CharacterItems)

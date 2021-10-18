@@ -12,9 +12,11 @@
 void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(MeshComp->GetOwner());
+	ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
 	if (!::IsValid(Character)) return;
 	ARPGGameBaseEffect* CurrentSkill = Character->GetUseCurrentSkill();
-	
+	if(CurrentSkill->GetSpecialState() == true) PlayerState->AddSpecialBar(-100);
+
 	UE_LOG(LogTemp, Warning, TEXT("URPGGameAbilityUltimateNotify"));
 	TArray<FOverlapResult> OverlapResults;
 	FCollisionQueryParams CollisionQueryParam(NAME_None, false, Character);
@@ -27,7 +29,7 @@ void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAn
 		CollisionQueryParam
 	);
 	if (bResult == false) return;
-	ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
+	
 	int CharacterSTX = PlayerState->GetCharacterStat()->Stat["STX"];
 	int CharacterLevel = PlayerState->GetCharacterStat()->Stat["LEVEL"];
 	float SkillCoefficient = CurrentSkill->GetCoefficient();
@@ -41,9 +43,9 @@ void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAn
 		int Damage = URPGGameAttackJudgement::GetInstance()->JudgeAblityAttack(CharacterSTX, SkillCoefficient, CharacterLevel, EnemyLevel);
 		Enemy->SetHiddenHPWidgetBar(false);
 		Enemy->GetHit(Damage);
-
 	}
-	if (CurrentSkill->GetConsumeMP() != 0) PlayerState->AddSpecialBar(10);
+	if (CurrentSkill->GetSpecialState() == false) PlayerState->AddSpecialBar(20);
+	
 	DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), 800, 16, FColor::Green, false, 20.f);
 }
 

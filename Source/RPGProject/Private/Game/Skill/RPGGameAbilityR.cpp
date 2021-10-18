@@ -18,7 +18,9 @@ void ARPGGameAbilityR::Init()
 
 void ARPGGameAbilityR::ApplyProperty(ACharacter* pawn)
 {
-
+	_SkillState = ESkillState::ING;
+	_CurrentCoolDown = _SkillInfo._CoolDown;
+	_TimeStamp++;
 	if (pawn->GetVelocity() == FVector::ZeroVector) return;
 
 	pawn->GetCharacterMovement()->MaxWalkSpeed = _CharacterMaxSpeed;

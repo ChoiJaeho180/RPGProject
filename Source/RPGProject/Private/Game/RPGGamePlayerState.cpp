@@ -55,9 +55,15 @@ void ARPGGamePlayerState::AddMP(int AddMP)
 
 void ARPGGamePlayerState::AddSpecialBar(int AddRatio)
 {
-	float resultSpecialBar = FMath::Clamp(_CharacterStat->Stat["SPECIALSTATE"] + AddRatio, 0, 100);
-	_CharacterStat->Stat["SPECIALSTATE"] = resultSpecialBar;
+	_CharacterStat->Stat["SPECIALSTATE"] = FMath::Clamp(_CharacterStat->Stat["SPECIALSTATE"] + AddRatio, 0, 100);
 	_CharacterStat->TimeStamp++;
+	if (_CharacterStat->Stat["SPECIALSTATE"] >= 100)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("delegateReadySpecialBar"));
+		delegateReadySpecialBar.ExecuteIfBound();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%d"), _CharacterStat->Stat["SPECIALSTATE"]);
+	
 }
 
 void ARPGGamePlayerState::AddExp(int Exp)

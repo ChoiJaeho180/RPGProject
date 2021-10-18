@@ -9,6 +9,8 @@
 
 class URPGGameCharacterBagComponent;
 
+DECLARE_DELEGATE(FOnReadySpecialBarDelegate);
+
 USTRUCT(BlueprintType)
 struct FCharacterStat
 {
@@ -78,8 +80,11 @@ public:
 	void LevelUp();
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);
 public:
+	FOnReadySpecialBarDelegate delegateReadySpecialBar;
+public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
 	FORCEINLINE int GetCharacterHP() { return _CharacterStat->Stat["HP"]; }
 	FORCEINLINE int GetCharacterMP() { return _CharacterStat->Stat["MP"]; }
+	FORCEINLINE int GetSpecialBar() { return _CharacterStat->Stat["SPECIALSTATE"]; }
 };

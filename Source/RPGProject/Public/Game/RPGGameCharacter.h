@@ -36,9 +36,9 @@ public:
 	void GetHitting(FVector HitDir);
 	void Dead();
 	void Resurrection();
+	void CheckUsableSkill();
+	void SetUsableSpecialSkill();
 	EWarriorAnimType GetAnimState();
-	// Called to bind functionality to input
-	void Test(bool test);
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 public:
 	FORCEINLINE URPGGameWarriorAnim* GetAnim() { return _WarriorAnim; }

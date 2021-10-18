@@ -8,6 +8,7 @@
 
 void ARPGGameAbilityUltimage::ApplyProperty(ACharacter* pawn)
 {
+	_SkillState = ESkillState::ING;
 }
 
 void ARPGGameAbilityUltimage::Init()

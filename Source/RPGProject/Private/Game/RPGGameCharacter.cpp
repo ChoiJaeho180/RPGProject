@@ -27,14 +27,22 @@ void ARPGGameCharacter::BeginPlay()
 	ARPGGameBaseEffect* AbilityR = GetWorld()->SpawnActor<ARPGGameAbilityR>(AbilityRClass);
 	AbilityR->SetInputKeyIdentify("Q");
 	AbilityR->Init();
+
+	AbilityR->delegateReadyCoolDownSkill.BindUObject(this, &ARPGGameCharacter::CheckUsableSkill);
 	_Skills.Add(AbilityR);
 	ARPGGameBaseEffect* AbilityUltimate = GetWorld()->SpawnActor<ARPGGameAbilityUltimage>(AbilityUltimgeClass);
 	AbilityUltimate->SetInputKeyIdentify("W");
+	AbilityUltimate->SetSpecialState(true);
 	AbilityUltimate->Init();
 	_Skills.Add(AbilityUltimate);
 
 	_WarriorAnim = Cast<URPGGameWarriorAnim>(GetMesh()->GetAnimInstance());
 	_WarriorAnim->Init();
+
+	CheckUsableSkill();
+	SetUsableSpecialSkill();
+	ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
+	RPGPlayerState->delegateReadySpecialBar.BindUObject(this, &ARPGGameCharacter::SetUsableSpecialSkill);
 }
 
 void ARPGGameCharacter::InputAttack()
@@ -48,11 +56,14 @@ void ARPGGameCharacter::InputSkill(const FString& InputKey)
 	{
 		if (_Skills[i]->GetInputKeyIdentify() != InputKey) continue;
 			
-		if (_Skills[i]->CheckUsableSkill() == false) return;
+		if (_Skills[i]->GetESkillState() != ESkillState::READY) return;
 		
 		ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
-		if (RPGPlayerState->GetCharacterMP() - _Skills[i]->GetConsumeMP() < 0) return;
-		
+		if (RPGPlayerState->GetCharacterMP() - _Skills[i]->GetConsumeMP() < 0)
+		{
+			_Skills[i]->SetESkillState(ESkillState::IMPOSSIBILITY);
+			return;
+		}
 		if (_WarriorAnim->PlaySkill(InputKey) == true)
 		{
 			RPGPlayerState->AddMP(-_Skills[i]->GetConsumeMP());
@@ -62,8 +73,6 @@ void ARPGGameCharacter::InputSkill(const FString& InputKey)
 			_WarriorAnim->SetWarriorAnimType(EWarriorAnimType::SKILL);
 		}
 	}
-
-	
 }
 
 void ARPGGameCharacter::OnClikedMove(FVector_NetQuantize MovePoint)
@@ -107,16 +116,42 @@ void ARPGGameCharacter::Resurrection()
 	GetMesh()->SetCollisionProfileName("Character");
 }
 
+void ARPGGameCharacter::CheckUsableSkill()
+{
+	ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
+	for (int i = 0; i < _Skills.Num(); i++)
+	{
+		if (_Skills[i]->GetSpecialState() == true) continue;
+		if (RPGPlayerState->GetCharacterMP() - _Skills[i]->GetConsumeMP() < 0)
+		{
+			_Skills[i]->SetESkillState(ESkillState::IMPOSSIBILITY);
+		}
+		else
+		{
+			if(_Skills[i]->GetESkillState() == ESkillState::ING &&
+				_Skills[i]->GetCurrentCoolDown() < 0)
+				_Skills[i]->SetESkillState(ESkillState::READY);
+		}
+	}
+	
+	
+}
+
+void ARPGGameCharacter::SetUsableSpecialSkill()
+{
+	UE_LOG(LogTemp, Warning, TEXT("?????"));
+	ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
+	for (int i = 0; i < _Skills.Num(); i++)
+	{
+		if (_Skills[i]->GetSpecialState() == false) continue;
+		if(RPGPlayerState->GetSpecialBar() >= 100) _Skills[i]->SetESkillState(ESkillState::READY);
+		else _Skills[i]->SetESkillState(ESkillState::IMPOSSIBILITY);
+	}
+}
+
 EWarriorAnimType ARPGGameCharacter::GetAnimState()
 {
 	return _WarriorAnim->GetWarriorAnimType();
-}
-
-void ARPGGameCharacter::Test(bool test1)
-{
-	GetMesh()->SetVisibility(test1);
-	GetMesh()->bHiddenInGame = !test1;
-	UE_LOG(LogTemp, Warning, TEXT("Test"));
 }
 
 // Called to bind functionality to input

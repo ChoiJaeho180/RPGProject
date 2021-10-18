@@ -28,8 +28,11 @@ private:
 public:
 	virtual void NativeConstruct() override;
 	void NativeTick();
+	void UpdateSkillSlot();
+	void UpdatePortionSlot();
 public:
 	void InitRestActionBar(const TArray<FRPGRestItem>& RestActionBar);
+	URPGGameActionBarSkillSlot* FindSkillInfo(const FString& Identify);
 	TSharedPtr<FRPGItemInfo> FindItem(const TSharedPtr<FRPGItemInfo>& KeySlotData, const TArray<TSharedPtr<FRPGItemInfo>>& CharacterItems);
 	TSharedPtr<FRPGItemInfo> FindSlotData(const FString& Key);
 	TArray<TSharedPtr<FRPGItemSlot>> GetValidSlotData();

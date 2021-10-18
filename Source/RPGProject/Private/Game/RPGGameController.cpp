@@ -48,6 +48,7 @@ void ARPGGameController::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	_GameUIManager = GetWorld()->SpawnActor<ARPGGameUIManager>(RPGGameUIManagerClass);
 	_PlayerStat = GetPlayerState<ARPGGamePlayerState>();
+	
 }
 
 void ARPGGameController::SetupInputComponent()
@@ -209,6 +210,7 @@ void ARPGGameController::LeftMouseClick()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	if (_Character->GetCurrentMap() == GM->GetCantAttackMap()) return;
 	_Character->InputAttack();
+	//_PlayerStat->AddSpecialBar(20);
 }
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
@@ -221,6 +223,7 @@ void ARPGGameController::InteractionPortionBarUI(FString Key)
 {
 	TSharedPtr<FRPGItemInfo> Data = _GameUIManager->GetInputPortionSlotData(Key);
 	_PlayerStat->UsePortion(Data);
+	_Character->CheckUsableSkill();
 }
 
 void ARPGGameController::InputSkills(FString Key)
@@ -245,8 +248,6 @@ void ARPGGameController::ComplateChangeMap()
 	if (_Character->GetAnim()->GetDead() == true)
 	{
 		_Character->Resurrection();
-		//_Character->GetAnim()->SetDead(false);
-		//_Character->GetMesh()->SetCollisionProfileName("Character");
 		_PlayerStat->AddHP(50);
 	}
 	

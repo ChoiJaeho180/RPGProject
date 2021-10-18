@@ -9,7 +9,8 @@
 #include "RPGGameDataCopy.generated.h"
 
 class ARPGGamePlayerState;
-
+class ARPGGameBaseEffect;
+class ARPGGameCharacter;
 UCLASS()
 class RPGPROJECT_API ARPGGameDataCopy : public AActor
 {
@@ -19,6 +20,8 @@ private:
 	TArray<TSharedPtr<FRPGItemInfo>> _CharacterItemInfo;
 	TSharedPtr<FMoney> _CharacterMoney;
 	ARPGGamePlayerState* _CheckStat;
+	ARPGGameCharacter* _Character;
+	TArray<TSharedPtr<FGameSkillDataCopyInfo>> _CharacterSkillInfo;
 	float _DeltaTime;
 	bool _bInitFirstItem = false;
 public:	
@@ -31,6 +34,9 @@ protected:
 	void CheckCharacterStat();
 	void CheckCharacterItems();
 	void CehckkCharacterMoney();
+	void CheckCharacterSkillCoolDown();
+	bool FindSkill(const FName& SkillName);
+	TSharedPtr<FGameSkillDataCopyInfo> FindCopySkillInfo(const FName& SkillName);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -38,5 +44,6 @@ public:
 	FORCEINLINE TSharedPtr<FMoney> GetCharacterMoney() { return _CharacterMoney; }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemsInfo() { return _CharacterItemInfo; }
+	FORCEINLINE TArray<TSharedPtr<FGameSkillDataCopyInfo>> GetSkillCoolDownInfo() { return _CharacterSkillInfo; }
 	FORCEINLINE bool GetbInitFirstItem() { return _bInitFirstItem; }
 };

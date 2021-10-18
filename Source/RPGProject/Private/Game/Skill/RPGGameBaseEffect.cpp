@@ -15,7 +15,7 @@ ARPGGameBaseEffect::ARPGGameBaseEffect()
 void ARPGGameBaseEffect::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//SetESkillState(ESkillState::IMPOSSIBILITY);
 }
 
 // Called every frame
@@ -23,11 +23,20 @@ void ARPGGameBaseEffect::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (_SkillState != ESkillState::ING) return;
+	if (_bSpecialSkill == true)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ARPGGameBaseEffect"));
+		SetESkillState(ESkillState::IMPOSSIBILITY);
+	}
+	if (_CurrentCoolDown <= 0)
+	{
+		delegateReadyCoolDownSkill.ExecuteIfBound();
+		return;
+	}
+
+	_CurrentCoolDown -= DeltaTime;
+	_TimeStamp++;
 }
 
-bool ARPGGameBaseEffect::CheckUsableSkill()
-{
-	if (_CurrentCoolDown >= _CoolDown) return true;
-	return false;
-}
 

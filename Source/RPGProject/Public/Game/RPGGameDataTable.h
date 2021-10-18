@@ -84,7 +84,6 @@ public:
 	float _AttackLocation;
 };
 
-
 USTRUCT(BlueprintType)
 struct FGameEnemyInfo : public FTableRowBase
 {

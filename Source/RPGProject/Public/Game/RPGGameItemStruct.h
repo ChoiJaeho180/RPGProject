@@ -119,6 +119,25 @@ public:
 	}
 };
 
+USTRUCT(BlueprintType)
+struct FGameSkillDataCopyInfo
+{
+	GENERATED_BODY();
+public:
+	FGameSkillDataCopyInfo() {};
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FName Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float CurrentCoolDown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float CoolDown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FString Identify;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	ESkillState SkillState;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int TimeStamp;
+};
 
 
 /**

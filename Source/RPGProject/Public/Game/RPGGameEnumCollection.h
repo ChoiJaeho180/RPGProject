@@ -24,6 +24,14 @@ enum class EGameMapType : uint8
 };
 
 UENUM(BlueprintType)
+enum class ESkillState : uint8
+{
+	READY,
+	ING,
+	IMPOSSIBILITY
+};
+
+UENUM(BlueprintType)
 enum class EGameMainUIType : uint8
 {
 	USER_LAYOUT,
