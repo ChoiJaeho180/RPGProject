@@ -42,7 +42,6 @@ public:
 	void MoveToMouseCursor();
 	void SetNewMoveDestination(FHitResult Hit);
 public:
-	void Test();
 	void SendActiveMap(const FString& MapName);
 	void SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharacterInfo);
 

@@ -21,6 +21,7 @@ class RPGPROJECT_API ARPGGameGameMode : public AGameMode
 private:
 	UPROPERTY()
 	TArray<URPGGameMapInfo*> _MapInfo;
+	const FString _CantAttackMap = "Game_Village";
 public:
 	ARPGGameGameMode();
 
@@ -34,6 +35,8 @@ public:
 	void ExecutionLoad();
 	void AddNewNPC(TArray<FNPCInfo> NewNPC);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
+public:
+	FORCEINLINE FString GetCantAttackMap() { return _CantAttackMap; }
 public:
 	TSubclassOf<URPGGameMapInfo> MapInfoClass;
 	TSubclassOf<ARPGGameNPC> GameNPCClass;

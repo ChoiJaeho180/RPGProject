@@ -14,7 +14,7 @@ void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAn
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(MeshComp->GetOwner());
 	if (!::IsValid(Character)) return;
 	ARPGGameBaseEffect* CurrentSkill = Character->GetUseCurrentSkill();
-
+	
 	UE_LOG(LogTemp, Warning, TEXT("URPGGameAbilityUltimateNotify"));
 	TArray<FOverlapResult> OverlapResults;
 	FCollisionQueryParams CollisionQueryParam(NAME_None, false, Character);
@@ -43,6 +43,7 @@ void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAn
 		Enemy->GetHit(Damage);
 
 	}
+	if (CurrentSkill->GetConsumeMP() != 0) PlayerState->AddSpecialBar(10);
 	DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), 800, 16, FColor::Green, false, 20.f);
 }
 

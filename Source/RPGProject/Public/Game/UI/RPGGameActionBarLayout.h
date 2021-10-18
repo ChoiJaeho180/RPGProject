@@ -8,6 +8,7 @@
 #include "RPGGameActionBarLayout.generated.h"
 
 class URPGGameActionBarSlot;
+class URPGGameActionBarSkillSlot;
 class ARPGGameDataCopy;
 class UButton;
 /**
@@ -18,8 +19,9 @@ class RPGPROJECT_API URPGGameActionBarLayout : public URPGGameBaseLayout
 {
 	GENERATED_BODY()
 private:
-
+	UPROPERTY()
 	TArray<URPGGameActionBarSlot*> _ActionBarSlots;
+	TArray<URPGGameActionBarSkillSlot*> _ActionBarSkillSlots;
 	UPROPERTY()
 	ARPGGameDataCopy* _ChecActonBarSlotData;
 	

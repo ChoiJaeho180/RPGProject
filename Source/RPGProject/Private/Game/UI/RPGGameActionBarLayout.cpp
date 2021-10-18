@@ -3,15 +3,24 @@
 #include "Game/UI/RPGGameActionBarSlot.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/RPGGameDataCopy.h"
-
-#define PORTION_START_INDEX 8
+#include "Game/UI/RPGGameActionBarSkillSlot.h"
 
 void URPGGameActionBarLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	TArray<FString> SlotNames = { "Slot_Q", "Slot_W", "Slot_E", "Slot_R",
-								 "Slot_A", "Slot_S", "Slot_D", "Slot_F",
+	TArray<FString> SlotSkillNames = {
+								"Slot_Q", "Slot_W", "Slot_E", "Slot_R",
+								"Slot_A", "Slot_S", "Slot_D", "Slot_F", };
+	for (int i = 0; i < SlotSkillNames.Num(); i++)
+	{
+		URPGGameActionBarSkillSlot* NewSlot = Cast<URPGGameActionBarSkillSlot>(GetWidgetFromName(*SlotSkillNames[i]));
+		FString lhs, rhs;
+		SlotSkillNames[i].Split("_", &lhs, &rhs);
+		NewSlot->SetKeyText(rhs);
+		_ActionBarSkillSlots.Add(NewSlot);
+	}
+	TArray<FString> SlotNames = { 
 								"Slot_1", "Slot_2", "Slot_3", "Slot_4", 
 								"Slot_5", "Slot_6", "Slot_7", "Slot_8", };
 
@@ -38,7 +47,7 @@ void URPGGameActionBarLayout::NativeTick()
 	if (_ChecActonBarSlotData->GetbInitFirstItem() == false) return;
 	auto CharacterItems = _ChecActonBarSlotData->GetCharacterItemsInfo();
 	
-	for (int i = PORTION_START_INDEX; i < _ActionBarSlots.Num(); i++)
+	for (int i = 0; i < _ActionBarSlots.Num(); i++)
 	{
 		auto SlotData = _ActionBarSlots[i]->GetItemSlotData();
 		if (SlotData->Name == FName("None")) continue;
@@ -96,7 +105,7 @@ TSharedPtr<FRPGItemInfo> URPGGameActionBarLayout::FindSlotData(const FString& Ke
 TArray<TSharedPtr<FRPGItemSlot>> URPGGameActionBarLayout::GetValidSlotData()
 {
 	TArray<TSharedPtr<FRPGItemSlot>> Data;
-	for (int i = PORTION_START_INDEX; i < _ActionBarSlots.Num(); i++)
+	for (int i = 0; i < _ActionBarSlots.Num(); i++)
 	{
 		if (_ActionBarSlots[i]->GetItemImage() == nullptr)
 			continue;

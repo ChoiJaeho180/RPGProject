@@ -73,6 +73,7 @@ public:
 	void UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo);
 	void AddHP(int AddHP = 99999);
 	void AddMP(int AddMP = 99999);
+	void AddSpecialBar(int AddRatio);
 	void AddExp(int Exp);
 	void LevelUp();
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);

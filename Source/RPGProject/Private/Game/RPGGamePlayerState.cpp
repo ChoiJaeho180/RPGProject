@@ -53,6 +53,13 @@ void ARPGGamePlayerState::AddMP(int AddMP)
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddSpecialBar(int AddRatio)
+{
+	float resultSpecialBar = FMath::Clamp(_CharacterStat->Stat["SPECIALSTATE"] + AddRatio, 0, 100);
+	_CharacterStat->Stat["SPECIALSTATE"] = resultSpecialBar;
+	_CharacterStat->TimeStamp++;
+}
+
 void ARPGGamePlayerState::AddExp(int Exp)
 {
 	int NewExp = _CharacterStat->Stat["EXP"] + Exp;

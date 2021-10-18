@@ -68,7 +68,7 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 		URPGGameComboAttackAnim* ComboAnim = Anim->GetComboAttackAnim();
 		ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
 		int ComboIndex = ComboAnim->GetCurrentCombo();
-		UE_LOG(LogTemp, Warning, TEXT("%d"), ComboIndex);
+
 		float ComboCoefficient = ComboAnim->GetCoefficient(ComboIndex - 1);
 		int CharacterSTX = PlayerState->GetCharacterStat()->Stat["STX"];
 		int CharacterLevel = PlayerState->GetCharacterStat()->Stat["LEVEL"];
@@ -81,6 +81,7 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 			int ResultDamage = URPGGameAttackJudgement::GetInstance()->JudgeBaseAttack(CharacterSTX * ComboCoefficient, CharacterLevel, EnemyLevel);
 			Enemy->GetHit(ResultDamage);
 			Cast<ARPGGameController>(Character->GetController())->PlayerCameraManager->PlayCameraShake(Character->MyShake);
+			PlayerState->AddSpecialBar(3);
 			//GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(Character->MyShake);
 		}
 		

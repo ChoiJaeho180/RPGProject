@@ -14,7 +14,7 @@ void URPGGameSpecialBar::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 
-	if (_NewPercent == _CurrentPercent)
+	if (_PercentRatio >= STOP_LERP_VALUE)
 		return;
 
 	float result = FMath::Lerp(_CurrentPercent, _NewPercent, _PercentRatio);
@@ -22,10 +22,6 @@ void URPGGameSpecialBar::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 	_MatInst->SetScalarParameterValue(FName("percentage"), result);
 
 	_PercentRatio += PLUS_PERCENT_VALUE;
-	if (_PercentRatio >= STOP_LERP_VALUE)
-	{
-		_PercentRatio = 0;
-	}
 }
 
 void URPGGameSpecialBar::SetSpecialBarPercent(float NewPercent)
