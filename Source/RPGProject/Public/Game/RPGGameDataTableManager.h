@@ -27,12 +27,17 @@ private:
 	UPROPERTY()
 	UDataTable* _EnemyInfoDT;
 	TArray<FGameEnemyInfo*> _EnemyData;
+
+	UPROPERTY()
+	UDataTable* _WarriorSkillDT;
+	TArray<FGameSkillType*> _WarriorSkillData;
 public:
 	URPGGameDataTableManager();
 	void Init();
 private:
 	void SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT);
 public:
+	FGameSkillType* GetSkillNameToData(const FName& Name);
 	FGameItemType* GetNameToData(const FName& Name);
 	FGameEnemyInfo* GetEnemyTypeToData(const EEnemyType& Type);
 	TArray<FPortalInfo*> GetPortalNameToData(const FString& Name);

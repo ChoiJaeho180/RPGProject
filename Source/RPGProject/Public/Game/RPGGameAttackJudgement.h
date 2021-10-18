@@ -26,4 +26,5 @@ public:
 	}
 public:
 	int JudgeBaseAttack(int AttackDamage, int AttackerLevel, int EnemyLevel);
+	int JudgeAblityAttack(int AttackDamage, float Coefficient, int AttackerLevel, int EnemyLevel);
 };

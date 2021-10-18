@@ -3,13 +3,17 @@
 #include "Game/RPGGameCharacter.h"
 #include "Game/Animation/RPGGameWarriorSkillAnim.h"
 #include "Game/Animation/RPGGameGroundAnim.h"
+#include "Game/RPGGameDataTableManager.h"
+#include "Common/RPGCommonGameInstance.h"
 
 void ARPGGameAbilityR::Init()
 {
 	_CharacterMaxSpeed = 80;
 	_RestoreMaxSpeed = 600;
-	_CoolDown = 0;
-	_CurrentCoolDown = _CoolDown;
+
+	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance())->GetDataTableManager();
+	_SkillInfo = *DTManager->GetSkillNameToData("Cut the Ground");
+	_CurrentCoolDown = _SkillInfo._CoolDown;
 }
 
 void ARPGGameAbilityR::ApplyProperty(ACharacter* pawn)

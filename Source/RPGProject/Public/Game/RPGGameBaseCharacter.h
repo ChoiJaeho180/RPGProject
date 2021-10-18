@@ -24,8 +24,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UCameraComponent* _Camera;
-
+	UPROPERTY()
 	TArray<ARPGGameBaseEffect*> _Skills;
+	UPROPERTY()
+	ARPGGameBaseEffect* _UseCurrentSkill;
 protected:
 	float _BaseAttackRadius;
 	float _BaseAttackRange;
@@ -33,6 +35,7 @@ protected:
 	FString _CurrentMap;
 	FString _NextMap;
 	FVector _NextMapPosition;
+	bool _bInvincibility;
 private:
 	FVector _CursorMoveFV;
 	FRotator _CursorMoveR;
@@ -71,6 +74,10 @@ public:
 
 	FORCEINLINE float GetBaseAttackRadius() { return _BaseAttackRadius; }
 	FORCEINLINE float GetBaseAttackRange() { return _BaseAttackRange; }
+
+	FORCEINLINE void SetbInvincibility(bool bNew) { _bInvincibility = bNew; }
+	FORCEINLINE bool GetbInvincibility() { return _bInvincibility; }
+	FORCEINLINE ARPGGameBaseEffect* GetUseCurrentSkill() { return _UseCurrentSkill; }
 public:
 	UPROPERTY()
 	TSubclassOf<UCameraShake> MyShake;

@@ -7,6 +7,7 @@ URPGGameAttackJudgement* URPGGameAttackJudgement::Instance = nullptr;
 #define BASE_ATTACK_RAND_MIN -10
 #define BASE_ATTACK_RAND_MAX 10
 #define ANTIPATHY_RATIO 15
+
 int URPGGameAttackJudgement::JudgeBaseAttack(int AttackDamage, int AttackerLevel, int EnemyLevel)
 {
 	bool bMoreLevel = AttackerLevel >= EnemyLevel;
@@ -27,4 +28,9 @@ int URPGGameAttackJudgement::JudgeBaseAttack(int AttackDamage, int AttackerLevel
 	}
 
 	return CorrectionDamage;
+}
+
+int URPGGameAttackJudgement::JudgeAblityAttack(int AttackDamage, float Coefficient, int AttackerLevel, int EnemyLevel)
+{
+	return JudgeBaseAttack(AttackDamage * Coefficient, AttackerLevel, EnemyLevel);
 }

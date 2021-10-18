@@ -87,9 +87,8 @@ void ARPGGameEnemyBase::SetHiddenHPWidgetBar(bool bNew)
 
 void ARPGGameEnemyBase::GetHit(int Damage)
 {
-	
+	_EnemyStatComponent->SetDamage(Damage);
 	_DamageComponent->AttachWidget(Damage, GetWorld()->GetFirstPlayerController(), GetActorLocation());
-
 	_Anim->SetHit(true);
 }
 

@@ -42,6 +42,9 @@ void URPGGameEnemyAttackHitCheckNotify::Notify(USkeletalMeshComponent* MeshComp,
 		float angle = FMath::RadiansToDegrees(FMath::Acos(dot));
 		FVector crossPrdt = FVector::CrossProduct(Character->GetActorForwardVector(), CharacterToEnemyDir);
 		FVector HitDir = GetAngleToDir(crossPrdt, angle);
+
+		if (Character->GetbInvincibility() == true) return;
+
 		PlayerState->AddHP(-Enemy->GetEnemyStatCompo()->GettCurrentAttack());
 
 		Cast<ARPGGameController>(Character->GetController())->PlayerCameraManager->PlayCameraShake(Character->MyShake);

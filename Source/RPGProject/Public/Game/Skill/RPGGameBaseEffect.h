@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameDataTable.h"
 #include "GameFramework/Actor.h"
 #include "RPGGameBaseEffect.generated.h"
 
@@ -11,6 +12,7 @@ class RPGPROJECT_API ARPGGameBaseEffect : public AActor
 {
 	GENERATED_BODY()
 protected:
+	FGameSkillType _SkillInfo;
 	FString _InputKeyIdentify;
 	float _CoolDown;
 	float _CurrentCoolDown;
@@ -32,4 +34,8 @@ public:
 public:
 	FORCEINLINE void SetInputKeyIdentify(const FString& Identify) {_InputKeyIdentify = Identify; }
 	FORCEINLINE FString GetInputKeyIdentify() { return _InputKeyIdentify; }
+	FORCEINLINE float GetCoefficient() { return _SkillInfo._Coefficient; }
+	FORCEINLINE float GetAttackRadius() { return _SkillInfo._AttackRadius; }
+	FORCEINLINE float GetAttackLocation() { return _SkillInfo._AttackLocation; }
+
 };

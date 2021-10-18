@@ -23,6 +23,12 @@ URPGGameDataTableManager::URPGGameDataTableManager()
 	{
 		_EnemyInfoDT = DT_ENEMYINFO.Object;
 	}
+	FString WarriorSkillTypePath = TEXT("DataTable'/Game/DataTable/WarriorSkillType.WarriorSkillType'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> DT_WARRIOR_SKILL_INFO(*WarriorSkillTypePath);
+	if (DT_WARRIOR_SKILL_INFO.Succeeded())
+	{
+		_WarriorSkillDT = DT_WARRIOR_SKILL_INFO.Object;
+	}
 }
 
 void URPGGameDataTableManager::Init()
@@ -31,12 +37,23 @@ void URPGGameDataTableManager::Init()
 	_ConsumptionDT->GetAllRows<FGameItemType>(Context, _ConsumptionData);
 	_PortalInfoDT->GetAllRows<FPortalInfo>(Context, _PortalData);
 	_EnemyInfoDT->GetAllRows<FGameEnemyInfo>(Context, _EnemyData);
+	_WarriorSkillDT->GetAllRows<FGameSkillType>(Context, _WarriorSkillData);
 }
 
 void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT)
 {
 	FString Context;
 	TargetDT->GetAllRows<FGameItemType>(Context, TargetData);
+}
+
+FGameSkillType* URPGGameDataTableManager::GetSkillNameToData(const FName& Name)
+{
+	for (int i = 0; i < _WarriorSkillData.Num(); i++)
+	{
+		if (_WarriorSkillData[i]->Name == Name)
+			return _WarriorSkillData[i];
+	}
+	return nullptr;
 }
 
 FGameItemType* URPGGameDataTableManager::GetNameToData(const FName& Name)

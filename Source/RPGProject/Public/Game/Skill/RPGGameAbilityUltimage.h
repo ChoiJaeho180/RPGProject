@@ -14,5 +14,6 @@ class RPGPROJECT_API ARPGGameAbilityUltimage : public ARPGGameBaseEffect
 {
 	GENERATED_BODY()
 public:
-	void ApplyProperty(ACharacter* pawn);
+	virtual void ApplyProperty(ACharacter* pawn) override;
+	virtual void Init() override;
 };

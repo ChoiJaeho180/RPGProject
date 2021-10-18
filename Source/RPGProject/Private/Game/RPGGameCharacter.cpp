@@ -3,6 +3,9 @@
 #include "Game/RPGGameController.h"
 #include "Game/Skill/RPGGameAbilityR.h"
 #include "Game/Skill/RPGGameAbilityUltimage.h"
+#include "Game/RPGGameDataTableManager.h"
+#include "Common/RPGCommonGameInstance.h"
+
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
 {
@@ -20,13 +23,16 @@ ARPGGameCharacter::ARPGGameCharacter()
 void ARPGGameCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	//	
 	ARPGGameBaseEffect* AbilityR = GetWorld()->SpawnActor<ARPGGameAbilityR>(AbilityRClass);
 	AbilityR->SetInputKeyIdentify("Q");
 	AbilityR->Init();
 	_Skills.Add(AbilityR);
 	ARPGGameBaseEffect* AbilityUltimate = GetWorld()->SpawnActor<ARPGGameAbilityUltimage>(AbilityUltimgeClass);
 	AbilityUltimate->SetInputKeyIdentify("W");
+	AbilityUltimate->Init();
 	_Skills.Add(AbilityUltimate);
+
 	_WarriorAnim = Cast<URPGGameWarriorAnim>(GetMesh()->GetAnimInstance());
 	_WarriorAnim->Init();
 }
@@ -48,6 +54,8 @@ void ARPGGameCharacter::InputSkill(const FString& InputKey)
 		// 쿨타임 체크 적용해야함
 		if (_WarriorAnim->PlaySkill(InputKey) == true)
 		{
+			SetbInvincibility(true);
+			_UseCurrentSkill = _Skills[i];
 			_Skills[i]->ApplyProperty(this);
 			_WarriorAnim->SetWarriorAnimType(EWarriorAnimType::SKILL);
 		}
@@ -79,6 +87,8 @@ void ARPGGameCharacter::Tick(float DeltaTime)
 
 void ARPGGameCharacter::GetHitting(FVector HitDir)
 {
+	if (_bInvincibility == true) return;
+
 	_WarriorAnim->SetWarriorAnimType(EWarriorAnimType::HITTING);
 	_WarriorAnim->SetHittingDir(HitDir);
 }

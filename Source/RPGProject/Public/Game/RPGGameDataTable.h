@@ -60,6 +60,30 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FGameSkillType : public FTableRowBase
+{
+	GENERATED_BODY();
+public:
+	FGameSkillType() {};
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FName Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	FText Description;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	UTexture2D* Image;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float _Coefficient;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float _CoolDown;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float _AttackRadius;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	float _AttackLocation;
+};
+
+
+USTRUCT(BlueprintType)
 struct FGameEnemyInfo : public FTableRowBase
 {
 	GENERATED_BODY();

@@ -3,11 +3,16 @@
 #include "Game/RPGGameCharacter.h"
 #include "Game/Animation/RPGGameWarriorSkillAnim.h"
 #include "Game/Animation/RPGGameGroundAnim.h"
-
+#include "Game/RPGGameDataTableManager.h"
+#include "Common/RPGCommonGameInstance.h"
 
 void ARPGGameAbilityUltimage::ApplyProperty(ACharacter* pawn)
 {
-	//pawn->GetCharacterMovement()->MaxWalkSpeed = 0;
-	//Cast<ARPGGameCharacter>(pawn)->GetAnim()->GetGroundAnim()->SetMovePoint(pawn->GetActorLocation());
-	//Cast<ARPGGameCharacter>(pawn)->GetAnim()->GetGroundAnim()->MovePoint();
+}
+
+void ARPGGameAbilityUltimage::Init()
+{
+	URPGGameDataTableManager* DTManager = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance())->GetDataTableManager();
+	_SkillInfo = *DTManager->GetSkillNameToData("Hack the Earth");
+	_CurrentCoolDown = _SkillInfo._CoolDown;
 }

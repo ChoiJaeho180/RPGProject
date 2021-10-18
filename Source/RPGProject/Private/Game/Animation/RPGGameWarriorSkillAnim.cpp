@@ -2,6 +2,7 @@
 #include "Game/Animation/RPGGameWarriorSkillAnim.h"
 #include "Animation/AnimMontage.h"
 #include "Game/Animation/RPGGameWarriorAnim.h"
+#include "Game/RPGGameCharacter.h"
 
 URPGGameWarriorSkillAnim::URPGGameWarriorSkillAnim()
 {
@@ -29,6 +30,7 @@ void URPGGameWarriorSkillAnim::OnAttackMontageEnded(UAnimMontage* Montage, bool 
 {
 	if (_Parent->GetWarriorAnimType() != EWarriorAnimType::SKILL) return;
 	UE_LOG(LogTemp, Warning, TEXT("22222"));
+	Cast<ARPGGameCharacter>(_Parent->TryGetPawnOwner())->SetbInvincibility(false);
 	_Parent->SetWarriorAnimType(EWarriorAnimType::GROUND);
 	_Parent->SetGroundAnimType(EWarriorGroundAnimType::IDLE);
 }
