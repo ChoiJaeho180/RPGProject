@@ -11,6 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Common/REST/RPGCommonSerializeData.h"
 #include "Game/Animation/RPGGameWarriorAnim.h"
+#include "Game/RPGGameItemStruct.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -82,12 +83,11 @@ void ARPGGameController::InitItemData(const TArray<FRPGRestItem>& RestItemData, 
 	
 }
 
-void ARPGGameController::UpdateCharacterInfoToDB(const TArray<TSharedPtr<FRPGItemSlot>>& BagData, const TArray<TSharedPtr<FRPGItemSlot>>& PortionSlotData)
+void ARPGGameController::UpdateCharacterInfoToDB(TArray<TSharedPtr<FRPGItemSlot>>& BagData, const TArray<TSharedPtr<FRPGItemSlot>>& PortionSlotData)
 {
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	URPGCommonGameInstance* GameInstance = Cast<URPGCommonGameInstance>(GetGameInstance());
-	//AsyncTask(ENamedThreads::AnyThread, [=]()
-	//{
+	
 	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
 	// Position Data
 	FString LastPosition = URPGCommonSerializeData::GetLastPosition(_Character->GetCurrentMap(), GetPawn()->GetActorLocation());
@@ -95,12 +95,25 @@ void ARPGGameController::UpdateCharacterInfoToDB(const TArray<TSharedPtr<FRPGIte
 	// Bag Data
 	int CurrentMoney = _PlayerStat->GetCharacterBag()->GetCharacterMoney()->Money;
 	FString MoneyData = URPGCommonSerializeData::GetMoney(CurrentMoney);
+	for (int i = 0; i < BagData.Num(); i++)
+	{
+		auto Item = _PlayerStat->GetFindItem(BagData[i]->Name);
+		if (Item == nullptr)
+		{
+			auto RemoveItem = BagData[i];
+			BagData.Remove(RemoveItem);
+			continue;
+		}
+		BagData[i]->Count = Item->Count;
+	}
+	
 	FString ItemData = URPGCommonSerializeData::GetItemsData(BagData);
 	if (ItemData.Len() != 0) MoneyData = MoneyData + ",";
 	FString Items = MoneyData + ItemData;
 	JsonObject->SetStringField("Items", Items);
 
 	FString PortionSlot = URPGCommonSerializeData::GetItemsData(PortionSlotData);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *PortionSlot);
 	if(PortionSlot.IsEmpty() == false)JsonObject->SetStringField("ActionBar", PortionSlot);
 
 	FString Stat = URPGCommonSerializeData::GetCharacterStat(_PlayerStat->GetCharacterStat()->Stat);

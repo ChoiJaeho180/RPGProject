@@ -33,6 +33,7 @@ FString URPGCommonSerializeData::GetLastPosition(const FString & Village, const 
 FString URPGCommonSerializeData::GetItemsData(const TArray<TSharedPtr<FRPGItemSlot>>& ItemsData)
 {
 	FString Serialize;
+	
 	for (int i = 0; i < ItemsData.Num(); i++)
 	{
 		if (ItemsData[i]->Image == nullptr)

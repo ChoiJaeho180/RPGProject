@@ -77,6 +77,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	float _CoolDown;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int _MP;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	float _AttackRadius;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	float _AttackLocation;

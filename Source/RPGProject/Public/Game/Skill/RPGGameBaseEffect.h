@@ -37,5 +37,5 @@ public:
 	FORCEINLINE float GetCoefficient() { return _SkillInfo._Coefficient; }
 	FORCEINLINE float GetAttackRadius() { return _SkillInfo._AttackRadius; }
 	FORCEINLINE float GetAttackLocation() { return _SkillInfo._AttackLocation; }
-
+	FORCEINLINE int GetConsumeMP() { return _SkillInfo._MP; }
 };

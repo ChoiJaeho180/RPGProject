@@ -5,7 +5,7 @@
 #include "Game/Skill/RPGGameAbilityUltimage.h"
 #include "Game/RPGGameDataTableManager.h"
 #include "Common/RPGCommonGameInstance.h"
-
+#include "Game/RPGGamePlayerState.h"
 // Sets default values
 ARPGGameCharacter::ARPGGameCharacter()
 {
@@ -46,14 +46,16 @@ void ARPGGameCharacter::InputSkill(const FString& InputKey)
 {
 	for (int i = 0; i < _Skills.Num(); i++)
 	{
-		if (_Skills[i]->GetInputKeyIdentify() != InputKey)
-			continue;
-		if (_Skills[i]->CheckUsableSkill() == false)
-			return;
-
-		// 쿨타임 체크 적용해야함
+		if (_Skills[i]->GetInputKeyIdentify() != InputKey) continue;
+			
+		if (_Skills[i]->CheckUsableSkill() == false) return;
+		
+		ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
+		if (RPGPlayerState->GetCharacterMP() - _Skills[i]->GetConsumeMP() < 0) return;
+		
 		if (_WarriorAnim->PlaySkill(InputKey) == true)
 		{
+			RPGPlayerState->AddMP(-_Skills[i]->GetConsumeMP());
 			SetbInvincibility(true);
 			_UseCurrentSkill = _Skills[i];
 			_Skills[i]->ApplyProperty(this);

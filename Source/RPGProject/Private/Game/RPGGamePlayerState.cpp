@@ -46,6 +46,13 @@ void ARPGGamePlayerState::AddHP(int AddHP)
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddMP(int AddMP)
+{
+	int resultMP = FMath::Clamp(_CharacterStat->Stat["MP"] + AddMP, 0, _CharacterStat->Stat["MAXMP"]);
+	_CharacterStat->Stat["MP"] = resultMP;
+	_CharacterStat->TimeStamp++;
+}
+
 void ARPGGamePlayerState::AddExp(int Exp)
 {
 	int NewExp = _CharacterStat->Stat["EXP"] + Exp;
@@ -71,6 +78,11 @@ void ARPGGamePlayerState::LevelUp()
 	_CharacterStat->Stat["MAXMP"] += 50;
 	_CharacterStat->Stat["MP"] = _CharacterStat->Stat["MAXMP"];
 	_CharacterStat->Stat["LEVEL"]++;
+}
+
+TSharedPtr<FRPGItemInfo> ARPGGamePlayerState::GetFindItem(const FName& Name)
+{
+	return _CharacterBagComponent->FindItem(Name);
 }
 
 

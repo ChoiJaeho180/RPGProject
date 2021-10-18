@@ -36,7 +36,7 @@ public:
 	virtual void PostInitializeComponents() override;
 	virtual void SetupInputComponent() override;
 	void InitItemData(const TArray<FRPGRestItem>& RestItemData, const TArray<FRPGRestItem>& RestActionBar, const TMap<FString, FString>& MoneyData);
-	void UpdateCharacterInfoToDB(const TArray<TSharedPtr<FRPGItemSlot>>& BagData, const TArray<TSharedPtr<FRPGItemSlot>>& PortionSlotData);
+	void UpdateCharacterInfoToDB(TArray<TSharedPtr<FRPGItemSlot>>& BagData, const TArray<TSharedPtr<FRPGItemSlot>>& PortionSlotData);
 public:
 	void Move();
 	void MoveToMouseCursor();
