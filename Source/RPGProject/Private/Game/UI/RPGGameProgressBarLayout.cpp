@@ -23,11 +23,18 @@ void URPGGameProgressBarLayout::NativeTick(const FGeometry& MyGeometry, float In
 	_PercentRatio += PLUS_PERCENT_VALUE;
 }
 
-void URPGGameProgressBarLayout::UpdateProgressBar(float Percent, int CurrentStat, int MaxStat)
+void URPGGameProgressBarLayout::UpdateProgressBar(float Percent, int CurrentStat, int MaxStat, bool bExp)
 {
 	_NewPercent = Percent;
 	_PercentRatio = INIT_PERCENT_VALUE;
 	if (_CurrentStatText == nullptr) return;
-	_CurrentStatText->SetText(FText::FromString(FString::FromInt(CurrentStat) + " / " + FString::FromInt(MaxStat)));
+	FString NewText = FString::FromInt(CurrentStat) + " / " + FString::FromInt(MaxStat);
+	if (bExp == true)
+	{
+		
+		NewText = NewText + "  " + FString::SanitizeFloat(round(Percent * 10000) / 100) + "%";
+	}
+
+	_CurrentStatText->SetText(FText::FromString(NewText));
 	UE_LOG(LogTemp, Warning, TEXT("Called!"));
 }

@@ -25,5 +25,5 @@ private:
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
-	void UpdateProgressBar(float Percent, int CurrentStat, int MaxStat);
+	void UpdateProgressBar(float Percent, int CurrentStat, int MaxStat, bool bExp);
 };

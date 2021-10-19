@@ -4,6 +4,7 @@
 #include "Components/WidgetComponent.h"
 #include "Game/UI/RPGGameNPCSaying.h"
 #include "Game/UI/RPGGameNPCTypeWidget.h"
+#include "Game/Enemy/RPGGameTImer.h"
 // Sets default values
 ARPGGameNPC::ARPGGameNPC()
 {
@@ -18,6 +19,7 @@ ARPGGameNPC::ARPGGameNPC()
 	_WidgetCompo->SetRelativeRotation(FRotator(10.f, 0.f, 0.f));
 	_WidgetCompo->SetWidgetSpace(EWidgetSpace::Screen);
 
+	_SpeechTimer = CreateDefaultSubobject<URPGGameTImer>(TEXT("ActiveSpeechTimer"));
 	static ConstructorHelpers::FClassFinder<URPGGameNPCSaying> UI_HUD(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/NPC/NPC_Saying.NPC_Saying_C'"));
 	if (UI_HUD.Succeeded())
 	{
@@ -34,8 +36,17 @@ ARPGGameNPC::ARPGGameNPC()
 void ARPGGameNPC::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	_SpeechTimer->delegateAchieveTime.BindUObject(this, &ARPGGameNPC::ActiveSpeech);
 }
+void ARPGGameNPC::ActiveSpeech()
+{
+	_bActiveSpeechWidget = !_bActiveSpeechWidget;
+
+	_WidgetCompo->SetHiddenInGame(_bActiveSpeechWidget);
+	_SpeechTimer->SetStandardTime(_bActiveSpeechWidget == false ? _SpeechSetInterval : _SpeechSetInterval/2);
+	UE_LOG(LogTemp, Warning, TEXT("ActiveSpeech"));
+}
+
 
 // Called every frame
 void ARPGGameNPC::Tick(float DeltaTime)

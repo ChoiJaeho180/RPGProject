@@ -29,14 +29,14 @@ void URPGGameTImer::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-
 	if (_bActive == false) return;
 		
 	_CurrentTime += DeltaTime;
 	if (_StandardTime > _CurrentTime) return;
 
-	delegateAchieveTime.ExecuteIfBound();
 	_bActive = false;
+	delegateAchieveTime.ExecuteIfBound();
+	
 }
 
 void URPGGameTImer::SetStandardTime(float Time)

@@ -31,7 +31,7 @@ void URPGGameActionBarLayout::NativeConstruct()
 
 	for (int i = 0; i < SlotNames.Num(); i++)
 	{
-		EItemIsFrom NewState = i / (SlotNames.Num() / 2) == 0 ? EItemIsFrom::LEFT_HOT_BAR : EItemIsFrom::RIGHT_HOT_BAR;
+		EItemIsFrom NewState = EItemIsFrom::RIGHT_HOT_BAR;
 		URPGGameActionBarSlot* NewSlot = Cast<URPGGameActionBarSlot>(GetWidgetFromName(*SlotNames[i]));
 		TSharedPtr<FRPGItemSlot> NewData = MakeShareable(new FRPGItemSlot);
 		NewData->SlotIndex = i;

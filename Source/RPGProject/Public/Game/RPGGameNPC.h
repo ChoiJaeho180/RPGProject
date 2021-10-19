@@ -5,7 +5,7 @@
 #include "../../RPGProject.h"
 #include "GameFramework/Pawn.h"
 #include "RPGGameNPC.generated.h"
-
+class URPGGameTImer;
 class UWidgetComponent;
 UCLASS()
 class RPGPROJECT_API ARPGGameNPC : public APawn
@@ -18,16 +18,22 @@ protected:
 	UWidgetComponent* _WidgetCompo;
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UWidgetComponent* _NPCTypeWidgetCompo;
+	UPROPERTY()
+	URPGGameTImer* _SpeechTimer;
+
+protected:
 	FVector _Position;
 	FString _Village;
 	FString _Name;
 	FString _Type;
 	TArray<FString> _Speech;
 	bool _bQuestor;
+	bool _bActiveSpeechWidget;
+	float _SpeechSetInterval;
 public:
 	// Sets default values for this pawn's properties
 	ARPGGameNPC();
-
+	void ActiveSpeech();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

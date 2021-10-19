@@ -14,8 +14,9 @@ class RPGPROJECT_API ARPGGameNPCShop : public ARPGGameNPC
 {
 	GENERATED_BODY()
 private:
+	
 public:
 	ARPGGameNPCShop();
 	virtual void BeginPlay() override;
-	
+
 };
