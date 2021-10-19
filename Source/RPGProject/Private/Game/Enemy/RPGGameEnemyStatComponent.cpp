@@ -36,8 +36,15 @@ void URPGGameEnemyStatComponent::Init(int HP, EEnemyType Type, int Exp, int Aveg
 {
 	_CurrentHP = _MaxHP = HP;
 	_DropExp = Exp;
+	_EnemyType = Type;
 	_AverageGold = AvegGold;
 	_BaseAttack = BaseAttack;
+	SetHP(_CurrentHP);
+}
+
+void URPGGameEnemyStatComponent::Response()
+{
+	_CurrentHP = _MaxHP;
 	SetHP(_CurrentHP);
 }
 

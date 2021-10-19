@@ -19,6 +19,7 @@ ARPGGameEnemyBase::ARPGGameEnemyBase()
 	_HPBarWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBARWIDGET"));
 	_EnemyStatComponent = CreateDefaultSubobject<URPGGameEnemyStatComponent>(TEXT("EnemyStat"));
 	_ActiveWidgetTimer = CreateDefaultSubobject<URPGGameTImer>(TEXT("WidgetTimer"));
+	_StayDeadTimer = CreateDefaultSubobject<URPGGameTImer>(TEXT("StayDeadTimer"));
 	_DamageComponent = CreateDefaultSubobject<URPGGameDamageComponent>(TEXT("DamageCompo"));
 	bUseControllerRotationYaw = false;
 
@@ -38,7 +39,6 @@ ARPGGameEnemyBase::ARPGGameEnemyBase()
 	SetHiddenHPWidgetBar(true);
 	
 	_HPBarWidget->SetupAttachment(GetMesh());
-	
 
 	AIControllerClass = ARPGGameBaseAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -66,17 +66,32 @@ void ARPGGameEnemyBase::BeginPlay()
 		ARPGGameController* PlayerController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
 		PlayerController->AddExp(_EnemyStatComponent->GetExp());
 		SetActorEnableCollision(false);
+		_StayDeadTimer->SetStandardTime(3);
 	});
 
 	_ActiveWidgetTimer->delegateAchieveTime.BindLambda([this]() -> void {
 		SetHiddenHPWidgetBar(true);
 	});
-
+	_StayDeadTimer->delegateAchieveTime.BindLambda([this]() -> void {
+		
+		delegateOnDead.ExecuteIfBound(this);
+	});
 }
 
 void ARPGGameEnemyBase::Init(int HP, EEnemyType Type, int Exp, int AvegGold, TArray<int> BaseAttack)
 {
 	_EnemyStatComponent->Init(HP, Type, Exp, AvegGold, BaseAttack);
+}
+
+void ARPGGameEnemyBase::Response()
+{
+	_Anim->SetAttacking(false);
+	_Anim->SetHit(false);
+	_Anim->SetDie(false);
+	SetHiddenHPWidgetBar(false);
+	SetActorHiddenInGame(false);
+	SetActorEnableCollision(true);
+	_EnemyStatComponent->Response();
 }
 
 void ARPGGameEnemyBase::SetHiddenHPWidgetBar(bool bNew)
@@ -103,6 +118,11 @@ void ARPGGameEnemyBase::SetBaseAttackType()
 	_EnemyStatComponent->SetCurrentBaseAttackDamage(result);
 }
 
+EEnemyType ARPGGameEnemyBase::GetEnemyType()
+{
+	return _EnemyStatComponent->GetEnemyType();
+}
+
 // Called every frame
 void ARPGGameEnemyBase::Tick(float DeltaTime)
 {
@@ -114,6 +134,5 @@ void ARPGGameEnemyBase::Tick(float DeltaTime)
 void ARPGGameEnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

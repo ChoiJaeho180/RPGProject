@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "RPGGameEnemyBase.generated.h"
 
+DECLARE_DELEGATE_OneParam(FOnDeadDelegate, ARPGGameEnemyBase* );
+
 class UWidgetComponent;
 class URPGGameEnemyStatComponent;
 class URPGGameTImer;
@@ -22,6 +24,8 @@ protected:
 	URPGGameEnemyStatComponent* _EnemyStatComponent;
 	UPROPERTY()
 	URPGGameTImer* _ActiveWidgetTimer;
+	UPROPERTY()
+	URPGGameTImer* _StayDeadTimer;
 	UPROPERTY()
 	URPGGameEnemyBaseAnim* _Anim;
 	UPROPERTY()
@@ -43,15 +47,18 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Init(int HP, EEnemyType Type, int Exp, int AvegGold, TArray<int> BaseAttack);
+	void Response();
 	void SetHiddenHPWidgetBar(bool bNew);
 	void GetHit(int Damage);
 	void Attack(bool bNew);
 	virtual void SetBaseAttackType();
+	EEnemyType GetEnemyType();
 public:
 	FORCEINLINE URPGGameEnemyBaseAnim* GetEnemyBaseAnim() { return _Anim; }
 	FORCEINLINE URPGGameEnemyStatComponent* GetEnemyStatCompo() { return _EnemyStatComponent; }
 	FORCEINLINE int GetDetectRadius() { return _DetectRadius; }
 	FORCEINLINE int GetAttackRange() { return _AttackRange; }
+
 public:
-	
+	FOnDeadDelegate delegateOnDead;
 };

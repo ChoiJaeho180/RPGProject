@@ -112,7 +112,8 @@ void ARPGGameGameMode::ExecutionUnLoad()
 	IRPGGameHuntMapInit* HuntInit = Cast<IRPGGameHuntMapInit>(Map);
 	if (HuntInit != nullptr)
 	{
-		HuntInit->Init();
+		int CharacterLevel = Cast<ARPGGamePlayerState>(GetWorld()->GetFirstPlayerController()->PlayerState)->GetCharacterLevel();
+		HuntInit->Init(CharacterLevel, Character->GetActorLocation());
 		HuntInit->SetHiddenEnemy(false);
 	}
 	
@@ -151,6 +152,7 @@ void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)
 			ARPGGameNPCShop* NewGameNPC = GetWorld()->SpawnActor<ARPGGameNPCShop>(GameNPCShopClass);
 			setInfo(NewGameNPC, NewNPC[i]);
 			NewGameNPC->SetSpeech();
+		
 			_MapInfo[i]->AddNewNPC(NewGameNPC);
 		}
 	}

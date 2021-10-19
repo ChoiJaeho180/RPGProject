@@ -16,6 +16,8 @@ protected:
 	USkeletalMeshComponent* _SkeletalMesh;
 	UPROPERTY()
 	UWidgetComponent* _WidgetCompo;
+	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
+	UWidgetComponent* _NPCTypeWidgetCompo;
 	FVector _Position;
 	FString _Village;
 	FString _Name;
@@ -33,7 +35,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	void SetSpeech();
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

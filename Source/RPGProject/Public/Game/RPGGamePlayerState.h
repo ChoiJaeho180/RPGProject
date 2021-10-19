@@ -85,6 +85,7 @@ public:
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
 	FORCEINLINE int GetCharacterHP() { return _CharacterStat->Stat["HP"]; }
+	FORCEINLINE int GetCharacterLevel() { return _CharacterStat->Stat["LEVEL"]; }
 	FORCEINLINE int GetCharacterMP() { return _CharacterStat->Stat["MP"]; }
 	FORCEINLINE int GetSpecialBar() { return _CharacterStat->Stat["SPECIALSTATE"]; }
 };

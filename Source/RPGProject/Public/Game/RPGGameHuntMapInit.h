@@ -23,6 +23,6 @@ class RPGPROJECT_API IRPGGameHuntMapInit
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	bool _bFirstInit;
-	virtual void Init() = 0;
+	virtual void Init(int CharacterLevel, FVector CharacterLocation) = 0;
 	virtual void SetHiddenEnemy(bool bNewState) = 0;
 };

@@ -17,5 +17,5 @@ private:
 public:
 	ARPGGameNPCShop();
 	virtual void BeginPlay() override;
-	void SetSpeech();
+	
 };
