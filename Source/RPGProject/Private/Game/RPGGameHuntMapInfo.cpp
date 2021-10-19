@@ -68,6 +68,7 @@ void URPGGameHuntMapInfo::SetHiddenEnemyFactory(bool bNewState, TArray<ARPGGameE
 			AIController->RunAI();
 			ActiveEnemy[i]->GetCharacterMovement()->GravityScale = 1.0f;
 		}
+		ActiveEnemy[i]->SetActorEnableCollision(!bNewState);
 		ActiveEnemy[i]->SetActorHiddenInGame(bNewState);
 	}
 }
