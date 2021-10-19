@@ -179,6 +179,8 @@ void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharact
 		SendActiveMap(NewCharacterInfo->CurrentVillage);
 		GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
 		_PlayerStat->GetCharacterStat()->SetInfo(NewCharacterInfo->Stat);
+		_Character->SetUsableSpecialSkill();
+		_Character->CheckUsableSkill();
 		_GameUIManager->UpdateLevel();
 	});
 	

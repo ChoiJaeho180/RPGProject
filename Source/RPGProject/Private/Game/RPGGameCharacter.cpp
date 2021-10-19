@@ -39,8 +39,8 @@ void ARPGGameCharacter::BeginPlay()
 	_WarriorAnim = Cast<URPGGameWarriorAnim>(GetMesh()->GetAnimInstance());
 	_WarriorAnim->Init();
 
-	CheckUsableSkill();
-	SetUsableSpecialSkill();
+	//CheckUsableSkill();
+	//SetUsableSpecialSkill();
 	ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
 	RPGPlayerState->delegateReadySpecialBar.BindUObject(this, &ARPGGameCharacter::SetUsableSpecialSkill);
 }
