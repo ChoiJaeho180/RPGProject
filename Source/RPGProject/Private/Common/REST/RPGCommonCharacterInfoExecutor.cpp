@@ -24,11 +24,11 @@ void ARPGCommonCharacterInfoExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 {
 	UE_LOG(LogTemp, Warning, TEXT("ARPGCommonCharacterInfoExecutor"));
 	auto Field = RestMsg->TryGetField("ResultCode");
-	if (Field == nullptr)
-		return;
+	if (Field == nullptr) return;
+		
 	double a = Field->AsNumber();
-	if (a < 0)
-		return;
+	if (a < 0) return;
+		
 	ARPGGameController* CurrentController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
 	auto CharacterInfo = RestMsg->TryGetField("CharacterInfo");
 	auto CharacterArray = CharacterInfo->AsArray();

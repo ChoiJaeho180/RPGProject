@@ -74,6 +74,12 @@ void ARPGGameUIManager::SendChangeLevel()
 	_GameFadeEffect->SetChangeLevel(false);
 }
 
+void ARPGGameUIManager::ActiveQuestUI(FRPGQuestInfo QuestInfo)
+{
+	_MainWidget->ChangeLayout(EGameMainUIType::QUEST_LAYOUT, 0);
+	_MainWidget->SetQuestInfo(QuestInfo);
+}
+
 // Called every frame
 void ARPGGameUIManager::Tick(float DeltaTime)
 {

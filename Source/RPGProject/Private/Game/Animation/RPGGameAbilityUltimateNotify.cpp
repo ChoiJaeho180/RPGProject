@@ -12,8 +12,9 @@
 void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(MeshComp->GetOwner());
-	ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
 	if (!::IsValid(Character)) return;
+	ARPGGamePlayerState* PlayerState = Cast<ARPGGamePlayerState>(Character->GetPlayerState());
+	if (!::IsValid(PlayerState)) return;
 	ARPGGameBaseEffect* CurrentSkill = Character->GetUseCurrentSkill();
 	if(CurrentSkill->GetSpecialState() == true) PlayerState->AddSpecialBar(-100);
 

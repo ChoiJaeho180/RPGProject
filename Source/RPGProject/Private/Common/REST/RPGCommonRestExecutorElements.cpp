@@ -13,6 +13,7 @@ ARPGCommonRestExecutorElements::ARPGCommonRestExecutorElements()
 	RestApiNewCharacterExecutorClass = ARPGCommonNewCharacterExecutor::StaticClass();
 	RestApiCharacterInfoExecutorClass = ARPGCommonCharacterInfoExecutor::StaticClass();
 	RestApiNPCInfoExecutorClass = ARPGCommonNPCInfoExecutor::StaticClass();
+	RestApiQuestInfoExecutorClass = ARPGCommonQuestInfoExecutor::StaticClass();
 }
 
 // Called when the game starts or when spawned
@@ -26,6 +27,7 @@ void ARPGCommonRestExecutorElements::BeginPlay()
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonNewCharacterExecutor>(RestApiNewCharacterExecutorClass));
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonCharacterInfoExecutor>(RestApiCharacterInfoExecutorClass));
 	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonNPCInfoExecutor>(RestApiNPCInfoExecutorClass));
+	_RestApiExecutors.Add(GetWorld()->SpawnActor<ARPGCommonQuestInfoExecutor>(RestApiQuestInfoExecutorClass));
 }
 
 void ARPGCommonRestExecutorElements::SetToken(const FString& Token)

@@ -1,14 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Game/UI/RPGGameProgressBarLayout.h"
 #include "Game/UI/RPGGameProgressBar.h"
-
-
+#include "Components/TextBlock.h"
 
 void URPGGameProgressBarLayout::NativeConstruct()
 {
 	Super::NativeConstruct();
 	_ProgressBar = Cast<URPGGameProgressBar>(GetWidgetFromName("Bar"));
-	
+	_CurrentStatText = Cast<UTextBlock>(GetWidgetFromName("CurrentStatText"));
 }
 
 void URPGGameProgressBarLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -24,8 +23,11 @@ void URPGGameProgressBarLayout::NativeTick(const FGeometry& MyGeometry, float In
 	_PercentRatio += PLUS_PERCENT_VALUE;
 }
 
-void URPGGameProgressBarLayout::UpdateProgressBar(float Percent)
+void URPGGameProgressBarLayout::UpdateProgressBar(float Percent, int CurrentStat, int MaxStat)
 {
 	_NewPercent = Percent;
 	_PercentRatio = INIT_PERCENT_VALUE;
+	if (_CurrentStatText == nullptr) return;
+	_CurrentStatText->SetText(FText::FromString(FString::FromInt(CurrentStat) + " / " + FString::FromInt(MaxStat)));
+	UE_LOG(LogTemp, Warning, TEXT("Called!"));
 }

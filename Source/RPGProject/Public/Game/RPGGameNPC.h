@@ -41,4 +41,6 @@ public:
 
 public:
 	void SetInfo(USkeletalMesh* NewSkeletalMesh, TSubclassOf<UAnimInstance> NewAnim,FVector NewPosition, FString NewVillage, FString NewName, FString NewType, bool bQuestor, TArray<FString> Speech);
+public:
+	FORCEINLINE FString GetNPCType() { return _Type; }
 };

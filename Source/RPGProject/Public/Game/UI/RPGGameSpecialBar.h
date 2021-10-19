@@ -7,6 +7,7 @@
 #include "RPGGameSpecialBar.generated.h"
 
 class UImage;
+class UTextBlock;
 /**
  * 
  */
@@ -19,7 +20,8 @@ private:
 	UImage* _SpecialBar;
 	UPROPERTY()
 	UMaterialInstanceDynamic* _MatInst;
-
+	UPROPERTY()
+	UTextBlock* _CurrentStatText;
 	float _CurrentPercent;
 	float _NewPercent;
 	float _PercentRatio;
@@ -27,6 +29,6 @@ public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 	
-	void SetSpecialBarPercent(float NewPercent);
+	void SetSpecialBarPercent(float NewPercent, int CurrentStat);
 
 };

@@ -18,6 +18,7 @@ ARPGGameGameMode::ARPGGameGameMode()
 	GameNPCShopClass = ARPGGameNPCShop::StaticClass();
 	GameNPCQuestClass = ARPGGameNPCQuest::StaticClass();
 	PlayerStateClass = ARPGGamePlayerState::StaticClass();
+	QuestClass = URPGGameQuestManager::StaticClass();
 }
 
 void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
@@ -27,6 +28,11 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	GameInstance->CreateGameNPCData();
 	GameInstance->CreateGameDataCopyClass();
 	GameInstance->Init();
+
+	//QuestManager 초기화
+	_QuestManager = NewObject<URPGGameQuestManager>();
+
+	//맵 초기화
 	TArray<FString> MapName = { "Game_Village", "Desert" };
 	{
 		URPGGameMapInfo* NewVillageMap = NewObject<URPGGameVillageInfo>();
@@ -43,8 +49,11 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 		_MapInfo.Add(NewDesertMap);
 	}
 
-	TSharedPtr<FJsonObject> JsonObject = MakeShareable(new FJsonObject);
-	GameInstance->PostRequest("/game/getnpcinfo", JsonObject);
+
+
+	TSharedPtr<FJsonObject> JsonObject2 = MakeShareable(new FJsonObject);
+	JsonObject2->SetStringField("Name", GameInstance->GetCharacterName());
+	GameInstance->PostRequest("/game/getquestinfo", JsonObject2);
 }
 
 void ARPGGameGameMode::Logout(AController* Exiting)
@@ -133,29 +142,42 @@ void ARPGGameGameMode::ExecutionLoad()
 
 void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)
 {
-	auto setInfo = [](ARPGGameNPC* NewGameNPC, FNPCInfo NewNPC) {
+	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
+	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
+	bool bActorHiddenInGmae = Character->GetCurrentMap() == "Desert";
+	auto setInfo = [](ARPGGameNPC* NewGameNPC, FNPCInfo NewNPC, bool bHiddenActor) {
 		NewGameNPC->SetInfo(NewNPC.SkeletalMesh, NewNPC.AnimInstanceClass, NewNPC.Position, NewNPC.Village, NewNPC.Name, NewNPC.Type, NewNPC.bQuest, NewNPC.Speech);
-		NewGameNPC->SetActorHiddenInGame(true);
+		NewGameNPC->SetActorHiddenInGame(bHiddenActor);
 	};
-
 	for (int i = 0; i < NewNPC.Num(); i++)
 	{
 		URPGGameMapInfo* MapInfo = GetGameMap(NewNPC[i].Village);
 		if (NewNPC[i].bQuest == true)
 		{
 			ARPGGameNPCQuest* NewGameNPC = GetWorld()->SpawnActor<ARPGGameNPCQuest>(GameNPCQuestClass);
-			setInfo(NewGameNPC, NewNPC[i]);
-			_MapInfo[i]->AddNewNPC(NewGameNPC);
+			setInfo(NewGameNPC, NewNPC[i], bActorHiddenInGmae);
+			NewGameNPC->SetQuestList();
+			MapInfo->AddNewNPC(NewGameNPC);
 		}
 		else
 		{
 			ARPGGameNPCShop* NewGameNPC = GetWorld()->SpawnActor<ARPGGameNPCShop>(GameNPCShopClass);
-			setInfo(NewGameNPC, NewNPC[i]);
+			setInfo(NewGameNPC, NewNPC[i], bActorHiddenInGmae);
 			NewGameNPC->SetSpeech();
 		
-			_MapInfo[i]->AddNewNPC(NewGameNPC);
+			MapInfo->AddNewNPC(NewGameNPC);
 		}
 	}
+}
+
+void ARPGGameGameMode::SetQuestInfo(const TArray<FRPGQuestInfo>& QuestInfo)
+{
+	_QuestManager->SetPreviousQuest(QuestInfo);
+}
+
+TArray<FRPGQuestInfo> ARPGGameGameMode::GetNPCNameToQuestInfo(const FString& Name)
+{
+	return _QuestManager->GetNPCNameToQuestInfo(Name);
 }
 
 URPGGameMapInfo* ARPGGameGameMode::GetGameMap(const FString& MapName)

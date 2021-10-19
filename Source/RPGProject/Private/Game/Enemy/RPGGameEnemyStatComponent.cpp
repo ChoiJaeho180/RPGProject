@@ -18,9 +18,7 @@ URPGGameEnemyStatComponent::URPGGameEnemyStatComponent()
 void URPGGameEnemyStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("w23232"));
 	// ...
-	
 }
 
 

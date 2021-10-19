@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGameNPCData.h"
 #include "Game/RPGGameNPCShop.h"
 #include "Game/RPGGameNPCQuest.h"
@@ -11,6 +12,7 @@
 
 class URPGGameMapInfo;
 class ARPGGameCharacter;
+class URPGGameQuestManager;
 /**
  * 
  */
@@ -21,6 +23,8 @@ class RPGPROJECT_API ARPGGameGameMode : public AGameMode
 private:
 	UPROPERTY()
 	TArray<URPGGameMapInfo*> _MapInfo;
+	UPROPERTY()
+	URPGGameQuestManager* _QuestManager;
 	const FString _CantAttackMap = "Game_Village";
 public:
 	ARPGGameGameMode();
@@ -34,11 +38,14 @@ public:
 	UFUNCTION()
 	void ExecutionLoad();
 	void AddNewNPC(TArray<FNPCInfo> NewNPC);
+	void SetQuestInfo(const TArray<FRPGQuestInfo>& QuestInfo);
+	TArray<FRPGQuestInfo> GetNPCNameToQuestInfo(const FString& Name);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
 public:
 	FORCEINLINE FString GetCantAttackMap() { return _CantAttackMap; }
 public:
 	TSubclassOf<URPGGameMapInfo> MapInfoClass;
+	TSubclassOf<URPGGameQuestManager> QuestClass;
 	TSubclassOf<ARPGGameNPC> GameNPCClass;
 	TSubclassOf<ARPGGameNPCShop> GameNPCShopClass;
 	TSubclassOf<ARPGGameNPCQuest> GameNPCQuestClass;

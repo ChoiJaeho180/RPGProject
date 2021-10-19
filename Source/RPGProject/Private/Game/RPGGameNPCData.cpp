@@ -12,16 +12,20 @@ ARPGGameNPCData::ARPGGameNPCData()
 		FNPCInfo NPCInfo;
 		NPCInfo.Type = "VILLAGE_SHOP_NPC";
 		static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_CARDBOARD(TEXT("SkeletalMesh'/Game/ParagonYin/Characters/Heroes/Yin/Meshes/Yin.Yin'"));
-		if (SK_CARDBOARD.Succeeded())
-		{
-			NPCInfo.SkeletalMesh = SK_CARDBOARD.Object;
-		}
+		if (SK_CARDBOARD.Succeeded()) NPCInfo.SkeletalMesh = SK_CARDBOARD.Object;
 		static ConstructorHelpers::FClassFinder<UAnimInstance> ANIM_SHOP_NPC(TEXT("AnimBlueprint'/Game/ParagonYin/Characters/Heroes/Yin/Meshes/SHOP_ANIM.SHOP_ANIM_C'"));
-		if (ANIM_SHOP_NPC.Succeeded())
-		{
-			NPCInfo.AnimInstanceClass = ANIM_SHOP_NPC.Class;
-		}
+		if (ANIM_SHOP_NPC.Succeeded()) NPCInfo.AnimInstanceClass = ANIM_SHOP_NPC.Class;
 		_NPCInfo.Add(NPCInfo);
+	}
+
+	{
+		FNPCInfo QuestNPCInfo;
+		QuestNPCInfo.Type = "VILLAGE_QUEST_NPC";
+		static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_CARDBOARD(TEXT("SkeletalMesh'/Game/ParagonGideon/Characters/Heroes/Gideon/Meshes/Gideon.Gideon'"));
+		if (SK_CARDBOARD.Succeeded()) QuestNPCInfo.SkeletalMesh = SK_CARDBOARD.Object;
+		static ConstructorHelpers::FClassFinder<UAnimInstance> ANIM_SHOP_NPC(TEXT("AnimBlueprint'/Game/ParagonGideon/Characters/Heroes/Gideon/Meshes/GameGideon.GameGideon_C'"));
+		if (ANIM_SHOP_NPC.Succeeded()) QuestNPCInfo.AnimInstanceClass = ANIM_SHOP_NPC.Class;
+		_NPCInfo.Add(QuestNPCInfo);
 	}
 }
 

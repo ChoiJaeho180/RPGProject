@@ -4,18 +4,23 @@
 #include "Game/UI/RPGGameBaseLayout.h"
 #include "Blueprint/WidgetTree.h"
 #include "Game/UI/RPGGameSpecificWidgetJudge.h"
-
+#include "Game/UI/RPGGameQuestLayout.h"
 #define WB_IDENTIFIER "WB"
 
 
 void URPGGameMainWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	if (_bFirstInit == true) return;
 
 	TMap<EGameMainUIType, FString> WidgetStatToIdentifyMap;
 	WidgetStatToIdentifyMap.Add(EGameMainUIType::QUEST_LAYOUT, FString("WB_QUEST_LAYOUT"));
 	WidgetStatToIdentifyMap.Add(EGameMainUIType::USER_LAYOUT, FString("WB_USER_LAYOUT"));
 	_RPGGameSpecificWidgetJudge.SetWidgetIdentifyMap(WidgetStatToIdentifyMap);
+	int ResultIndex = _RPGGameSpecificWidgetJudge.GetUpdateWidgetIndex(_GameLayoutList, EGameMainUIType::QUEST_LAYOUT);
+	if (ResultIndex == -1) return;
+	Cast<IRPGGameSetQuestUIInfo>(_GameLayoutList[ResultIndex])->delegateChangeQuestToMainWidget.BindUObject(this, &URPGGameMainWidget::ChangeMainWidget);
+	_bFirstInit = true;
 }
 
 void URPGGameMainWidget::SetLayoutList()
@@ -32,10 +37,26 @@ void URPGGameMainWidget::SetLayoutList()
 		if (NewLayout == nullptr)
 			continue;
 
-		//NewLayout->delegateSendLayoutChange.BindUObject(this, &URPGIntroBaseWidget::ChangeLayout);
-		//NewLayout->delegateSendWidgetChange.BindUObject(this, &URPGIntroBaseWidget::ChangeWidget);
 		_GameLayoutList.AddUnique(NewLayout);
 	}
+	
+}
+
+void URPGGameMainWidget::SetQuestInfo(FRPGQuestInfo QuestInfo)
+{
+	int ResultIndex = _RPGGameSpecificWidgetJudge.GetUpdateWidgetIndex(_GameLayoutList, EGameMainUIType::QUEST_LAYOUT);
+	if (ResultIndex == -1) return; 
+	Cast<IRPGGameSetQuestUIInfo>(_GameLayoutList[ResultIndex])->SetQuestInfo(QuestInfo);
+	//->
+}
+
+void URPGGameMainWidget::ChangeMainWidget(bool bQuestPositive)
+{
+	if (bQuestPositive == true)
+	{
+
+	}
+	ChangeLayout(EGameMainUIType::USER_LAYOUT);
 }
 
 URPGGameBaseLayout* URPGGameMainWidget::GetUserLayout()

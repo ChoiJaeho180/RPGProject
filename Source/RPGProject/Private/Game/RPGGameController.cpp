@@ -198,7 +198,17 @@ void ARPGGameController::LeftMouseClick()
 		float Distance = FVector::Dist(Hit.Location, _Character->GetActorLocation());
 		if (Distance > NPC_TO_CHARACTER_DISTANCE)
 			return;
-		_GameUIManager->ActiveShop();
+		ARPGGameNPCQuest* NPC = Cast<ARPGGameNPCQuest>(Hit.Actor);
+		if (NPC == nullptr)
+		{
+			_GameUIManager->ActiveShop();
+		}
+		else
+		{
+			FRPGQuestInfo QuestInfo =  NPC->GetQuest();
+			if (QuestInfo.QuestNumber == -1) return;
+			_GameUIManager->ActiveQuestUI(QuestInfo);
+		}
 	}
 	FHitResult Hit2;
 	GetHitResultUnderCursor(ECC_Visibility, false, Hit2);
@@ -210,7 +220,7 @@ void ARPGGameController::LeftMouseClick()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	if (_Character->GetCurrentMap() == GM->GetCantAttackMap()) return;
 	_Character->InputAttack();
-	//_PlayerStat->AddSpecialBar(20);
+	_PlayerStat->AddSpecialBar(20);
 }
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)

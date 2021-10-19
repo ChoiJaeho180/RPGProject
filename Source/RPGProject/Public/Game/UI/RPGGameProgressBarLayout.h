@@ -7,7 +7,7 @@
 #include "RPGGameProgressBarLayout.generated.h"
 
 class URPGGameProgressBar;
-
+class UTextBlock;
 /**
  * 
  */
@@ -18,10 +18,12 @@ class RPGPROJECT_API URPGGameProgressBarLayout : public URPGGameBaseLayout
 private:
 	UPROPERTY()
 	URPGGameProgressBar* _ProgressBar;
+	UPROPERTY()
+	UTextBlock* _CurrentStatText;
 	float _NewPercent;
 	float _PercentRatio;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
-	void UpdateProgressBar(float Percent);
+	void UpdateProgressBar(float Percent, int CurrentStat, int MaxStat);
 };

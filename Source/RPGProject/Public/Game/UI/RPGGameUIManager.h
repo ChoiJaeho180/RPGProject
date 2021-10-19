@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../../RPGProject.h"
+#include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGameItemStruct.h"
 #include "GameFramework/Actor.h"
 #include "RPGGameUIManager.generated.h"
@@ -34,6 +35,7 @@ public:
 
 	void SetFadeEffectType(ECommonFadeState EffectType, bool bChangeLevel);
 	void SendChangeLevel();
+	void ActiveQuestUI(FRPGQuestInfo QuestInfo);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -128,9 +128,15 @@ void ARPGGameCharacter::CheckUsableSkill()
 		}
 		else
 		{
-			if(_Skills[i]->GetESkillState() == ESkillState::ING &&
+			if (_Skills[i]->GetESkillState() == ESkillState::ING &&
 				_Skills[i]->GetCurrentCoolDown() < 0)
+			{
 				_Skills[i]->SetESkillState(ESkillState::READY);
+			}
+			else if (_Skills[i]->GetESkillState() == ESkillState::IMPOSSIBILITY)
+			{
+				_Skills[i]->SetESkillState(ESkillState::READY);
+			}
 		}
 	}
 	
