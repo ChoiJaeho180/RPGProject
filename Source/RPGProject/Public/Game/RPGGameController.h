@@ -55,6 +55,7 @@ public:
 	void PreChangeMap();
 	void ComplateChangeMap();
 	void ChangeMap();
+	void OnFinishChangeMapEffect();
 
 	void AddExp(int Exp, bool bAddLog);
 	void AddGold(int Gold, bool bAddLog);

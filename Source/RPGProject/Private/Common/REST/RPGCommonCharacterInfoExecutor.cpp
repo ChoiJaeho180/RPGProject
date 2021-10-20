@@ -54,7 +54,7 @@ void ARPGCommonCharacterInfoExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 		if(ResultCommaParsing.Num() != 0) ResultCommaParsing.RemoveAt(0);
 		TArray<FRPGRestItem> ItemData = RPGCommonStringParser::ItemsDataParsing(ResultCommaParsing);
 
-		// ActionBar µ¥ÀÌÅÍ Áß portion¸¸ ÀúÀåÇÔ
+		// ActionBar ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ portionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		FString ActionBar_Portion = result->TryGetField("ActionBar")->IsNull() == true ? "" : result->TryGetField("ActionBar")->AsString();
 		TArray<FString> ActionBarCommaParsing = RPGCommonStringParser::CommaStringParsing(ActionBar_Portion);
 		TArray<FRPGRestItem> ActionBarData = RPGCommonStringParser::ItemsDataParsing(ActionBarCommaParsing);

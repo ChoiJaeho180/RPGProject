@@ -32,6 +32,7 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_GameFadeEffect->delegateAttachWidget.BindUObject(this, &ARPGGameUIManager::ChangeWidget);
 	IRPGCommonChangeLevel* FadeChangeLevel = Cast<IRPGCommonChangeLevel>(_GameFadeEffect);
 	FadeChangeLevel->delegateChangeLevel.BindUObject(this, &ARPGGameUIManager::SendChangeLevel);
+	FadeChangeLevel->delegateChangeMap.BindUObject(this, &ARPGGameUIManager::OnFinishFadeOut);
 	_GameFadeEffect->AddToViewport(20);
 	SetFadeEffectType(ECommonFadeState::FADE_OUT, false);
 	
@@ -72,6 +73,11 @@ void ARPGGameUIManager::SendChangeLevel()
 	if (_GameFadeEffect->GetChangeLevel() == true) _CurrentController->ChangeMap();
 
 	_GameFadeEffect->SetChangeLevel(false);
+}
+
+void ARPGGameUIManager::OnFinishFadeOut()
+{
+	_CurrentController->OnFinishChangeMapEffect();
 }
 
 void ARPGGameUIManager::ActiveQuestUI(FRPGQuestInfo QuestInfo)

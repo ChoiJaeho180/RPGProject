@@ -76,7 +76,7 @@ void ARPGGamePlayerState::AddExp(int Exp, bool bAddLog)
 	if (bAddLog) _AddExpLog.Add(Exp);
 
 	int NewExp = _CharacterStat->Stat["EXP"] + Exp;
-	if (NewExp > _CharacterStat->Stat["MAXEXP"])
+	if (NewExp >= _CharacterStat->Stat["MAXEXP"])
 	{
 		int RestExp = NewExp - _CharacterStat->Stat["MAXEXP"];
 		_CharacterStat->Stat["EXP"] = RestExp;
@@ -98,6 +98,10 @@ void ARPGGamePlayerState::LevelUp()
 	_CharacterStat->Stat["MAXMP"] += 50;
 	_CharacterStat->Stat["MP"] = _CharacterStat->Stat["MAXMP"];
 	_CharacterStat->Stat["LEVEL"]++;
+
+	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
+	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
+	_CharacterStat->Stat["MAXEXP"] = DTManager->GetLevelToData(_CharacterStat->Stat["LEVEL"])->Exp;
 }
 
 TSharedPtr<FRPGItemInfo> ARPGGamePlayerState::GetFindItem(const FName& Name)

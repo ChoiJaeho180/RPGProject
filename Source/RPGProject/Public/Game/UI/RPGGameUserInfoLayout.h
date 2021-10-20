@@ -12,6 +12,9 @@ class URPGGameProgressBarLayout;
 class UProgressBar;
 class URPGGameSpecialBar;
 class URPGGameGetInfoLayout;
+class UWidgetAnimation;
+class UScaleBox;
+class URPGGameNoticeLayout;
 /**
  * 
  */
@@ -32,9 +35,14 @@ private:
 	URPGGameProgressBarLayout* _MPBar;
 	UPROPERTY()
 	URPGGameProgressBarLayout* _ExpBar;
+	UPROPERTY()
+	URPGGameNoticeLayout* _NoticeLayout;
+private:
+	FString _NoticeMap;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
 	virtual void SetGameDataCopy() override;
 	virtual void UpdateProperty() override;
+
 };

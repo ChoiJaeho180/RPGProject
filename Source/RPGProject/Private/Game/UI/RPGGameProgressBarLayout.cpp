@@ -34,7 +34,5 @@ void URPGGameProgressBarLayout::UpdateProgressBar(float Percent, int CurrentStat
 		
 		NewText = NewText + "  " + FString::SanitizeFloat(round(Percent * 10000) / 100) + "%";
 	}
-
 	_CurrentStatText->SetText(FText::FromString(NewText));
-	UE_LOG(LogTemp, Warning, TEXT("Called!"));
 }

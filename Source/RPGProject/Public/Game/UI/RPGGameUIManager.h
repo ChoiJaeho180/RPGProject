@@ -35,6 +35,7 @@ public:
 
 	void SetFadeEffectType(ECommonFadeState EffectType, bool bChangeLevel);
 	void SendChangeLevel();
+	void OnFinishFadeOut();
 	void ActiveQuestUI(FRPGQuestInfo QuestInfo);
 protected:
 	// Called when the game starts or when spawned

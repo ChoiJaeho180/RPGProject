@@ -12,6 +12,7 @@
 #include "Common/REST/RPGCommonSerializeData.h"
 #include "Game/Animation/RPGGameWarriorAnim.h"
 #include "Game/RPGGameItemStruct.h"
+#include "Game/RPGGameDataCopy.h"
 
 ARPGGameController::ARPGGameController()
 {
@@ -176,9 +177,9 @@ void ARPGGameController::SetCharacterInfo(TSharedPtr<FCharacterInfo>& NewCharact
 {
 	AsyncTask(ENamedThreads::GameThread, [=]()
 	{
+		_PlayerStat->GetCharacterStat()->SetInfo(NewCharacterInfo->Stat);
 		SendActiveMap(NewCharacterInfo->CurrentVillage);
 		GetPawn()->SetActorLocation(NewCharacterInfo->CurrentPosition);
-		_PlayerStat->GetCharacterStat()->SetInfo(NewCharacterInfo->Stat);
 		_Character->SetUsableSpecialSkill();
 		_Character->CheckUsableSkill();
 		_GameUIManager->UpdateLevel();
@@ -271,6 +272,13 @@ void ARPGGameController::ChangeMap()
 {
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	GM->ActiveMap(_Character->GetNextMap(), _Character);
+}
+
+void ARPGGameController::OnFinishChangeMapEffect()
+{
+	URPGCommonGameInstance* CurrentGI = Cast<URPGCommonGameInstance>(GetGameInstance());
+	auto DataCopy = CurrentGI->GetDataCopyClass();
+	DataCopy->SetUpdateMapName(_Character->GetCurrentMap());
 }
 
 void ARPGGameController::AddExp(int Exp, bool bAddLog)

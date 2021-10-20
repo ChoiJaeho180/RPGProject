@@ -7,6 +7,8 @@
 #include "RPGCommonChangeLevel.generated.h"
 
 DECLARE_DELEGATE(FChangeLevelDelegate)
+DECLARE_DELEGATE(FChangeMapDelegate)
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class URPGCommonChangeLevel : public UInterface
@@ -24,4 +26,5 @@ class RPGPROJECT_API IRPGCommonChangeLevel
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	FChangeLevelDelegate delegateChangeLevel;
+	FChangeMapDelegate delegateChangeMap;
 };

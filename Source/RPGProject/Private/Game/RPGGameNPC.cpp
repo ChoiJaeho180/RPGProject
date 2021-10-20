@@ -44,7 +44,7 @@ void ARPGGameNPC::ActiveSpeech()
 
 	_WidgetCompo->SetHiddenInGame(_bActiveSpeechWidget);
 	_SpeechTimer->SetStandardTime(_bActiveSpeechWidget == false ? _SpeechSetInterval : _SpeechSetInterval/2);
-	UE_LOG(LogTemp, Warning, TEXT("ActiveSpeech"));
+//	UE_LOG(LogTemp, Warning, TEXT("ActiveSpeech"));
 }
 
 

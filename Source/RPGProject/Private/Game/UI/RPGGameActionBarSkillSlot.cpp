@@ -45,7 +45,7 @@ void URPGGameActionBarSkillSlot::Update(const TSharedPtr<FGameSkillDataCopyInfo>
 void URPGGameActionBarSkillSlot::UpdateCoolDownUI(float NewRatio)
 {
 	 _CooldownMaterial->SetScalarParameterValue(FName("percent"), NewRatio);
-	 UE_LOG(LogTemp, Warning, TEXT("UpdateCoolDownUI, %f"), NewRatio);
+	 //UE_LOG(LogTemp, Warning, TEXT("UpdateCoolDownUI, %f"), NewRatio);
 }
 
 FString URPGGameActionBarSkillSlot::GetKeyText()

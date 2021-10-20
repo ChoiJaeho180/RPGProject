@@ -7,7 +7,6 @@
 #include "RPGCommonBaseEffect.generated.h"
 
 DECLARE_DELEGATE(FAttachWidgetDelegate);
-
 class UWidgetAnimation;
 /**
  * 
@@ -24,7 +23,7 @@ protected:
 	UWidgetAnimation* GetAnimation(const FString& AnimName);
 public:
 	FAttachWidgetDelegate delegateAttachWidget;
-	
+
 public:
 	virtual void PlayAnim() {};
 	FORCEINLINE void SetChangeLevel(bool bNew) { _bChangeLevel = bNew; }

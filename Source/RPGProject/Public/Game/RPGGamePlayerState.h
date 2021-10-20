@@ -20,7 +20,7 @@ public:
 	int TimeStamp = 0;
 	FCharacterStat()
 	{
-		Stat.Add("LEVEL", 1);
+		Stat.Add("LEVEL", 1000);
 		Stat.Add("MAXEXP", 100);
 		Stat.Add("EXP", 0);
 		Stat.Add("STX", 10);
@@ -81,9 +81,12 @@ public:
 	void AddExp(int Exp, bool bAddLog);
 	void AddSpecialBar(int AddRatio);
 	void LevelUp();
+
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);
+
 public:
 	FOnReadySpecialBarDelegate delegateReadySpecialBar;
+
 public:
 	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
 	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }

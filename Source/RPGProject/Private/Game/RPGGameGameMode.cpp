@@ -29,10 +29,10 @@ void ARPGGameGameMode::PostLogin(APlayerController* NewPlayer)
 	GameInstance->CreateGameDataCopyClass();
 	GameInstance->Init();
 
-	//QuestManager ÃÊ±âÈ­
+	//QuestManager ï¿½Ê±ï¿½È­
 	_QuestManager = NewObject<URPGGameQuestManager>();
 
-	//¸Ê ÃÊ±âÈ­
+	//ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	TArray<FString> MapName = { "Game_Village", "Desert" };
 	{
 		URPGGameMapInfo* NewVillageMap = NewObject<URPGGameVillageInfo>();
@@ -69,7 +69,7 @@ void ARPGGameGameMode::Logout(AController* Exiting)
 void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Character)
 {
 	FString CharacterCurrentMap = Character->GetCurrentMap();
-	//Ã³À½ ¸Ê·Îµå°¡ ¾Æ´Ò‹š
+	//Ã³ï¿½ï¿½ ï¿½Ê·Îµå°¡ ï¿½Æ´Ò‹ï¿½
 	if (CharacterCurrentMap.IsEmpty() == false)
 	{
 		FLatentActionInfo info;
@@ -87,7 +87,7 @@ void ARPGGameGameMode::ActiveMap(const FString& MapName, ARPGGameCharacter* Char
 
 		UGameplayStatics::UnloadStreamLevel(this, FName(*CharacterCurrentMap), info, true);
 	}
-	else //°ÔÀÓ ½ÃÀÛ ÈÄ ¸Ê·Îµå°¡ Ã³À½ÀÏ ¶§
+	else //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê·Îµå°¡ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	{
 		Character->SetCurrentMap(MapName);
 		ExecutionUnLoad();
@@ -136,8 +136,6 @@ void ARPGGameGameMode::ExecutionLoad()
 
 	Character->SetActorLocation(Character->GetNextMapPosition());
 	Controller->ComplateChangeMap();
-	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), Character->GetNextMapPosition().X, Character->GetNextMapPosition().Y, Character->GetNextMapPosition().Z);
-	UE_LOG(LogTemp, Warning, TEXT("??"));
 }
 
 void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)

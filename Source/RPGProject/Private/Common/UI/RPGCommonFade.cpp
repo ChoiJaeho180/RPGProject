@@ -43,6 +43,8 @@ void URPGCommonFade::OnEndedFadeInAnim()
 	else
 	{
 		_FadeState = ECommonFadeState::NONE;
+		delegateChangeMap.ExecuteIfBound();
+		//delegateAttachWidget.ExecuteIfBound();
 		_FadeImage->SetVisibility(ESlateVisibility::Hidden);
 	}
 }

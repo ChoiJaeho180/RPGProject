@@ -29,6 +29,12 @@ URPGGameDataTableManager::URPGGameDataTableManager()
 	{
 		_WarriorSkillDT = DT_WARRIOR_SKILL_INFO.Object;
 	}
+	FString CharacterExpPath = TEXT("DataTable'/Game/DataTable/CharacterExp.CharacterExp'");
+	static ConstructorHelpers::FObjectFinder<UDataTable> DT_CHARACTER_EXP_INFO(*CharacterExpPath);
+	if (DT_CHARACTER_EXP_INFO.Succeeded())
+	{
+		_CharacterExpDT = DT_CHARACTER_EXP_INFO.Object;
+	}
 }
 
 void URPGGameDataTableManager::Init()
@@ -38,12 +44,23 @@ void URPGGameDataTableManager::Init()
 	_PortalInfoDT->GetAllRows<FPortalInfo>(Context, _PortalData);
 	_EnemyInfoDT->GetAllRows<FGameEnemyInfo>(Context, _EnemyData);
 	_WarriorSkillDT->GetAllRows<FGameSkillType>(Context, _WarriorSkillData);
+	_CharacterExpDT->GetAllRows<FCharacterExp>(Context, _CharacterExpData);
 }
 
 void URPGGameDataTableManager::SetData(TArray<FGameItemType*> TargetData, UDataTable* TargetDT)
 {
 	FString Context;
 	TargetDT->GetAllRows<FGameItemType>(Context, TargetData);
+}
+
+FCharacterExp* URPGGameDataTableManager::GetLevelToData(const int& Level)
+{
+	for (int i = 0; i < _CharacterExpData.Num(); i++)
+	{
+		if (_CharacterExpData[i]->Level == Level)
+			return _CharacterExpData[i];
+	}
+	return nullptr;
 }
 
 FGameSkillType* URPGGameDataTableManager::GetSkillNameToData(const FName& Name)

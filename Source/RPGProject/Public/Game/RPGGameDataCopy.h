@@ -26,6 +26,7 @@ private:
 	bool _bInitFirstItem = false;
 	TArray<int> _AddExpLog;
 	TArray<int> _AddGoldLog;
+	FString _UpdateMapName;
 public:	
 	// Sets default values for this actor's properties
 	ARPGGameDataCopy();
@@ -44,6 +45,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 public:
+	FORCEINLINE void SetUpdateMapName(const FString& MapName) { _UpdateMapName = MapName; }
+	FORCEINLINE FString GetUpdateMapName() { return _UpdateMapName; }
 	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
 	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }
 	FORCEINLINE TArray<int> GetAddGoldLog() { return _AddGoldLog; }
