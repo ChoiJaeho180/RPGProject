@@ -12,8 +12,16 @@ ARPGGameCharacter::ARPGGameCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	_LevelUpCompo = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("LevelCompo"));
+	_LevelUpCompo->SetupAttachment(GetMesh());
+	_LevelUpCompo->bAutoActivate = false;
 	_BaseAttackRadius = 80.f;
 	_BaseAttackRange = 300.f;
+
+
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> LEVEL_UP_PARTICLE(TEXT("ParticleSystem'/Game/Luos8Elements/Particles/Wind/Par_Lmagic_Wind_Def_01.Par_Lmagic_Wind_Def_01'"));
+	if (LEVEL_UP_PARTICLE.Succeeded()) _LevelUpCompo->SetTemplate(LEVEL_UP_PARTICLE.Object);
+
 
 	AbilityRClass = ARPGGameAbilityR::StaticClass();
 	AbilityUltimgeClass = ARPGGameAbilityUltimage::StaticClass();
@@ -41,6 +49,7 @@ void ARPGGameCharacter::BeginPlay()
 
 	ARPGGamePlayerState* RPGPlayerState = Cast<ARPGGamePlayerState>(GetController()->PlayerState);
 	RPGPlayerState->delegateReadySpecialBar.BindUObject(this, &ARPGGameCharacter::SetUsableSpecialSkill);
+	RPGPlayerState->delegateLevelUp.BindUObject(this, &ARPGGameCharacter::LevelUP);
 }
 
 void ARPGGameCharacter::InputAttack()
@@ -50,6 +59,7 @@ void ARPGGameCharacter::InputAttack()
 
 void ARPGGameCharacter::InputSkill(const FString& InputKey)
 {
+	
 	for (int i = 0; i < _Skills.Num(); i++)
 	{
 		if (_Skills[i]->GetInputKeyIdentify() != InputKey) continue;
@@ -106,6 +116,11 @@ void ARPGGameCharacter::Dead()
 {
 	_WarriorAnim->SetDead(true);
 	GetMesh()->SetCollisionProfileName("NoCollision");
+}
+
+void ARPGGameCharacter::LevelUP()
+{
+	_LevelUpCompo->ToggleActive();
 }
 
 void ARPGGameCharacter::Resurrection()

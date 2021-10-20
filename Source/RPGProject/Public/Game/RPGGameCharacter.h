@@ -16,7 +16,8 @@ class RPGPROJECT_API ARPGGameCharacter : public ARPGGameBaseCharacter
 private:
 	URPGGameWarriorAnim* _WarriorAnim;
 	FRotator _TargetRotator;
-
+	UPROPERTY()
+	UParticleSystemComponent* _LevelUpCompo;
 public:
 	// Sets default values for this character's properties
 	ARPGGameCharacter();
@@ -35,6 +36,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	void GetHitting(FVector HitDir);
 	void Dead();
+	void LevelUP();
 	void Resurrection();
 	void CheckUsableSkill();
 	void SetUsableSpecialSkill();

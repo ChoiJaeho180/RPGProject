@@ -10,7 +10,7 @@
 class URPGGameCharacterBagComponent;
 
 DECLARE_DELEGATE(FOnReadySpecialBarDelegate);
-
+DECLARE_DELEGATE(FOnLevelUpDelegate);
 USTRUCT(BlueprintType)
 struct FCharacterStat
 {
@@ -86,7 +86,7 @@ public:
 
 public:
 	FOnReadySpecialBarDelegate delegateReadySpecialBar;
-
+	FOnLevelUpDelegate delegateLevelUp;
 public:
 	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
 	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }

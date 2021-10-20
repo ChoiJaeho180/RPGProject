@@ -102,6 +102,7 @@ void ARPGGamePlayerState::LevelUp()
 	URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
 	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
 	_CharacterStat->Stat["MAXEXP"] = DTManager->GetLevelToData(_CharacterStat->Stat["LEVEL"])->Exp;
+	delegateLevelUp.ExecuteIfBound();
 }
 
 TSharedPtr<FRPGItemInfo> ARPGGamePlayerState::GetFindItem(const FName& Name)
