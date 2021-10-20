@@ -4,6 +4,7 @@
 #include "Components/ProgressBar.h"
 #include "Common/RPGCommonGameInstance.h"
 #include "Game/UI/RPGGameSpecialBar.h"
+#include "Game/UI/RPGGameGetInfoLayout.h"
 
 void URPGGameUserInfoLayout::NativeConstruct()
 {
@@ -16,6 +17,8 @@ void URPGGameUserInfoLayout::NativeConstruct()
 	_HPBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("HPBar"));
 	_MPBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("MPBar"));
 	_ExpBar = Cast<URPGGameProgressBarLayout>(GetWidgetFromName("ExpBar"));
+	_GetInfoLayout = Cast<URPGGameGetInfoLayout>(GetWidgetFromName("GetInfoLayout"));
+
 	InteractionDeltaTime = 0;
 	SetGameDataCopy();
 }
@@ -27,6 +30,20 @@ void URPGGameUserInfoLayout::NativeTick(const FGeometry& MyGeometry, float InDel
 	InteractionDeltaTime += InDeltaTime;
 	if (InteractionDeltaTime < STARNDARD_TIME)
 		return;
+	
+	TArray<int> ExpLog = GameDataCopy->GetAddExpLog();
+	TArray<int> GoldLog = GameDataCopy->GetAddGoldLog();
+	int Num = ExpLog.Num() >= GoldLog.Num() ? GoldLog.Num() : ExpLog.Num();
+	for (int i = 0; i < Num; i++)
+	{
+		_GetInfoLayout->SetGetInfoText(ExpLog[i], false);
+		_GetInfoLayout->SetGetInfoText(GoldLog[i], true);
+	}
+	if(ExpLog.Num() != 0 ) GameDataCopy->RemoveAddExpLog();
+	if(GoldLog.Num() != 0) GameDataCopy->RemoveAddGoldLog();
+
+	_GetInfoLayout->UpdateFadeText();
+
 
 	InteractionDeltaTime = 0.f;
 	TSharedPtr<FCharacterStat> CheckStat = GameDataCopy->GetCharacterStat();

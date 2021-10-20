@@ -34,7 +34,7 @@ void URPGGameShopSellHelperLayout::ClickedSellButton()
 
 	if (_ShopTransactionType == EShopTransactionType::SELL)
 	{
-		Bag->UpdateMoney(AddMoney);
+		Bag->UpdateMoney(AddMoney, false);
 		Bag->RemoveItem(_SellName, InputCount);
 		RemoveFromParent();
 	}
@@ -43,7 +43,7 @@ void URPGGameShopSellHelperLayout::ClickedSellButton()
 		TSharedPtr<FRPGItemInfo> NewItem = MakeShareable(new FRPGItemInfo);
 		NewItem->SetInfo(_ItemInfo);
 		NewItem->Count = InputCount;
-		Bag->UpdateMoney(-AddMoney);
+		Bag->UpdateMoney(-AddMoney, false);
 		Bag->AddItem(NewItem);
 		RemoveFromParent();
 	}

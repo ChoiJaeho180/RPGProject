@@ -51,6 +51,23 @@ void ARPGGameDataCopy::CheckCharacterItems()
 	}
 }
 
+void ARPGGameDataCopy::CheckAddLog()
+{
+	auto ExpLog = _CheckStat->GetAddExpLog();
+	if (ExpLog.Num() != 0)
+	{
+		_AddExpLog += ExpLog;
+		_CheckStat->RemoveAddExpLog();
+	}
+	URPGGameCharacterBagComponent* BagComoponent = _CheckStat->GetCharacterBag();
+	auto GoldLog = BagComoponent->GetAddGoldLog();
+	if (GoldLog.Num() != 0)
+	{
+		_AddGoldLog += GoldLog;
+		BagComoponent->RemoveAddGoldLog();
+	}
+}
+
 void ARPGGameDataCopy::CehckkCharacterMoney()
 {
 	auto Money = _CheckStat->GetCharacterBag()->GetCharacterMoney();
@@ -135,7 +152,7 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 	CheckCharacterItems();
 	CehckkCharacterMoney();
 	CheckCharacterSkillCoolDown();
-
+	CheckAddLog();
 	_DeltaTime = 0.f;
 }
 

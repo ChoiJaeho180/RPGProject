@@ -28,6 +28,7 @@ private:
 	ARPGGameCharacter* _Character;
 	UPROPERTY()
 	ARPGGamePlayerState* _PlayerStat;
+
 private:
 public:
 	ARPGGameController();
@@ -55,7 +56,8 @@ public:
 	void ComplateChangeMap();
 	void ChangeMap();
 
-	void AddExp(int Exp);
+	void AddExp(int Exp, bool bAddLog);
+	void AddGold(int Gold, bool bAddLog);
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

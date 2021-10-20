@@ -64,7 +64,8 @@ void ARPGGameEnemyBase::BeginPlay()
 		ARPGGameBaseAIController* AIController = Cast<ARPGGameBaseAIController>(GetController());
 		AIController->StopAI();
 		ARPGGameController* PlayerController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
-		PlayerController->AddExp(_EnemyStatComponent->GetExp());
+		PlayerController->AddExp(_EnemyStatComponent->GetExp(), true);
+		PlayerController->AddGold(_EnemyStatComponent->GetGold(), true);
 		SetActorEnableCollision(false);
 		_StayDeadTimer->SetStandardTime(3);
 	});
@@ -111,6 +112,7 @@ void ARPGGameEnemyBase::Attack(bool bNew)
 {
 	_Anim->SetAttacking(bNew);
 }
+
 
 void ARPGGameEnemyBase::SetBaseAttackType()
 {

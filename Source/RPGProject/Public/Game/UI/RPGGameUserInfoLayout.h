@@ -11,6 +11,7 @@
 class URPGGameProgressBarLayout;
 class UProgressBar;
 class URPGGameSpecialBar;
+class URPGGameGetInfoLayout;
 /**
  * 
  */
@@ -20,6 +21,9 @@ class RPGPROJECT_API URPGGameUserInfoLayout : public URPGGameBaseLayout, public 
 	GENERATED_BODY()
 private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
+	TSharedPtr<FMoney> _Gold;
+	UPROPERTY()
+	URPGGameGetInfoLayout* _GetInfoLayout;
 	UPROPERTY()
 	URPGGameSpecialBar* _SpecialBar;
 	UPROPERTY()

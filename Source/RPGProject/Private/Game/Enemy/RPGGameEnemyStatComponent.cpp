@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Game/Enemy/RPGGameEnemyStatComponent.h"
+
 
 // Sets default values for this component's properties
 URPGGameEnemyStatComponent::URPGGameEnemyStatComponent()
@@ -74,5 +73,11 @@ float URPGGameEnemyStatComponent::GetHPRatio() const
 void URPGGameEnemyStatComponent::SetCurrentBaseAttackDamage(int index)
 {
 	_CurrentAttackDamage = _BaseAttack[index];
+}
+
+int URPGGameEnemyStatComponent::GetGold()
+{
+	int CorrectGold = (float)_AverageGold / 20;
+	return FMath::RandRange(_AverageGold - CorrectGold, _AverageGold + CorrectGold);
 }
 

@@ -68,6 +68,8 @@ private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
 	UPROPERTY()
 	URPGGameCharacterBagComponent* _CharacterBagComponent;
+	
+	TArray<int> _AddExpLog;
 public:
 	ARPGGamePlayerState();
 	virtual void PostInitializeComponents() override;
@@ -75,13 +77,16 @@ public:
 	void UsePortion(const TSharedPtr<FRPGItemInfo>& PortionInfo);
 	void AddHP(int AddHP = 99999);
 	void AddMP(int AddMP = 99999);
+	void AddGold(int Gold, bool bAddLog);
+	void AddExp(int Exp, bool bAddLog);
 	void AddSpecialBar(int AddRatio);
-	void AddExp(int Exp);
 	void LevelUp();
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);
 public:
 	FOnReadySpecialBarDelegate delegateReadySpecialBar;
 public:
+	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
+	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE URPGGameCharacterBagComponent* GetCharacterBag() { return _CharacterBagComponent; }
 	FORCEINLINE int GetCharacterHP() { return _CharacterStat->Stat["HP"]; }

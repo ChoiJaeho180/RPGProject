@@ -32,7 +32,7 @@ void URPGGameCharacterBagComponent::InitData(const TArray<FRPGRestItem>& RestIte
 		AddItem(NewItem);
 	}
 
-	UpdateMoney(FCString::Atoi(*MoneyData["Money"]));
+	UpdateMoney(FCString::Atoi(*MoneyData["Money"]), false);
 }
 
 
@@ -49,8 +49,9 @@ void URPGGameCharacterBagComponent::TickComponent(float DeltaTime, ELevelTick Ti
 
 }
 
-void URPGGameCharacterBagComponent::UpdateMoney(int AddMoney)
+void URPGGameCharacterBagComponent::UpdateMoney(int AddMoney, bool bAddLog)
 {
+	if (bAddLog) _AddGoldLog.Add(AddMoney);
 	_Money->Money += AddMoney;
 	_Money->TimeStamp++;
 }

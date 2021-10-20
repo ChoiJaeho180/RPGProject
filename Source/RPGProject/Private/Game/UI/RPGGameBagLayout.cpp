@@ -81,6 +81,7 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 	{
 		_Money->TimeStamp = Money->TimeStamp;
 		_Money->Money = Money->Money;
+
 		_GoldText->SetText(FText::FromString(FString::FromInt(_Money->Money)));
 	}
 }

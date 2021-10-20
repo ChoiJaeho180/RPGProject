@@ -24,6 +24,8 @@ private:
 	TArray<TSharedPtr<FGameSkillDataCopyInfo>> _CharacterSkillInfo;
 	float _DeltaTime;
 	bool _bInitFirstItem = false;
+	TArray<int> _AddExpLog;
+	TArray<int> _AddGoldLog;
 public:	
 	// Sets default values for this actor's properties
 	ARPGGameDataCopy();
@@ -33,6 +35,7 @@ protected:
 	virtual void BeginPlay() override;
 	void CheckCharacterStat();
 	void CheckCharacterItems();
+	void CheckAddLog();
 	void CehckkCharacterMoney();
 	void CheckCharacterSkillCoolDown();
 	bool FindSkill(const FName& SkillName);
@@ -41,6 +44,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 public:
+	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
+	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }
+	FORCEINLINE TArray<int> GetAddGoldLog() { return _AddGoldLog; }
+	FORCEINLINE void RemoveAddGoldLog() { _AddGoldLog.Empty(); }
 	FORCEINLINE TSharedPtr<FMoney> GetCharacterMoney() { return _CharacterMoney; }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }
 	FORCEINLINE TArray<TSharedPtr<FRPGItemInfo>> GetCharacterItemsInfo() { return _CharacterItemInfo; }

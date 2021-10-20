@@ -39,6 +39,7 @@ public:
 	void SetHP(float NewHP);
 	float GetHPRatio() const;
 	void SetCurrentBaseAttackDamage(int index);
+	int GetGold();
 public:
 	FORCEINLINE int GetLevel() { return _Level; }
 	FORCEINLINE int GetExp() { return _DropExp; }

@@ -53,6 +53,11 @@ void ARPGGamePlayerState::AddMP(int AddMP)
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddGold(int Gold, bool bAddLog)
+{
+	_CharacterBagComponent->UpdateMoney(Gold, bAddLog);
+}
+
 void ARPGGamePlayerState::AddSpecialBar(int AddRatio)
 {
 	_CharacterStat->Stat["SPECIALSTATE"] = FMath::Clamp(_CharacterStat->Stat["SPECIALSTATE"] + AddRatio, 0, 100);
@@ -66,8 +71,10 @@ void ARPGGamePlayerState::AddSpecialBar(int AddRatio)
 	
 }
 
-void ARPGGamePlayerState::AddExp(int Exp)
+void ARPGGamePlayerState::AddExp(int Exp, bool bAddLog)
 {
+	if (bAddLog) _AddExpLog.Add(Exp);
+
 	int NewExp = _CharacterStat->Stat["EXP"] + Exp;
 	if (NewExp > _CharacterStat->Stat["MAXEXP"])
 	{

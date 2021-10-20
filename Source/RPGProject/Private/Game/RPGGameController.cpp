@@ -273,7 +273,12 @@ void ARPGGameController::ChangeMap()
 	GM->ActiveMap(_Character->GetNextMap(), _Character);
 }
 
-void ARPGGameController::AddExp(int Exp)
+void ARPGGameController::AddExp(int Exp, bool bAddLog)
 {
-	_PlayerStat->AddExp(Exp);
+	_PlayerStat->AddExp(Exp, bAddLog);
 }
+void ARPGGameController::AddGold(int Gold, bool bAddLog)
+{
+	_PlayerStat->AddGold(Gold, bAddLog);
+}
+
