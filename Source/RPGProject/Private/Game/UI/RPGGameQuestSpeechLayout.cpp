@@ -3,7 +3,7 @@
 #include "Components/Textblock.h"
 #include "Components/Button.h"
 
-#define SYLLABLE_UPDATE_INTERVAL 0.1f
+#define SYLLABLE_UPDATE_INTERVAL 0.07f
 
 void URPGGameQuestSpeechLayout::NativeConstruct()
 {
@@ -41,11 +41,19 @@ void URPGGameQuestSpeechLayout::NativeTick(const FGeometry& MyGeometry, float In
 }
 void URPGGameQuestSpeechLayout::OnClickedPositiveButton()
 {
-	delegateChangeQuestToMainWidget.ExecuteIfBound(true);
+	FRPGQuestQuickInfo QuestQuickInfo;
+	QuestQuickInfo.TimeStamp = 0;
+	QuestQuickInfo.QuestNumber = _QuestInfo.QuestNumber;
+	QuestQuickInfo.Require = _QuestInfo.Require;
+	QuestQuickInfo.Current = QuestQuickInfo.Require;
+	for (auto& Item : QuestQuickInfo.Current) Item.Value = 0;
+
+	delegateChangeQuestToMainWidget.ExecuteIfBound(true, QuestQuickInfo);
 }
 void URPGGameQuestSpeechLayout::OnClickedNegativeeButton()
 {
-	delegateChangeQuestToMainWidget.ExecuteIfBound(false);
+	FRPGQuestQuickInfo QuestQuickInfo;
+	delegateChangeQuestToMainWidget.ExecuteIfBound(false, QuestQuickInfo);
 }
 void URPGGameQuestSpeechLayout::SetQuestInfo(const FRPGQuestInfo& QuestInfo)
 {

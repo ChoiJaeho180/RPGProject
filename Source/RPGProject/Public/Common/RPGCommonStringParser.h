@@ -16,6 +16,7 @@ public:
 	static FString GetSpecificStat(const FString& Data, const FString& StatName);
 	static TMap<FString, FString> SingleStringParsing(const FString& Data);
 	static TMap<FString, FString> StringParsing(const FString& Data);
+	static TMap<FString, int> MapStringintParsing(const FString& Data);
 	static TArray<FString> CommaStringParsing(const FString& Data);
 	static TArray<FRPGRestItem> ItemsDataParsing(const TArray<FString>& TempArray);
 };

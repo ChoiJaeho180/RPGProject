@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGamePlayerState.h"
 #include "Game/RPGGameItemStruct.h"
 #include "GameFramework/Actor.h"
@@ -16,12 +17,15 @@ class RPGPROJECT_API ARPGGameDataCopy : public AActor
 {
 	GENERATED_BODY()
 private:
+	ARPGGamePlayerState* _CheckStat;
+	ARPGGameCharacter* _Character;
+private:
 	TSharedPtr<FCharacterStat> _CharacterStat;
 	TArray<TSharedPtr<FRPGItemInfo>> _CharacterItemInfo;
 	TSharedPtr<FMoney> _CharacterMoney;
-	ARPGGamePlayerState* _CheckStat;
-	ARPGGameCharacter* _Character;
+	
 	TArray<TSharedPtr<FGameSkillDataCopyInfo>> _CharacterSkillInfo;
+	FRPGQuestQuickInfo _QuestQuickInfo;
 	float _DeltaTime;
 	bool _bInitFirstItem = false;
 	TArray<int> _AddExpLog;
@@ -34,6 +38,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void CheckQuest();
 	void CheckCharacterStat();
 	void CheckCharacterItems();
 	void CheckAddLog();
@@ -45,6 +50,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 public:
+	FORCEINLINE FRPGQuestQuickInfo GetQuestQuickInfo() { return _QuestQuickInfo; }
 	FORCEINLINE void SetUpdateMapName(const FString& MapName) { _UpdateMapName = MapName; }
 	FORCEINLINE FString GetUpdateMapName() { return _UpdateMapName; }
 	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }

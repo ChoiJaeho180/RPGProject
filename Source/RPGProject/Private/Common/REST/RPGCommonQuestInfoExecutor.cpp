@@ -3,6 +3,7 @@
 #include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGameGameMode.h"
 #include "Common/RPGCommonGameInstance.h"
+#include "Common/RPGCommonStringParser.h"
 
 // Sets default values
 ARPGCommonQuestInfoExecutor::ARPGCommonQuestInfoExecutor()
@@ -42,8 +43,13 @@ void ARPGCommonQuestInfoExecutor::Update(TSharedPtr<FJsonObject>& RestMsg)
 		FString Speech = PositionInfo->TryGetField("Speech")->AsString();
 		int MinLevel = FCString::Atoi(*PositionInfo->TryGetField("MinLevel")->AsString());
 		int QuestNumber = FCString::Atoi(*PositionInfo->TryGetField("QuestNumber")->AsString());
+
+		FString Compensation = PositionInfo->TryGetField("Compensation")->AsString();
+		FString Require = PositionInfo->TryGetField("Require")->AsString();
+		TMap<FString, int> MapCompensation = RPGCommonStringParser::MapStringintParsing(Compensation);
+		TMap<FString, int> MapRequire = RPGCommonStringParser::MapStringintParsing(Require);
 		FRPGQuestInfo NewInfo;
-		NewInfo.SetInfo(NpcName, Speech, QuestNumber, MinLevel);
+		NewInfo.SetInfo(NpcName, Speech, QuestNumber, MinLevel, MapCompensation , MapRequire);
 		NewPreviousQuestList.Add(NewInfo);
 	}
 	AsyncTask(ENamedThreads::GameThread, [=]()

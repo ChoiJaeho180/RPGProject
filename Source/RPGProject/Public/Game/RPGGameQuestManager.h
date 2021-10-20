@@ -6,7 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "RPGGameQuestManager.generated.h"
 
-DECLARE_DELEGATE_OneParam(FOnChangeQuestToMainWidgetDelegate, bool);
+DECLARE_DELEGATE_TwoParams(FOnChangeQuestToMainWidgetDelegate, bool, FRPGQuestQuickInfo&);
 
 USTRUCT(Blueprintable)
 struct FRPGQuestInfo
@@ -18,15 +18,30 @@ public:
 	FString Speech;
 	int QuestNumber = -1;
 	int MinLevel = -1;
+	TMap<FString, int> Compensation;
+	TMap<FString, int> Require;
 	bool bSuccessed;
-	void SetInfo(FString NewNPCName, FString NewSpeech, int NewQuestNumber, int NewMinLevel)
+	void SetInfo(FString NewNPCName, FString NewSpeech, int NewQuestNumber, int NewMinLevel, 
+				const TMap<FString, int>& NewCompensation, const TMap<FString, int>& NewRequire)
 	{
 		NPCName = NewNPCName; Speech = NewSpeech;
 		QuestNumber = NewQuestNumber;  MinLevel = NewMinLevel;
+
+		Compensation = NewCompensation;
+		Require = NewRequire;
 		bSuccessed = false;
 	}
 };
-
+USTRUCT(Blueprintable)
+struct FRPGQuestQuickInfo
+{
+	GENERATED_USTRUCT_BODY()
+public:
+	TMap<FString, int> Require;
+	TMap<FString, int> Current;
+	int QuestNumber = -1;
+	int TimeStamp = -1;
+};
 /**
  * 
  */

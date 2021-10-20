@@ -14,6 +14,7 @@
 #include "Game/RPGGameItemStruct.h"
 #include "Game/RPGGameDataCopy.h"
 
+
 ARPGGameController::ARPGGameController()
 {
 	
@@ -288,5 +289,15 @@ void ARPGGameController::AddExp(int Exp, bool bAddLog)
 void ARPGGameController::AddGold(int Gold, bool bAddLog)
 {
 	_PlayerStat->AddGold(Gold, bAddLog);
+}
+
+void ARPGGameController::SendQuestInfoToPlayerState(FRPGQuestQuickInfo& QuestQuickInfo)
+{
+	_PlayerStat->UpdateQuestQuickInfo(QuestQuickInfo);
+}
+
+void ARPGGameController::CheckAddQuest(EEnemyType EnemyType)
+{
+	_PlayerStat->CheckQuestQuickInfo(EnemyType);
 }
 

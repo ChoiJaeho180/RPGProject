@@ -24,6 +24,15 @@ enum class EGameMapType : uint8
 };
 
 UENUM(BlueprintType)
+enum class EGameQuestNPCState : uint8
+{
+	READY,
+	ING,
+	FINISH
+};
+
+
+UENUM(BlueprintType)
 enum class ESkillState : uint8
 {
 	READY,

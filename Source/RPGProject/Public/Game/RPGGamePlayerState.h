@@ -3,6 +3,7 @@
 #pragma once
 
 #include "../../RPGProject.h"
+#include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGameItemStruct.h"
 #include "GameFramework/PlayerState.h"
 #include "RPGGamePlayerState.generated.h"
@@ -70,6 +71,7 @@ private:
 	URPGGameCharacterBagComponent* _CharacterBagComponent;
 	
 	TArray<int> _AddExpLog;
+	FRPGQuestQuickInfo _QuestQuickInfo;
 public:
 	ARPGGamePlayerState();
 	virtual void PostInitializeComponents() override;
@@ -81,13 +83,15 @@ public:
 	void AddExp(int Exp, bool bAddLog);
 	void AddSpecialBar(int AddRatio);
 	void LevelUp();
-
+	void UpdateQuestQuickInfo(FRPGQuestQuickInfo& Quest);
+	void CheckQuestQuickInfo(EEnemyType EnemyTye);
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);
 
 public:
 	FOnReadySpecialBarDelegate delegateReadySpecialBar;
 	FOnLevelUpDelegate delegateLevelUp;
 public:
+	FORCEINLINE FRPGQuestQuickInfo GetQuestQuickInfo() { return _QuestQuickInfo; }
 	FORCEINLINE TArray<int> GetAddExpLog() { return _AddExpLog; }
 	FORCEINLINE void RemoveAddExpLog() { _AddExpLog.Empty(); }
 	FORCEINLINE TSharedPtr<FCharacterStat>& GetCharacterStat() { return _CharacterStat; }

@@ -13,35 +13,23 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 	GameDataCopyClass = ARPGGameDataCopy::StaticClass();
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SK_WARRIOR(TEXT("SkeletalMesh'/Game/ParagonGreystone/Characters/Heroes/Greystone/Meshes/Greystone.Greystone'"));
-	if (SK_WARRIOR.Succeeded())
-	{
-		CharacterSkeletalMeshObject = SK_WARRIOR.Object;
-	}
-	//
+	if (SK_WARRIOR.Succeeded()) CharacterSkeletalMeshObject = SK_WARRIOR.Object;
+
 	static ConstructorHelpers::FClassFinder<UUserWidget>SLOT_WIDGET(TEXT("WidgetBlueprint'/Game/InventorySystem/UI/Blueprints/Inventory/Inventory_Slot.Inventory_Slot_C'"));
-	if (SLOT_WIDGET.Succeeded())
-	{
-		RPGSlotClass = SLOT_WIDGET.Class;
-	}
-	//
+	if (SLOT_WIDGET.Succeeded()) RPGSlotClass = SLOT_WIDGET.Class;
+
 	static ConstructorHelpers::FClassFinder<UUserWidget>ACTION_BAR_SLOT_WIDGET(TEXT("WidgetBlueprint'/Game/UI_Kit/Widgets/ActionBars/ActionbarSlot_T4.ActionbarSlot_T4_C'"));
-	if (ACTION_BAR_SLOT_WIDGET.Succeeded())
-	{
-		RPGActionBarSlotClass = ACTION_BAR_SLOT_WIDGET.Class;
-	}
+	if (ACTION_BAR_SLOT_WIDGET.Succeeded()) RPGActionBarSlotClass = ACTION_BAR_SLOT_WIDGET.Class;
+
 
 	static ConstructorHelpers::FClassFinder<UUserWidget>SELL_HELPER_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/ShopSellHelperLayout.ShopSellHelperLayout_C'"));
-	if (SELL_HELPER_WIDGET.Succeeded())
-	{
-		RPGSellHelperClass = SELL_HELPER_WIDGET.Class;
-	}
-	//
+	if (SELL_HELPER_WIDGET.Succeeded())RPGSellHelperClass = SELL_HELPER_WIDGET.Class;
+
 	static ConstructorHelpers::FClassFinder<UUserWidget>BUY_HELPER_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/ShopBuylHelperLayout.ShopBuylHelperLayout_C'"));
-	if (BUY_HELPER_WIDGET.Succeeded())
-	{
-		RPGBuyHelperClass = BUY_HELPER_WIDGET.Class;
-	}
-	//
+	if (BUY_HELPER_WIDGET.Succeeded()) RPGBuyHelperClass = BUY_HELPER_WIDGET.Class;
+
+	static ConstructorHelpers::FClassFinder<UUserWidget>QUEST_QUICK_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/QuestQuickLayout.QuestQuickLayout_C'"));
+	if (QUEST_QUICK_WIDGET.Succeeded())RPGQuestQuickClass = QUEST_QUICK_WIDGET.Class;
 }
 
 void URPGCommonGameInstance::Init()

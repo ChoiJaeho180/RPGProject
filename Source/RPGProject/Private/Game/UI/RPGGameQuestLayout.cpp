@@ -18,7 +18,8 @@ void URPGGameQuestLayout::SetQuestInfo(const FRPGQuestInfo& QuestInfo)
 	_QuestSpeechLayout->SetQuestInfo(QuestInfo);
 }
 
-void URPGGameQuestLayout::SendQuestToMainWidget(bool bQuestPositive)
+void URPGGameQuestLayout::SendQuestToMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo)
 {
-	delegateChangeQuestToMainWidget.ExecuteIfBound(bQuestPositive);
+
+	delegateChangeQuestToMainWidget.ExecuteIfBound(bQuestPositive, QuestQuickInfo);
 }

@@ -66,6 +66,7 @@ void ARPGGameEnemyBase::BeginPlay()
 		ARPGGameController* PlayerController = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
 		PlayerController->AddExp(_EnemyStatComponent->GetExp(), true);
 		PlayerController->AddGold(_EnemyStatComponent->GetGold(), true);
+		PlayerController->CheckAddQuest(_EnemyStatComponent->GetEnemyType());
 		SetActorEnableCollision(false);
 		_StayDeadTimer->SetStandardTime(3);
 	});

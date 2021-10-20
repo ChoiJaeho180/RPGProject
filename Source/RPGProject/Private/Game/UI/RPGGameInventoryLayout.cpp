@@ -5,6 +5,7 @@
 #include "Game/UI/RPGGameTitleDragAndDrop.h"
 #include "Game/UI/RPGGameActionBarLayout.h"
 #include "Game/UI/RPGGameShopLayout.h"
+#include "Game/UI/RPGGameQuestQuickLayout.h"
 
 void URPGGameInventoryLayout::NativeConstruct()
 {
@@ -17,6 +18,9 @@ void URPGGameInventoryLayout::NativeConstruct()
 	_ShopLayout = Cast<URPGGameShopLayout>(GetWidgetFromName("ShopLayout"));
 	_ShopLayout->SetVisibility(ESlateVisibility::Hidden);
 	_ShopLayout->SetBagLayout(_BagLayout);
+
+	_QuestQuickLayout = Cast<URPGGameQuestQuickLayout>(GetWidgetFromName("QuestQuickLayout"));
+	_QuestQuickLayout->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -32,6 +36,8 @@ void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDe
 		_ActionBar->NativeTick();
 	}
 
+	_QuestQuickLayout->Tick();
+	
 	if (_BagLayout->GetVisibility() == ESlateVisibility::Visible)
 	{
 		_BagLayout->NativeTick(MyGeometry, InDeltaTime);
@@ -108,5 +114,10 @@ void URPGGameInventoryLayout::ActiveShop()
 	_BagLayout->AddToViewport(10);
 	_BagLayout->SetVisibility(ESlateVisibility::Visible);
 	_BagLayout->SetPositionInViewport(FVector2D(600, 200));
+}
+
+void URPGGameInventoryLayout::ActiveQuestQuick()
+{
+	_QuestQuickLayout->SetVisibility(ESlateVisibility::Visible);
 }
 

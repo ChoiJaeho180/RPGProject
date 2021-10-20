@@ -48,6 +48,21 @@ TMap<FString, FString> RPGCommonStringParser::StringParsing(const FString& Data)
 	}
 	return NewData;
 }
+
+TMap<FString, int> RPGCommonStringParser::MapStringintParsing(const FString& Data)
+{
+	TMap<FString, int> NewData;
+	TArray<FString> TempArray;
+	Data.ParseIntoArray(TempArray, TEXT(","), true);
+	for (int i = 0; i < TempArray.Num(); i++)
+	{
+		FString Key, Value;
+		TempArray[i].Split(TEXT(":"), &Key, &Value);
+		NewData.Add(Key, FCString::Atoi(*Value));
+	}
+	return NewData;
+}
+
 TArray<FString> RPGCommonStringParser::CommaStringParsing(const FString& Data)
 {
 	TArray<FString> NewData;

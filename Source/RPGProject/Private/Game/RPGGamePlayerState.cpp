@@ -14,7 +14,6 @@ ARPGGamePlayerState::ARPGGamePlayerState()
 void ARPGGamePlayerState::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	//_CharacterBagComponent->TestInfo();
 }
 
 void ARPGGamePlayerState::InitData(TArray<FRPGRestItem> RestItemData, const TMap<FString, FString>& MoneyData)
@@ -103,6 +102,24 @@ void ARPGGamePlayerState::LevelUp()
 	URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
 	_CharacterStat->Stat["MAXEXP"] = DTManager->GetLevelToData(_CharacterStat->Stat["LEVEL"])->Exp;
 	delegateLevelUp.ExecuteIfBound();
+}
+
+void ARPGGamePlayerState::UpdateQuestQuickInfo(FRPGQuestQuickInfo& Quest)
+{
+	_QuestQuickInfo = Quest;
+	if(_QuestQuickInfo.TimeStamp != -1 ) _QuestQuickInfo.TimeStamp++;
+}
+
+void ARPGGamePlayerState::CheckQuestQuickInfo(EEnemyType EnemyTye)
+{
+	FString EnemyName;
+	if (EnemyTye == EEnemyType::DOG) EnemyName = "Barghest";
+	for (auto& Item : _QuestQuickInfo.Current)
+	{
+		if (Item.Key != EnemyName) continue;
+		Item.Value++;
+		_QuestQuickInfo.TimeStamp++;
+	}
 }
 
 TSharedPtr<FRPGItemInfo> ARPGGamePlayerState::GetFindItem(const FName& Name)

@@ -7,6 +7,7 @@
 #include "Game/RPGGameNPC.h"
 #include "RPGGameNPCQuest.generated.h"
 
+
 /**
  * 
  */
@@ -16,8 +17,10 @@ class RPGPROJECT_API ARPGGameNPCQuest : public ARPGGameNPC
 	GENERATED_BODY()
 private:
 	TArray<FRPGQuestInfo> _HandsQuestList;
+	EGameQuestNPCState _QuestState;
 public:
 	virtual void BeginPlay() override;
 	void SetQuestList();
 	FRPGQuestInfo GetQuest();
+	EGameQuestNPCState GetQuestNPCState();
 };

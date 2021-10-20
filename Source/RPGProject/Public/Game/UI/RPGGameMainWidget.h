@@ -30,8 +30,10 @@ public:
 	void SetLayoutList();
 	void SetQuestInfo(FRPGQuestInfo QuestInfo);
 	UFUNCTION()
-	void ChangeMainWidget(bool bQuestPositive);
+	void ChangeMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo);
 public:
 	URPGGameBaseLayout* GetUserLayout();
 	void ChangeLayout(const EGameMainUIType& NewState, const int& ZOrder = 0);
+public:
+	FOnChangeQuestToMainWidgetDelegate delegateSendQuestInfoToCharacter;
 };

@@ -42,4 +42,6 @@ public:
 	void SetQuestInfo(const FRPGQuestInfo& QuestInfo);
 public:
 	FOnChangeQuestToMainWidgetDelegate delegateChangeQuestToMainWidget;
+public:
+
 };

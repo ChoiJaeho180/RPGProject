@@ -30,3 +30,8 @@ FRPGQuestInfo ARPGGameNPCQuest::GetQuest()
 	else return _HandsQuestList[MinLevelIndex];
 }
 
+EGameQuestNPCState ARPGGameNPCQuest::GetQuestNPCState()
+{
+	return _QuestState;
+}
+

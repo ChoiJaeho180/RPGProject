@@ -50,11 +50,11 @@ void URPGGameMainWidget::SetQuestInfo(FRPGQuestInfo QuestInfo)
 	//->
 }
 
-void URPGGameMainWidget::ChangeMainWidget(bool bQuestPositive)
+void URPGGameMainWidget::ChangeMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo)
 {
 	if (bQuestPositive == true)
 	{
-
+		delegateSendQuestInfoToCharacter.ExecuteIfBound(bQuestPositive, QuestQuickInfo);
 	}
 	ChangeLayout(EGameMainUIType::USER_LAYOUT);
 }

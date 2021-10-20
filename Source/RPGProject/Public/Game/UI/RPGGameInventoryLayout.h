@@ -11,6 +11,7 @@ class URPGGameBagLayout;
 class URPGGameEquipmentLayout;
 class URPGGameActionBarLayout;
 class URPGGameShopLayout;
+class URPGGameQuestQuickLayout;
 /**
  * 
  */
@@ -29,7 +30,8 @@ private:
 	URPGGameActionBarLayout* _ActionBar;
 	UPROPERTY()
 	URPGGameShopLayout* _ShopLayout;
-
+	UPROPERTY()
+	URPGGameQuestQuickLayout* _QuestQuickLayout;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
@@ -42,4 +44,5 @@ public:
 	void InitInventory(const TArray<FRPGRestItem>& RestItemData);
 	void InitActionBar(const TArray<FRPGRestItem>& RestActionBar);
 	void ActiveShop();
+	void ActiveQuestQuick();
 };

@@ -14,15 +14,11 @@ ARPGGameUIManager::ARPGGameUIManager()
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FClassFinder<URPGCommonFade>INTRO_FADE_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/WB_Fade.WB_Fade_C'"));
-	if (INTRO_FADE_WIDGET.Succeeded())
-	{
-		IntroFadeClass = INTRO_FADE_WIDGET.Class;
-	}
+	if (INTRO_FADE_WIDGET.Succeeded()) IntroFadeClass = INTRO_FADE_WIDGET.Class;
+
 	static ConstructorHelpers::FClassFinder<URPGGameMainWidget>MAIN_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/GameMainWidget.GameMainWidget_C'"));
-	if (MAIN_WIDGET.Succeeded())
-	{
-		GameMainClass = MAIN_WIDGET.Class;
-	}
+	if (MAIN_WIDGET.Succeeded()) GameMainClass = MAIN_WIDGET.Class;
+
 }
 
 void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
@@ -41,7 +37,8 @@ void ARPGGameUIManager::Initialize(ARPGGameController* NewController)
 	_MainWidget->SetLayoutList();
 	_MainWidget->AddToViewport(0);
 	_MainWidget->ChangeLayout(EGameMainUIType::USER_LAYOUT);
-	
+
+	_MainWidget->delegateSendQuestInfoToCharacter.BindUObject(this, &ARPGGameUIManager::SendQuestInfoToController);
 	_UIDeliver = NewObject<URPGGameUIIdeliver>();
 
 	URPGGameBaseLayout* GameLayout = _MainWidget->GetUserLayout();
@@ -60,6 +57,11 @@ void ARPGGameUIManager::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ARPGGameUIManager::SendQuestInfoToController(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo)
+{
+	_CurrentController->SendQuestInfoToPlayerState(QuestQuickInfo);
 }
 
 void ARPGGameUIManager::SetFadeEffectType(ECommonFadeState EffectType, bool bChangeLevel)

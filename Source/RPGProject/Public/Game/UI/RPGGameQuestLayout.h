@@ -18,10 +18,11 @@ class RPGPROJECT_API URPGGameQuestLayout : public URPGGameBaseLayout, public IRP
 private:
 	bool _bFirstInit;
 	URPGGameQuestSpeechLayout* _QuestSpeechLayout;
+
 public:
 	virtual void NativeConstruct() override;
 	void SetQuestInfo(const FRPGQuestInfo& QuestInfo);
 	UFUNCTION()
-	void SendQuestToMainWidget(bool bQuestPositive);
+	void SendQuestToMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo);
 public:
 };

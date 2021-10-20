@@ -4,6 +4,7 @@
 
 #include "../../RPGProject.h"
 #include "Common/REST/RPGCommonCharacterInfoExecutor.h"
+#include "Game/RPGGameQuestManager.h"
 #include "Game/RPGGameCharacterBagComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "RPGGameController.generated.h"
@@ -59,6 +60,9 @@ public:
 
 	void AddExp(int Exp, bool bAddLog);
 	void AddGold(int Gold, bool bAddLog);
+
+	void SendQuestInfoToPlayerState(FRPGQuestQuickInfo& QuestQuickInfo);
+	void CheckAddQuest(EEnemyType EnemyType);
 public:
 	FORCEINLINE ARPGGamePlayerState* GetGamePlayerState() { return _PlayerStat; };
 public:

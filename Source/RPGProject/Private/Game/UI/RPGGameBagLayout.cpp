@@ -65,7 +65,7 @@ void URPGGameBagLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 		Find->UpdateItem(NewItemsInfo[i]);
 	}
 
-	// ╬фюлеш ╢ы ╩Г©К хд UI ╬В╣╔юлф╝ 
+	// О©╫О©╫О©╫О©╫О©╫О©╫ О©╫О©╫ О©╫О©╫О©╫ О©╫О©╫ UI О©╫О©╫О©╫О©╫О©╫О©╫ф╝ 
 	for (int i = 0; i < _SlotData.Num(); i++)
 	{
 		TSharedPtr<FRPGItemInfo> SlotData = FindItem(_SlotData[i]->GetItemSlotData(), NewItemsInfo);

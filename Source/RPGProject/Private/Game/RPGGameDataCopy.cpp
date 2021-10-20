@@ -24,6 +24,13 @@ void ARPGGameDataCopy::BeginPlay()
 	_Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
 }
 
+void ARPGGameDataCopy::CheckQuest()
+{
+	FRPGQuestQuickInfo QuestInfo = _CheckStat->GetQuestQuickInfo();
+	if (_QuestQuickInfo.TimeStamp == QuestInfo.TimeStamp)return;
+	_QuestQuickInfo = QuestInfo;
+}
+
 void ARPGGameDataCopy::CheckCharacterStat()
 {
 	TSharedPtr<FCharacterStat> CharacterStat = _CheckStat->GetCharacterStat();
@@ -153,6 +160,7 @@ void ARPGGameDataCopy::Tick(float DeltaTime)
 	CehckkCharacterMoney();
 	CheckCharacterSkillCoolDown();
 	CheckAddLog();
+	CheckQuest();
 	_DeltaTime = 0.f;
 }
 
