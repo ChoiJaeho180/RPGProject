@@ -10,10 +10,15 @@ void URPGGameNPCSaying::NativeConstruct()
 	_SpeechText = Cast<UTextBlock>(GetWidgetFromName("SpeechText"));
 }
 
+void URPGGameNPCSaying::SetSPeechTextScale(int Scale)
+{
+	_SpeechText->SetRenderScale(FVector2D(Scale, Scale));
+}
+
 void URPGGameNPCSaying::SetSpeechText(const FString& Text)
 {
 	if(_SpeechText != nullptr)
-		_SpeechText->Text = FText::FromString(Text);
+		_SpeechText->SetText(FText::FromString(Text));
 }
 
 void URPGGameNPCSaying::SetSpeechTexts(const TArray<FString>& NewTexts)

@@ -142,6 +142,7 @@ void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)
 {
 	ARPGGameController* Controller = Cast<ARPGGameController>(GetWorld()->GetFirstPlayerController());
 	ARPGGameCharacter* Character = Cast<ARPGGameCharacter>(Controller->GetPawn());
+	
 	bool bActorHiddenInGmae = Character->GetCurrentMap() == "Desert";
 	auto setInfo = [](ARPGGameNPC* NewGameNPC, FNPCInfo NewNPC, bool bHiddenActor) {
 		NewGameNPC->SetInfo(NewNPC.SkeletalMesh, NewNPC.AnimInstanceClass, NewNPC.Position, NewNPC.Village, NewNPC.Name, NewNPC.Type, NewNPC.bQuest, NewNPC.Speech);
@@ -154,7 +155,7 @@ void ARPGGameGameMode::AddNewNPC(TArray<FNPCInfo> NewNPC)
 		{
 			ARPGGameNPCQuest* NewGameNPC = GetWorld()->SpawnActor<ARPGGameNPCQuest>(GameNPCQuestClass);
 			setInfo(NewGameNPC, NewNPC[i], bActorHiddenInGmae);
-			NewGameNPC->SetQuestList();
+			NewGameNPC->SetQuestList(Cast<ARPGGamePlayerState>(Controller->PlayerState)->GetCharacterLevel());
 			MapInfo->AddNewNPC(NewGameNPC);
 		}
 		else

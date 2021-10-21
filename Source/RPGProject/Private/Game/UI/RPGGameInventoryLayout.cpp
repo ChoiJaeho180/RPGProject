@@ -6,6 +6,7 @@
 #include "Game/UI/RPGGameActionBarLayout.h"
 #include "Game/UI/RPGGameShopLayout.h"
 #include "Game/UI/RPGGameQuestQuickLayout.h"
+#include "Game/UI/RPGGameStatLayout.h"
 
 void URPGGameInventoryLayout::NativeConstruct()
 {
@@ -21,6 +22,9 @@ void URPGGameInventoryLayout::NativeConstruct()
 
 	_QuestQuickLayout = Cast<URPGGameQuestQuickLayout>(GetWidgetFromName("QuestQuickLayout"));
 	_QuestQuickLayout->SetVisibility(ESlateVisibility::Hidden);
+	_StatLayout = Cast<URPGGameStatLayout>(GetWidgetFromName("GameStat"));
+	_StatLayout->SetVisibility(ESlateVisibility::Hidden);
+
 }
 
 void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
@@ -38,6 +42,11 @@ void URPGGameInventoryLayout::NativeTick(const FGeometry& MyGeometry, float InDe
 
 	_QuestQuickLayout->Tick();
 	
+	if (_StatLayout->GetVisibility() == ESlateVisibility::Visible)
+	{
+		_StatLayout->Tick();
+	}
+
 	if (_BagLayout->GetVisibility() == ESlateVisibility::Visible)
 	{
 		_BagLayout->NativeTick(MyGeometry, InDeltaTime);
@@ -71,6 +80,9 @@ void URPGGameInventoryLayout::UpdateVisibility(const EInventoryUIType& NewInput)
 			break;
 		case EInventoryUIType::EQUIPMENT_INVENTORY:
 			TempWidget = _EquipmentLayout;
+			break;
+		case EInventoryUIType::STAT_INVENTORY:
+			TempWidget = _StatLayout;
 			break;
 	}
 

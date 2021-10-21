@@ -20,7 +20,7 @@ private:
 	TArray<FString> _SpeechTexts;
 public:
 	virtual void NativeConstruct() override;
-
+	void SetSPeechTextScale(int Scale);
 	void SetSpeechText(const FString& Text);
 	void SetSpeechTexts(const TArray<FString>& NewTexts);
 };

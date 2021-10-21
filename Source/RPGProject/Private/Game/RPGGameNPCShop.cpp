@@ -6,6 +6,12 @@
 
 ARPGGameNPCShop::ARPGGameNPCShop()
 {
+	static ConstructorHelpers::FClassFinder<URPGGameNPCSaying> UI_HUD(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/NPC/NPC_Saying.NPC_Saying_C'"));
+	if (UI_HUD.Succeeded())
+	{
+		_WidgetCompo->SetWidgetClass(UI_HUD.Class);
+		_WidgetCompo->SetDrawSize(FVector2D(220.0f, 30.0f));
+	}
 
 }
 

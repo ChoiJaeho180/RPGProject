@@ -53,6 +53,7 @@ enum class EInventoryUIType : uint8
 {
 	EQUIPMENT_INVENTORY,
 	BAG_INVENTORY,
+	STAT_INVENTORY,
 	ETC_INVENTORY
 };
 

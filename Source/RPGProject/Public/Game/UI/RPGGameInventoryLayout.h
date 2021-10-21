@@ -12,6 +12,7 @@ class URPGGameEquipmentLayout;
 class URPGGameActionBarLayout;
 class URPGGameShopLayout;
 class URPGGameQuestQuickLayout;
+class URPGGameStatLayout;
 /**
  * 
  */
@@ -32,6 +33,8 @@ private:
 	URPGGameShopLayout* _ShopLayout;
 	UPROPERTY()
 	URPGGameQuestQuickLayout* _QuestQuickLayout;
+	UPROPERTY()
+	URPGGameStatLayout* _StatLayout;
 public:
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

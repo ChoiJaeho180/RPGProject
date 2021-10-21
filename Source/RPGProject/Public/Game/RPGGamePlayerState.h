@@ -85,7 +85,7 @@ public:
 	void AddSpecialBar(int AddRatio);
 	void LevelUp();
 	void UpdateQuestQuickInfo(FRPGQuestQuickInfo& Quest);
-	void CheckQuestQuickInfo(EEnemyType EnemyTye);
+	bool CheckQuestQuickInfo(EEnemyType EnemyTye);
 	TSharedPtr<FRPGItemInfo> GetFindItem(const FName& Name);
 
 public:

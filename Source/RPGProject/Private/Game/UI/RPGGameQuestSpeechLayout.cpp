@@ -4,7 +4,7 @@
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 
-#define SYLLABLE_UPDATE_INTERVAL 0.07f
+#define SYLLABLE_UPDATE_INTERVAL 0.01f
 
 void URPGGameQuestSpeechLayout::QuestStateVisibility()
 {

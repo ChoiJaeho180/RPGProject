@@ -61,6 +61,7 @@ void ARPGGameController::SetupInputComponent()
 	InputComponent->BindAction(TEXT("Move"), EInputEvent::IE_Pressed, this, &ARPGGameController::Move);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Bag"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::BAG_INVENTORY);
 	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Equipmenet"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::EQUIPMENT_INVENTORY);
+	InputComponent->BindAction<FUIInteractionDelegate>(TEXT("Stat"), EInputEvent::IE_Released, this, &ARPGGameController::InteractionUI, EInventoryUIType::STAT_INVENTORY);
 
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_1"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("1"));
 	InputComponent->BindAction<FUIInputActionBarDelegate>(TEXT("Portion_2"), EInputEvent::IE_Pressed, this, &ARPGGameController::InteractionPortionBarUI, FString("2"));
@@ -227,18 +228,14 @@ void ARPGGameController::LeftMouseClick()
 		}
 		else
 		{
-			FRPGQuestInfo QuestInfo =  NPC->GetQuest();
+			FRPGQuestInfo QuestInfo = NPC->GetCurrentQuest();
 			EGameQuestNPCState State = NPC->GetCurrentQuestNPCState();
-			if (State == EGameQuestNPCState::ING_COMPLATE)
-			{
-				NPC->GetQuest();
-				State = NPC->GetCurrentQuestNPCState();
-			}
+
 			if (State == EGameQuestNPCState::ING_YET)
 			{
 				State = NPC->UpdateQuestState(_PlayerStat->GetQuestQuickInfo());
 			}
-			if (State == EGameQuestNPCState::ING_COMPLATE)
+			else if (State == EGameQuestNPCState::ING_COMPLATE)
 			{
 				FRPGQuestInfo CurrentQuestInfo = NPC->GetCurrentQuest();
 				for (auto& item : CurrentQuestInfo.Compensation)
@@ -248,7 +245,7 @@ void ARPGGameController::LeftMouseClick()
 				FRPGQuestQuickInfo EnemyInfo;
 				_PlayerStat->UpdateQuestQuickInfo(EnemyInfo);
 				NPC->ComplateQuest();
-				State = NPC->GetCurrentQuestNPCState();
+				NPC->GetQuest();
 			}
 			_GameUIManager->ActiveQuestUI(QuestInfo, State);
 		}
@@ -263,7 +260,6 @@ void ARPGGameController::LeftMouseClick()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	if (_Character->GetCurrentMap() == GM->GetCantAttackMap()) return;
 	_Character->InputAttack();
-	_PlayerStat->AddSpecialBar(20);
 }
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
@@ -340,6 +336,11 @@ void ARPGGameController::SendQuestInfoToPlayerState(FRPGQuestQuickInfo& QuestQui
 
 void ARPGGameController::CheckAddQuest(EEnemyType EnemyType)
 {
-	_PlayerStat->CheckQuestQuickInfo(EnemyType);
+	if (_PlayerStat->CheckQuestQuickInfo(EnemyType))
+	{
+		ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
+		auto QuestNPC = GM->GetQuest();
+		QuestNPC->SetCurrentQuestNPCState(EGameQuestNPCState::ING_COMPLATE);
+	}
 }
 

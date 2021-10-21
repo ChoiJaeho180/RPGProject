@@ -20,14 +20,16 @@ private:
 	FRPGQuestInfo _CurrentQuest;
 	EGameQuestNPCState _QuestState;
 public:
+	ARPGGameNPCQuest();
 	virtual void BeginPlay() override;
-	void SetQuestList();
+	void SetQuestList(int CharacterLevel);
 	FRPGQuestInfo GetQuest();
 	EGameQuestNPCState GetCurrentQuestNPCState();
 	EGameQuestNPCState UpdateQuestState(FRPGQuestQuickInfo USerQuest);
 	void ComplateQuest();
+	void SetCurrentQuestNPCState(EGameQuestNPCState New);
 	TArray<int> GetComplateQuestIndex();
 public:
 	FORCEINLINE FRPGQuestInfo GetCurrentQuest() { return _CurrentQuest; }
-	FORCEINLINE void SetCurrentQuestNPCState(EGameQuestNPCState New) { _QuestState = New; }
+
 };

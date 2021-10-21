@@ -125,7 +125,7 @@ void ARPGGamePlayerState::UpdateQuestQuickInfo(FRPGQuestQuickInfo& Quest)
 	if(_QuestQuickInfo.TimeStamp != -1 ) _QuestQuickInfo.TimeStamp++;
 }
 
-void ARPGGamePlayerState::CheckQuestQuickInfo(EEnemyType EnemyTye)
+bool ARPGGamePlayerState::CheckQuestQuickInfo(EEnemyType EnemyTye)
 {
 	FString EnemyName;
 	if (EnemyTye == EEnemyType::DOG) EnemyName = "Barghest";
@@ -136,6 +136,13 @@ void ARPGGamePlayerState::CheckQuestQuickInfo(EEnemyType EnemyTye)
 		Item.Value++;
 		_QuestQuickInfo.TimeStamp++;
 	}
+	bool result = true;
+	for (auto& Item : _QuestQuickInfo.Current)
+	{
+		if (Item.Key != EnemyName) continue;
+		if (Item.Value != _QuestQuickInfo.Require[Item.Key]) result = false;
+	}
+	return result;
 }
 
 TSharedPtr<FRPGItemInfo> ARPGGamePlayerState::GetFindItem(const FName& Name)
