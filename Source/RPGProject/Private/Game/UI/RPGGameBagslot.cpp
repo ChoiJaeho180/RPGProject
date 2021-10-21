@@ -27,7 +27,9 @@ bool URPGGameBagslot::NativeOnDrop(const FGeometry& InGeometry, const FDragDropE
 
 		if (_ItemIsFrom == ItemIsFrom)
 		{
-     			ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI, this);
+     		ItemOperation->ExChangeSlot(ItemOperation->InventorySlotUI, this);
+			//ItemOperation->InventorySlotUI->GetItemSlotData()->Image = nullptr;
+			
 		}
 		else if (_ItemIsFrom == EItemIsFrom::BAG && ItemIsFrom == EItemIsFrom::EQUIP)
 		{
@@ -99,15 +101,18 @@ URPGGameSlotDragDropBaseLayout* URPGGameBagslot::GetDragObject()
 void URPGGameBagslot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
 	UUserWidget::NativeOnMouseEnter(InGeometry, InMouseEvent);
-	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseEnter"));
+	URPGGameSlotDragDropBaseLayout::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	//UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseEnter"));
 	FLinearColor c;
 	_Background->SetColorAndOpacity(c.Blue);
+	
 }
 
 void URPGGameBagslot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	UUserWidget::NativeOnMouseLeave(InMouseEvent);
-	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseLeave"));
+	URPGGameSlotDragDropBaseLayout::NativeOnMouseLeave(InMouseEvent);
+	//UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseLeave"));
 	FLinearColor c;
 	_Background->SetColorAndOpacity(c.White);
 }

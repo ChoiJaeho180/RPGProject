@@ -30,6 +30,7 @@ public:
 	void AddNewNPC(ARPGGameNPCShop* NewNPC);
 	void CreatePortal();
 	void SetHiddenGame(bool bHide);
+	ARPGGameNPCQuest* GetQuestNPC();
 public:
 	FORCEINLINE void SetMapName(const FString& MapName) { _MapName = MapName; }
 	FORCEINLINE FString GetMapName() { return _MapName; }

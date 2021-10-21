@@ -26,8 +26,11 @@ private:
 public:
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	virtual void NativeConstruct() override;
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
 	virtual void ActiveSlot(ESlateVisibility NewState) override;
 	virtual void UpdateUI() override;
+	virtual UTexture2D* GetItemImage() const;
 	UFUNCTION()
 	void BuyItem();
 };

@@ -187,3 +187,8 @@ URPGGameMapInfo* ARPGGameGameMode::GetGameMap(const FString& MapName)
 	}
 	return nullptr;
 }
+
+ARPGGameNPCQuest* ARPGGameGameMode::GetQuest()
+{
+	return _MapInfo[0]->GetQuestNPC();
+}

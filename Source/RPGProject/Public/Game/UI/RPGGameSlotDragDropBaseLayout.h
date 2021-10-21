@@ -12,6 +12,7 @@ class UImage;
 class UButton;
 class UTexture2D;
 class UTextBlock;
+class URPGGameToolTip;
 /**
  * 
  */
@@ -23,7 +24,8 @@ protected:
 	TSharedPtr<FRPGItemSlot> _ItemInfo;
 	UPROPERTY()
 	EItemIsFrom _ItemIsFrom;
-
+	UPROPERTY()
+	URPGGameToolTip* _ToolTip;
 protected:
     virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
     virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent,UDragDropOperation*& OutOperation) override;

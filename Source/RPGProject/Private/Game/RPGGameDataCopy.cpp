@@ -4,6 +4,8 @@
 #include "Game/RPGGameCharacterBagComponent.h"
 #include "Game/Skill/RPGGameBaseEffect.h"
 #include "Game/RPGGameCharacter.h"
+#include "Game/RPGGameGameMode.h"
+#include "Game/RPGGameNPCQuest.h"
 
 // Sets default values
 ARPGGameDataCopy::ARPGGameDataCopy()

@@ -14,7 +14,7 @@ class RPGPROJECT_API ARPGGameNPC : public APawn
 protected:
 	UPROPERTY()
 	USkeletalMeshComponent* _SkeletalMesh;
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UWidgetComponent* _WidgetCompo;
 	UPROPERTY(VisibleAnywhere, Category = Camera, Meta = (AllowPrivateAccess = true))
 	UWidgetComponent* _NPCTypeWidgetCompo;

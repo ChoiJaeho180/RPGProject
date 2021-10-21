@@ -17,10 +17,17 @@ class RPGPROJECT_API ARPGGameNPCQuest : public ARPGGameNPC
 	GENERATED_BODY()
 private:
 	TArray<FRPGQuestInfo> _HandsQuestList;
+	FRPGQuestInfo _CurrentQuest;
 	EGameQuestNPCState _QuestState;
 public:
 	virtual void BeginPlay() override;
 	void SetQuestList();
 	FRPGQuestInfo GetQuest();
-	EGameQuestNPCState GetQuestNPCState();
+	EGameQuestNPCState GetCurrentQuestNPCState();
+	EGameQuestNPCState UpdateQuestState(FRPGQuestQuickInfo USerQuest);
+	void ComplateQuest();
+	TArray<int> GetComplateQuestIndex();
+public:
+	FORCEINLINE FRPGQuestInfo GetCurrentQuest() { return _CurrentQuest; }
+	FORCEINLINE void SetCurrentQuestNPCState(EGameQuestNPCState New) { _QuestState = New; }
 };

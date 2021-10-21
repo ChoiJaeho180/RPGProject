@@ -12,6 +12,7 @@
 class ARPGGamePlayerState;
 class ARPGGameBaseEffect;
 class ARPGGameCharacter;
+class ARPGGameNPCQuest;
 UCLASS()
 class RPGPROJECT_API ARPGGameDataCopy : public AActor
 {
@@ -31,6 +32,7 @@ private:
 	TArray<int> _AddExpLog;
 	TArray<int> _AddGoldLog;
 	FString _UpdateMapName;
+	EGameQuestNPCState _QuestNPCState;
 public:	
 	// Sets default values for this actor's properties
 	ARPGGameDataCopy();

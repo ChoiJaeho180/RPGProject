@@ -81,6 +81,7 @@ public:
 	void AddMP(int AddMP = 99999);
 	void AddGold(int Gold, bool bAddLog);
 	void AddExp(int Exp, bool bAddLog);
+	void AddState(FString StatName, int Value);
 	void AddSpecialBar(int AddRatio);
 	void LevelUp();
 	void UpdateQuestQuickInfo(FRPGQuestQuickInfo& Quest);

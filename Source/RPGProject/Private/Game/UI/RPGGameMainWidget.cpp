@@ -42,11 +42,11 @@ void URPGGameMainWidget::SetLayoutList()
 	
 }
 
-void URPGGameMainWidget::SetQuestInfo(FRPGQuestInfo QuestInfo)
+void URPGGameMainWidget::SetQuestInfo(FRPGQuestInfo QuestInfo, EGameQuestNPCState State)
 {
 	int ResultIndex = _RPGGameSpecificWidgetJudge.GetUpdateWidgetIndex(_GameLayoutList, EGameMainUIType::QUEST_LAYOUT);
 	if (ResultIndex == -1) return; 
-	Cast<IRPGGameSetQuestUIInfo>(_GameLayoutList[ResultIndex])->SetQuestInfo(QuestInfo);
+	Cast<IRPGGameSetQuestUIInfo>(_GameLayoutList[ResultIndex])->SetQuestInfo(QuestInfo, State);
 	//->
 }
 

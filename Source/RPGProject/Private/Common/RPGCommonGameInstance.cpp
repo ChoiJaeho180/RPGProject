@@ -30,6 +30,10 @@ URPGCommonGameInstance::URPGCommonGameInstance()
 
 	static ConstructorHelpers::FClassFinder<UUserWidget>QUEST_QUICK_WIDGET(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/QuestQuickLayout.QuestQuickLayout_C'"));
 	if (QUEST_QUICK_WIDGET.Succeeded())RPGQuestQuickClass = QUEST_QUICK_WIDGET.Class;
+	static ConstructorHelpers::FClassFinder<UUserWidget>ItemToolTip(TEXT("WidgetBlueprint'/Game/Blueprints/GameWidgetBP/Character/SlotToolTip.SlotToolTip_C'"));
+	if(ItemToolTip.Succeeded())ItemToolTipClass = ItemToolTip.Class;
+	//UBlueprintGeneratedClass* ItemToolTip = LoadObject<UBlueprintGeneratedClass>(nullptr,);
+	//ItemToolTipClass = Cast<UClass>(ItemToolTip);
 }
 
 void URPGCommonGameInstance::Init()

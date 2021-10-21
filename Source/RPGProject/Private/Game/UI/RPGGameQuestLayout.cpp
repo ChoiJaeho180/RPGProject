@@ -13,13 +13,12 @@ void URPGGameQuestLayout::NativeConstruct()
 	_bFirstInit = true;
 }
 
-void URPGGameQuestLayout::SetQuestInfo(const FRPGQuestInfo& QuestInfo)
+void URPGGameQuestLayout::SetQuestInfo(const FRPGQuestInfo& QuestInfo, EGameQuestNPCState State)
 {
-	_QuestSpeechLayout->SetQuestInfo(QuestInfo);
+	_QuestSpeechLayout->SetQuestInfo(QuestInfo, State);
 }
 
 void URPGGameQuestLayout::SendQuestToMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo)
 {
-
 	delegateChangeQuestToMainWidget.ExecuteIfBound(bQuestPositive, QuestQuickInfo);
 }

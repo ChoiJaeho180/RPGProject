@@ -53,5 +53,6 @@ public:
 	TSubclassOf<UUserWidget> RPGBuyHelperClass;
 	TSubclassOf<UUserWidget> RPGQuestQuickClass;
 	TSubclassOf<ARPGGameDataCopy> GameDataCopyClass;
+	TSubclassOf<UUserWidget> ItemToolTipClass;
 	USkeletalMesh* CharacterSkeletalMeshObject;
 };

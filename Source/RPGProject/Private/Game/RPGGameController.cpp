@@ -123,6 +123,24 @@ void ARPGGameController::UpdateCharacterInfoToDB(TArray<TSharedPtr<FRPGItemSlot>
 	JsonObject->SetStringField("Stat", Stat);
 	JsonObject->SetStringField("CharacterName", GameInstance->GetCharacterName());
 	GameInstance->PostRequest("/game/updatecharacterinfo", JsonObject);
+
+	ARPGGameNPCQuest* NPC = GM->GetQuest();
+	TArray<int> Index = NPC->GetComplateQuestIndex();
+
+	if (Index.Num() == 0) return;
+	TSharedPtr<FJsonObject> JsonObject2 = MakeShareable(new FJsonObject);
+	FString ClearQuestString;
+	for (int i = 0; i < Index.Num(); i++)
+	{
+		ClearQuestString += FString::FromInt(Index[i]) + ",";
+	}
+	ClearQuestString.RemoveAt(ClearQuestString.Len() - 1); 
+
+	JsonObject->SetStringField("ClearQuestIndex", ClearQuestString);
+	JsonObject2->SetStringField("CharacterName", GameInstance->GetCharacterName());
+	GameInstance->PostRequest("/game/updatequestinfo", JsonObject2);
+
+
 }
 
 void ARPGGameController::MoveToMouseCursor()
@@ -210,8 +228,29 @@ void ARPGGameController::LeftMouseClick()
 		else
 		{
 			FRPGQuestInfo QuestInfo =  NPC->GetQuest();
-			if (QuestInfo.QuestNumber == -1) return;
-			_GameUIManager->ActiveQuestUI(QuestInfo);
+			EGameQuestNPCState State = NPC->GetCurrentQuestNPCState();
+			if (State == EGameQuestNPCState::ING_COMPLATE)
+			{
+				NPC->GetQuest();
+				State = NPC->GetCurrentQuestNPCState();
+			}
+			if (State == EGameQuestNPCState::ING_YET)
+			{
+				State = NPC->UpdateQuestState(_PlayerStat->GetQuestQuickInfo());
+			}
+			if (State == EGameQuestNPCState::ING_COMPLATE)
+			{
+				FRPGQuestInfo CurrentQuestInfo = NPC->GetCurrentQuest();
+				for (auto& item : CurrentQuestInfo.Compensation)
+				{
+					_PlayerStat->AddState(item.Key, item.Value);
+				}
+				FRPGQuestQuickInfo EnemyInfo;
+				_PlayerStat->UpdateQuestQuickInfo(EnemyInfo);
+				NPC->ComplateQuest();
+				State = NPC->GetCurrentQuestNPCState();
+			}
+			_GameUIManager->ActiveQuestUI(QuestInfo, State);
 		}
 	}
 	FHitResult Hit2;
@@ -294,6 +333,9 @@ void ARPGGameController::AddGold(int Gold, bool bAddLog)
 void ARPGGameController::SendQuestInfoToPlayerState(FRPGQuestQuickInfo& QuestQuickInfo)
 {
 	_PlayerStat->UpdateQuestQuickInfo(QuestQuickInfo);
+	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
+	ARPGGameNPCQuest* NPC =  GM->GetQuest();
+	NPC->SetCurrentQuestNPCState(EGameQuestNPCState::ING_YET);
 }
 
 void ARPGGameController::CheckAddQuest(EEnemyType EnemyType)

@@ -12,6 +12,7 @@ ARPGGameNPCShop::ARPGGameNPCShop()
 void ARPGGameNPCShop::BeginPlay()
 {
 	Super::BeginPlay();
+	_WidgetCompo->SetRelativeLocation(FVector(60.0f, 0.0f, 220.0f));
 	_SpeechSetInterval = 2;
 	_SpeechTimer->SetStandardTime(_SpeechSetInterval);
 }

@@ -27,7 +27,8 @@ UENUM(BlueprintType)
 enum class EGameQuestNPCState : uint8
 {
 	READY,
-	ING,
+	ING_YET,
+	ING_COMPLATE,
 	FINISH
 };
 

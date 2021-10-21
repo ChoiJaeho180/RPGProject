@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "../../../RPGProject.h"
 #include "Game/RPGGameQuestManager.h"
 #include "UObject/Interface.h"
 #include "RPGGameSetQuestUIInfo.generated.h"
@@ -25,5 +25,5 @@ class RPGPROJECT_API IRPGGameSetQuestUIInfo
 public:
 
 	FOnChangeQuestToMainWidgetDelegate delegateChangeQuestToMainWidget;
-	virtual void SetQuestInfo(const FRPGQuestInfo& QuestInfo) = 0;
+	virtual void SetQuestInfo(const FRPGQuestInfo& QuestInfo, EGameQuestNPCState State) = 0;
 };

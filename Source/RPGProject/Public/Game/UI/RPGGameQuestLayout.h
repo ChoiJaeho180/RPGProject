@@ -21,7 +21,7 @@ private:
 
 public:
 	virtual void NativeConstruct() override;
-	void SetQuestInfo(const FRPGQuestInfo& QuestInfo);
+	void SetQuestInfo(const FRPGQuestInfo& QuestInfo, EGameQuestNPCState State);
 	UFUNCTION()
 	void SendQuestToMainWidget(bool bQuestPositive, FRPGQuestQuickInfo& QuestQuickInfo);
 public:

@@ -49,3 +49,8 @@ void URPGGameMapInfo::SetHiddenGame(bool bHide)
 		_Portals[i]->SetActorHiddenInGame(bHide);
 	}
 }
+
+ARPGGameNPCQuest* URPGGameMapInfo::GetQuestNPC()
+{
+	return _QuestNPCs[0];
+}

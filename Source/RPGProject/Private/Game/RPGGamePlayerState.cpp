@@ -88,6 +88,21 @@ void ARPGGamePlayerState::AddExp(int Exp, bool bAddLog)
 	_CharacterStat->TimeStamp++;
 }
 
+void ARPGGamePlayerState::AddState(FString StatName, int Value)
+{
+	if (StatName == "EXP") AddExp(Value, false);
+	else if (StatName == "Money") AddGold(Value, false);
+	else
+	{
+		URPGCommonGameInstance* GI = Cast<URPGCommonGameInstance>(GetWorld()->GetGameInstance());
+		URPGGameDataTableManager* DTManager = GI->GetDataTableManager();
+		FGameItemType* ItemType = DTManager->GetNameToData(FName(*StatName));
+		TSharedPtr<FRPGItemInfo> NewItem = MakeShareable(new FRPGItemInfo);
+		NewItem->SetInfo(Value, ItemType->Price, ItemType->Description, ItemType->Name, ItemType->InventoryType);
+		_CharacterBagComponent->AddItem(NewItem);
+	}
+}
+
 void ARPGGamePlayerState::LevelUp()
 {
 	_CharacterStat->Stat["STX"] += 5;
@@ -114,6 +129,7 @@ void ARPGGamePlayerState::CheckQuestQuickInfo(EEnemyType EnemyTye)
 {
 	FString EnemyName;
 	if (EnemyTye == EEnemyType::DOG) EnemyName = "Barghest";
+	else EnemyName = "Griffon";
 	for (auto& Item : _QuestQuickInfo.Current)
 	{
 		if (Item.Key != EnemyName) continue;

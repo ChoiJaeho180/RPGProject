@@ -15,7 +15,6 @@ ARPGGameNPC::ARPGGameNPC()
 
 	_WidgetCompo = CreateDefaultSubobject<UWidgetComponent>(TEXT("ChattingWidget"));
 	_WidgetCompo->SetupAttachment(_SkeletalMesh);
-	_WidgetCompo->SetRelativeLocation(FVector(60.0f, 0.0f, 220.0f));
 	_WidgetCompo->SetRelativeRotation(FRotator(10.f, 0.f, 0.f));
 	_WidgetCompo->SetWidgetSpace(EWidgetSpace::Screen);
 

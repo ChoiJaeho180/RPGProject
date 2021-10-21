@@ -55,7 +55,31 @@ void URPGGameShopSlot::UpdateUI()
 	_Icon->SetBrushFromTexture(_ItemInfo->Image);
 }
 
+UTexture2D* URPGGameShopSlot::GetItemImage() const
+{
+	//if (_Icon == nullptr) return nullptr;
+	return _ItemInfo->Image;
+}
+
 void URPGGameShopSlot::BuyItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseButtonDoubleClick"));
+}
+void URPGGameShopSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	UUserWidget::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	URPGGameSlotDragDropBaseLayout::NativeOnMouseEnter(InGeometry, InMouseEvent);
+	//UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseEnter"));
+	FLinearColor c;
+	_Background->SetColorAndOpacity(c.Blue);
+
+}
+
+void URPGGameShopSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	UUserWidget::NativeOnMouseLeave(InMouseEvent);
+	URPGGameSlotDragDropBaseLayout::NativeOnMouseLeave(InMouseEvent);
+	//UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseLeave"));
+	FLinearColor c;
+	_Background->SetColorAndOpacity(c.White);
 }

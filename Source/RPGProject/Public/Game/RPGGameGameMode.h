@@ -13,6 +13,7 @@
 class URPGGameMapInfo;
 class ARPGGameCharacter;
 class URPGGameQuestManager;
+class ARPGGameNPCQuest;
 /**
  * 
  */
@@ -41,6 +42,7 @@ public:
 	void SetQuestInfo(const TArray<FRPGQuestInfo>& QuestInfo);
 	TArray<FRPGQuestInfo> GetNPCNameToQuestInfo(const FString& Name);
 	URPGGameMapInfo* GetGameMap(const FString& MapName);
+	ARPGGameNPCQuest* GetQuest();
 public:
 	FORCEINLINE FString GetCantAttackMap() { return _CantAttackMap; }
 public:

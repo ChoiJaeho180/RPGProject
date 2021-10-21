@@ -82,10 +82,10 @@ void ARPGGameUIManager::OnFinishFadeOut()
 	_CurrentController->OnFinishChangeMapEffect();
 }
 
-void ARPGGameUIManager::ActiveQuestUI(FRPGQuestInfo QuestInfo)
+void ARPGGameUIManager::ActiveQuestUI(FRPGQuestInfo QuestInfo, EGameQuestNPCState State)
 {
 	_MainWidget->ChangeLayout(EGameMainUIType::QUEST_LAYOUT, 0);
-	_MainWidget->SetQuestInfo(QuestInfo);
+	_MainWidget->SetQuestInfo(QuestInfo, State);
 }
 
 // Called every frame

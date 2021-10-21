@@ -5,6 +5,7 @@
 #include "Common/RPGCommonGameInstance.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
+#include "Game/UI/RPGGameToolTip.h"
 
 FReply URPGGameSlotDragDropBaseLayout::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -47,11 +48,23 @@ UTexture2D* URPGGameSlotDragDropBaseLayout::GetItemImage() const
 
 void URPGGameSlotDragDropBaseLayout::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
-
+    UE_LOG(LogTemp, Warning, TEXT("NativeOnMouseEnter"));
+    if (_ToolTip == nullptr) _ToolTip = CreateWidget<URPGGameToolTip>(this, Cast<URPGCommonGameInstance>(GetGameInstance())->ItemToolTipClass);
+    if (GetItemImage() != nullptr)
+    {
+        if (_ToolTip != nullptr)
+        {
+            _ToolTip->SetInfo(_ItemInfo->Image, FText::FromString(_ItemInfo->Name.ToString()), _ItemInfo->Description, FText::FromString(FString::FromInt(_ItemInfo->Price)));
+            SetToolTip(_ToolTip);
+        }
+        
+        //ToolTipWidget->
+      //ToolTipWidget->SetRenderScale(FVector2D(0.5f, 1));
+    }
 }
 
 void URPGGameSlotDragDropBaseLayout::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
-
+    SetToolTip(nullptr);
 }
 
