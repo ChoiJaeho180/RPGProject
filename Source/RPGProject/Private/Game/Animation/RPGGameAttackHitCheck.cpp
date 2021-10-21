@@ -17,35 +17,35 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 	if (!::IsValid(Anim)) return;
 	float FinalAttackRange = Character->GetBaseAttackRange();
 	float FinalAttacRadius =  Character->GetBaseAttackRadius();
-	// Ãæµ¹µÈ ¾×ÅÍ¿¡ °ü·ÃµÈ Á¤º¸¸¦ °¡Áú ±¸Á¶Ã¼
+	// ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¼
 	FHitResult HitResult;
 	//FCollisionQueryParams Params2(NAME_None, FCollisionQueryParams::GetUnknownStatId());
 	FCollisionQueryParams Params(NAME_None, false, Character);
 	
 	bool bResult = Character->GetWorld()->SweepSingleByChannel(
 		HitResult,
-		// µµÇüÀÇ Å½»ö ¿µ¿ª
-		Character->GetActorLocation(),
+
+		Character->GetActorLocation() + Character->GetActorForwardVector()* 20,
 		Character->GetActorLocation() + Character->GetActorForwardVector() * FinalAttackRange,
 		FQuat::Identity,
-		// Attack Æ®·¹ÀÌ½º Ã¤³Î
+		// Attack Æ®ï¿½ï¿½ï¿½Ì½ï¿½ Ã¤ï¿½ï¿½
 		ECollisionChannel::ECC_GameTraceChannel4,
-		// Å½»öÇÒ µµÇü : 50cm ¹ÝÁö¸§ ±¸Ã¼
+		// Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 50cm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
 		FCollisionShape::MakeSphere(FinalAttacRadius),
-		// °ø°Ý ¸í·ÉÀ» ³»¸®´Â ÀÚ½ÅÀº ÀÌ Å½»ö¿¡ °¨ÁöµÇÁö ¾Êµµ·Ï ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		Params);
 
-	// °ø°Ý Å½Áö ¹üÀ§ ½Ã°¢ÀûÀ¸·Î Ç¥Çö ÇØÁÖ±â
+	// ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ö±ï¿½
 
 	FVector TraceVec = Character->GetActorForwardVector() * FinalAttackRange;
 	FVector Center = Character->GetActorLocation() + TraceVec * 0.5f;
 	float HalfHeight = FinalAttackRange * 0.5f + FinalAttacRadius;
 	FQuat CapsuleRot = FRotationMatrix::MakeFromZ(TraceVec).ToQuat();
 
-	// °ø°Ý ÆÇÁ¤ÀÌ ¹ß»ý : ³ì»ö ¾Æ´Ï¸é »¡°­
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	FColor DrawColor = bResult ? FColor::Green : FColor::Red;
 	float DebugLifeTime = 5.0f;
-	DrawDebugCapsule(Character->GetWorld(),
+	/*DrawDebugCapsule(Character->GetWorld(),
 		Center,
 		HalfHeight,
 		FinalAttacRadius,
@@ -53,14 +53,15 @@ void URPGGameAttackHitCheck::Notify(USkeletalMeshComponent* MeshComp, UAnimSeque
 		DrawColor,
 		false,
 		DebugLifeTime);
+	*/
 	/*
-	FHitResultÀÇ ¸â¹ö º¯¼ö ActorÀÇ ¼±¾ðÀÌ ÀÏ¹Ý ÂüÁ¶·Î ¼±¾ðµÈ´Ù¸é
-	ÇØ´ç ÇÔ¼ö¿¡¼­ÀÇ ÂüÁ¶·Î ÀÎÇØ Á¦°ÅµÅ¾ß ÇÒ ¾×ÅÍ°¡ ¸Þ¸ð¸®¿¡ ³²¾ÆÀÖ´Â ¹®Á¦°¡ ¹ß»ýÇÒ ¼ö ÀÖ´Ù.
-	ÀÌ·¯ÇÑ ¹®Á¦¸¦ ¹æÁöÇÏ±â À§ÇØ FHitResult´Â ÂüÁ¶·ÎºÎÅÍ ÀÚÀ¯·Ó°Ô Æ÷ÀÎÅÍ Á¤º¸¸¦
-	Àü´ÞÇØÁÖ´Â ¾à Æ÷ÀÎÅÍ ¹æ½ÄÀ¸·Î ¸â¹ö º¯¼ö¸¦ ¼±¾ðÇß´Ù.
+	FHitResultï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Actorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´Ù¸ï¿½
+	ï¿½Ø´ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÅµÅ¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Þ¸ð¸®¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
+	ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ FHitResultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 
-	-> ¾à Æ÷ÀÎÅÍ·Î ÁöÁ¤µÈ ¾×ÅÍ¿¡ Á¢±ÙÇÏ·Á¸é IsValid ÇÔ¼ö¸¦ »ç¿ëÇØ »ç¿ëÇÏ·Á´Â
-	   ¾×ÅÍ°¡ À¯È¿ÇÑÁö ¸ÕÀú Á¡°ËÇÏ°í »ç¿ëÇØ¾ßÇÑ´Ù.
+	-> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ IsValid ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½
+	   ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 	*/
 
 	if (bResult)

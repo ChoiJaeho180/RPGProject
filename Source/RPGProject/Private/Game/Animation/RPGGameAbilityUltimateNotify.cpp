@@ -47,7 +47,7 @@ void URPGGameAbilityUltimateNotify::Notify(USkeletalMeshComponent* MeshComp, UAn
 	}
 	if (CurrentSkill->GetSpecialState() == false) PlayerState->AddSpecialBar(20);
 	
-	DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), 800, 16, FColor::Green, false, 20.f);
+	//DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), 800, 16, FColor::Green, false, 20.f);
 }
 
 FString URPGGameAbilityUltimateNotify::GetNotifyName_Implementation() const

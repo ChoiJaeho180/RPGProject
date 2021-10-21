@@ -21,15 +21,15 @@ void URPGGameEnemyAttackHitCheckNotify::Notify(USkeletalMeshComponent* MeshComp,
 	FVector BastAttackPosition = MeshComp->GetSocketLocation(FName("BaseAttack"));
 	bool bResult = Enemy->GetWorld()->SweepSingleByChannel(
 		HitResult,
-		// µµÇüÀÇ Å½»ö ¿µ¿ª
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		Enemy->GetActorLocation(),
 		BastAttackPosition,
 		FQuat::Identity,
-		// Attack Æ®·¹ÀÌ½º Ã¤³Î
+		// Attack Æ®ï¿½ï¿½ï¿½Ì½ï¿½ Ã¤ï¿½ï¿½
 		ECollisionChannel::ECC_GameTraceChannel5,
-		// Å½»öÇÒ µµÇü : 50cm ¹ÝÁö¸§ ±¸Ã¼
-		FCollisionShape::MakeSphere(150),
-		// °ø°Ý ¸í·ÉÀ» ³»¸®´Â ÀÚ½ÅÀº ÀÌ Å½»ö¿¡ °¨ÁöµÇÁö ¾Êµµ·Ï ¼³Á¤
+		// Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : 50cm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼
+		FCollisionShape::MakeSphere(300),
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		Params);
 
 	if (bResult == true)

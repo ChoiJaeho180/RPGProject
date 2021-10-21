@@ -16,7 +16,7 @@ ARPGGameCharacter::ARPGGameCharacter()
 	_LevelUpCompo->SetupAttachment(GetMesh());
 	_LevelUpCompo->bAutoActivate = false;
 	_BaseAttackRadius = 80.f;
-	_BaseAttackRange = 300.f;
+	_BaseAttackRange = 200.f;
 
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> LEVEL_UP_PARTICLE(TEXT("ParticleSystem'/Game/Luos8Elements/Particles/Wind/Par_Lmagic_Wind_Def_01.Par_Lmagic_Wind_Def_01'"));

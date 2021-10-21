@@ -34,7 +34,7 @@ void ARPGGameEnemyGriffon::BeginPlay()
 	SetActorScale3D(FVector(0.9f, 0.9f, 0.9f));
 
 	_DetectRadius = 600.f;
-	_AttackRange = 470.f;
+	_AttackRange = 350.f;
 
 	ARPGGameBaseAIController* ABAIController = Cast<ARPGGameBaseAIController>(GetController());
 	ABAIController->RunAI();

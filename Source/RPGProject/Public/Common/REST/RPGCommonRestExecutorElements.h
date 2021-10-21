@@ -8,6 +8,7 @@
 #include "RPGCommonCharacterInfoExecutor.h"
 #include "RPGCommonNPCInfoExecutor.h"
 #include "RPGCommonQuestInfoExecutor.h"
+#include "RPGCommonNewAccountExecutor.h"
 #include "GameFramework/Actor.h"
 #include "RPGCommonRestExecutorElements.generated.h"
 
@@ -40,4 +41,5 @@ public:
 	TSubclassOf<ARPGCommonCharacterInfoExecutor> RestApiCharacterInfoExecutorClass;
 	TSubclassOf<ARPGCommonNPCInfoExecutor> RestApiNPCInfoExecutorClass;
 	TSubclassOf<ARPGCommonQuestInfoExecutor> RestApiQuestInfoExecutorClass;
+	TSubclassOf<ARPGCommonNewAccountExecutor> RestApiNewAccountExecutorClass;
 };

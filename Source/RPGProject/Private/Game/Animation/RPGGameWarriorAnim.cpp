@@ -40,10 +40,10 @@ void URPGGameWarriorAnim::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		_GroundAnim->Update(Pawn->GetActorLocation(), _WarriorGroundAnimType);
 	}
-	// À¯È¿ÇÏÁö ¾ÊÀ¸¸é ÇÔ¼ö Á¾·á
+	// ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 
-	// »ì¾Æ ÀÖ´Ù¸é
+	// ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½
 	if (!_bIsDead)
 	{
 		
@@ -61,7 +61,7 @@ void URPGGameWarriorAnim::InputAttack()
 	if (_WarriorAnimType == EWarriorAnimType::SKILL) return;
 
 	_WarriorGroundAnimType = EWarriorGroundAnimType::IDLE;
-	//¿òÁ÷ÀÏ ¶§ °ø°Ý ½Ã Á¦ÀÚ¸®·Î MovePoint ÈÄ °ø°ÝÇÏµµ·Ï Ã³¸®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ MovePoint ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	if (_WarriorAnimType == EWarriorAnimType::GROUND)
 	{
 		auto Pawn = Cast<ARPGGameCharacter>(TryGetPawnOwner());

@@ -260,6 +260,7 @@ void ARPGGameController::LeftMouseClick()
 	ARPGGameGameMode* GM = Cast<ARPGGameGameMode>(GetWorld()->GetAuthGameMode());
 	if (_Character->GetCurrentMap() == GM->GetCantAttackMap()) return;
 	_Character->InputAttack();
+	_PlayerStat->AddSpecialBar(100);
 }
 
 void ARPGGameController::InteractionUI(EInventoryUIType InteractionType)
